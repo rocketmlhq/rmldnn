@@ -1,0 +1,136 @@
+{
+    "neural_network": {
+        "outfile": "out_dnn_mnist_sgd.txt",
+        "num_epochs": 10,
+        "data": {
+            "input_type": "images",
+            "input_path":      "./data/mnist_jpg/training/",
+            "test_input_path": "./data/mnist_jpg/testing/",
+            "target_type": "labels",
+            "batch_size": 16,
+            "training_tag": "training",
+            "test_tag":     "testing",
+            "grayscale": true,
+            "transforms": [
+                { "resize": [28, 28] }
+            ]
+        },
+        "optimizer": {
+            "type": "SGD",
+            "learning_rate": 0.01,
+            "momentum": 0.5
+        },
+        "loss": {
+            "function": "NLL"
+        },
+        "layers": [
+            {
+                "class_name": "Conv2D",
+                "config": {
+                    "name": "conv1",
+                    "batch_input_shape": [null, 28, 28, 1],
+                    "filters": 10,
+                    "kernel_size": [5, 5],
+                    "activation": "linear",
+                    "use_bias": true
+                }
+            },
+            {
+                "class_name": "MaxPooling2D",
+                "config": {
+                    "name": "max_pool_1",
+                    "pool_size": [2, 2]
+                }
+            },
+            {
+                "class_name": "Activation",
+                "config": {
+                    "name": "relu_1",
+                    "trainable": true,
+                    "activation": "relu"
+                }
+            },
+            {
+                "class_name": "Conv2D",
+                "config": {
+                    "name": "conv2",
+                    "filters": 20,
+                    "kernel_size": [5, 5],
+                    "activation": "linear"
+                }
+            },
+            {
+                "class_name": "SpatialDropout2D",
+                "config": {
+                    "name": "spat_drop",
+                    "rate": 0
+                }
+            },
+            {
+                "class_name": "MaxPooling2D",
+                "config": {
+                    "name": "max_pool_2",
+                    "pool_size": [2, 2]
+                }
+            },
+            {
+                "class_name": "Activation",
+                "config": {
+                    "name": "relu_2",
+                    "trainable": true,
+                    "activation": "relu"
+                }
+            },
+            {
+                "class_name": "Flatten",
+                "config": {
+                    "name": "flatten_1",
+                    "trainable": true,
+                    "data_format": "channels_last"
+                }
+            },
+            {
+                "class_name": "Dense",
+                "config": {
+                    "name": "fc1",
+                    "units": 50,
+                    "activation": "linear",
+                    "use_bias": true
+                }
+            },
+            {
+                "class_name": "Activation",
+                "config": {
+                    "name": "relu_3",
+                    "trainable": true,
+                    "activation": "relu"
+                }
+            },
+            {
+                "class_name": "Dropout",
+                "config": {
+                    "name": "dropout",
+                    "rate": 0
+                }
+            },
+            {
+                "class_name": "Dense",
+                "config": {
+                    "name": "fc2",
+                    "units": 2,
+                    "activation": "linear",
+                    "use_bias": true
+                }
+            },
+            {
+                "class_name": "Activation",
+                "config": {
+                    "name": "softmax",
+                    "trainable": true,
+                    "activation": "log_softmax",
+                    "axis": 1
+                }
+            }
+        ]
+    }
+}

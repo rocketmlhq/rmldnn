@@ -1,0 +1,212 @@
+[2022-Mar-24 21:44:12.182169] RocketML : dnn
+[2022-Mar-24 21:44:12.182214] rocketml 1.0.0 (Linux-5.3.0-1031-azure ) (Mar 24 2022 05:11:40) (git:master rev:5798db8)
+[2022-Mar-24 21:44:12.182221] RocketML : 1 MPI process
+[W CUDAFunctions.cpp:100] Warning: CUDA initialization: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx (function operator())
+[2022-Mar-24 21:44:12.200074] ----------------- Device(s) -----------------
+[2022-Mar-24 21:44:12.200100]    CPU
+[2022-Mar-24 21:44:12.200110] ---------------------------------------------
+[2022-Mar-24 21:44:12.234420] --------------- Neural Network --------------
+[2022-Mar-24 21:44:12.234437]    Model name          : Unknown
+[2022-Mar-24 21:44:12.234444]    Total parameters    : 21432
+[2022-Mar-24 21:44:12.236740]    Trainable parameters: 21432
+[2022-Mar-24 21:44:12.236755]    Num of operations   : 14
+[2022-Mar-24 21:44:12.236759] ---------------------------------------------
+[2022-Mar-24 21:44:12.239007] ----------------- Optimizer -----------------
+[2022-Mar-24 21:44:12.239020]    Type         : SGD
+[2022-Mar-24 21:44:12.239025]    Learning rate: 0.01
+[2022-Mar-24 21:44:12.239047]    Momentum     : 0.5
+[2022-Mar-24 21:44:12.239052]    Dampening    : 0
+[2022-Mar-24 21:44:12.239057]    Weight decay : 0
+[2022-Mar-24 21:44:12.239060]    Nesterov     : 0
+[2022-Mar-24 21:44:12.239114] -------------------- Loss -------------------
+[2022-Mar-24 21:44:12.239121]    Function    : NLL (Negative Log-Likelihood)
+[2022-Mar-24 21:44:12.239127]    Weight      : None
+[2022-Mar-24 21:44:12.239132]    Ignore index: None
+[2022-Mar-24 21:44:12.239138] ---------------------------------------------
+[2022-Mar-24 21:44:12.239172] Discovering training input images...
+[2022-Mar-24 21:44:12.242133] Discovering training labels...
+[2022-Mar-24 21:44:12.242168] Number of class labels: 2
+[2022-Mar-24 21:44:12.242220] Discovering test input images...
+[2022-Mar-24 21:44:12.242633] Discovering test labels...
+[2022-Mar-24 21:44:12.242658] Number of class labels: 2
+[2022-Mar-24 21:44:12.242683] ------------------ Dataset ------------------
+[2022-Mar-24 21:44:12.242689] Training dataset:
+[2022-Mar-24 21:44:12.242694]    Type                     : images
+[2022-Mar-24 21:44:12.242698]    Num images  (total)      : 200
+[2022-Mar-24 21:44:12.242702]    Num images  (per process): 200
+[2022-Mar-24 21:44:12.242705]    Batch size  (requested)  : 16
+[2022-Mar-24 21:44:12.242708]    Batch size  (per process): 16
+[2022-Mar-24 21:44:12.242710]    Num batches (per process): 13
+[2022-Mar-24 21:44:12.242715]    Transforms:
+[2022-Mar-24 21:44:12.242720]       resize                : [28, 28]
+[2022-Mar-24 21:44:12.242725] Test dataset:
+[2022-Mar-24 21:44:12.242730]    Type                     : images
+[2022-Mar-24 21:44:12.242734]    Num images  (total)      : 20
+[2022-Mar-24 21:44:12.242738]    Num images  (per process): 20
+[2022-Mar-24 21:44:12.242740]    Batch size  (requested)  : 64
+[2022-Mar-24 21:44:12.242743]    Batch size  (per process): 64
+[2022-Mar-24 21:44:12.242746]    Num batches (per process): 1
+[2022-Mar-24 21:44:12.242750]    Transforms:
+[2022-Mar-24 21:44:12.242754]       resize                : [28, 28]
+[2022-Mar-24 21:44:12.242759] ---------------------------------------------
+[2022-Mar-24 21:44:12.366065] Train Epoch [  1/ 10] : Batch [    1/   13] (Loss = 0.7028; |g| = 0.5123) [Data: 27%; Compute: 72%]
+[2022-Mar-24 21:44:12.369332] Train Epoch [  1/ 10] : Batch [    2/   13] (Loss = 0.7032; |g| = 0.6034) [Data: 33%; Compute: 66%]
+[2022-Mar-24 21:44:12.372377] Train Epoch [  1/ 10] : Batch [    3/   13] (Loss = 0.6937; |g| = 0.5023) [Data: 34%; Compute: 65%]
+[2022-Mar-24 21:44:12.375320] Train Epoch [  1/ 10] : Batch [    4/   13] (Loss = 0.6956; |g| = 0.5275) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.378271] Train Epoch [  1/ 10] : Batch [    5/   13] (Loss = 0.6913; |g| = 0.4415) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.381269] Train Epoch [  1/ 10] : Batch [    6/   13] (Loss = 0.6845; |g| = 0.5899) [Data: 35%; Compute: 64%]
+[2022-Mar-24 21:44:12.384223] Train Epoch [  1/ 10] : Batch [    7/   13] (Loss = 0.6850; |g| = 0.5045) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.387115] Train Epoch [  1/ 10] : Batch [    8/   13] (Loss = 0.6784; |g| = 0.4316) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.389983] Train Epoch [  1/ 10] : Batch [    9/   13] (Loss = 0.6846; |g| = 0.8485) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.392792] Train Epoch [  1/ 10] : Batch [   10/   13] (Loss = 0.6719; |g| = 0.5722) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.395823] Train Epoch [  1/ 10] : Batch [   11/   13] (Loss = 0.6708; |g| = 0.4011) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.398777] Train Epoch [  1/ 10] : Batch [   12/   13] (Loss = 0.6660; |g| = 0.8213) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.401662] Train Epoch [  1/ 10] : Batch [   13/   13] (Loss = 0.6704; |g| = 0.5841) [Data: 20%; Compute: 79%]
+[2022-Mar-24 21:44:12.401716] ---------------------------------------------
+[2022-Mar-24 21:44:12.406533] Eval  Epoch [  1/ 10] : Batch [    1/    1] (Loss: 0.6603) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.406568] ---------------------------------------------
+[2022-Mar-24 21:44:12.409568] Train Epoch [  2/ 10] : Batch [    1/   13] (Loss = 0.6625; |g| = 0.4356) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.412385] Train Epoch [  2/ 10] : Batch [    2/   13] (Loss = 0.6661; |g| = 0.6473) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.415320] Train Epoch [  2/ 10] : Batch [    3/   13] (Loss = 0.6573; |g| = 0.4994) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.418394] Train Epoch [  2/ 10] : Batch [    4/   13] (Loss = 0.6528; |g| = 0.4583) [Data: 35%; Compute: 64%]
+[2022-Mar-24 21:44:12.421365] Train Epoch [  2/ 10] : Batch [    5/   13] (Loss = 0.6528; |g| = 0.4512) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.424152] Train Epoch [  2/ 10] : Batch [    6/   13] (Loss = 0.6463; |g| = 0.6143) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.427012] Train Epoch [  2/ 10] : Batch [    7/   13] (Loss = 0.6438; |g| = 0.5334) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.429910] Train Epoch [  2/ 10] : Batch [    8/   13] (Loss = 0.6370; |g| = 0.5043) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.432982] Train Epoch [  2/ 10] : Batch [    9/   13] (Loss = 0.6428; |g| = 0.9096) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.436069] Train Epoch [  2/ 10] : Batch [   10/   13] (Loss = 0.6284; |g| = 0.6753) [Data: 34%; Compute: 65%]
+[2022-Mar-24 21:44:12.439127] Train Epoch [  2/ 10] : Batch [   11/   13] (Loss = 0.6286; |g| = 0.4979) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.442202] Train Epoch [  2/ 10] : Batch [   12/   13] (Loss = 0.6205; |g| = 0.9608) [Data: 35%; Compute: 64%]
+[2022-Mar-24 21:44:12.444175] Train Epoch [  2/ 10] : Batch [   13/   13] (Loss = 0.6218; |g| = 0.6750) [Data: 29%; Compute: 70%]
+[2022-Mar-24 21:44:12.444226] ---------------------------------------------
+[2022-Mar-24 21:44:12.446149] Eval  Epoch [  2/ 10] : Batch [    1/    1] (Loss: 0.6094) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.446176] ---------------------------------------------
+[2022-Mar-24 21:44:12.448730] Train Epoch [  3/ 10] : Batch [    1/   13] (Loss = 0.6106; |g| = 0.5879) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.451320] Train Epoch [  3/ 10] : Batch [    2/   13] (Loss = 0.6134; |g| = 0.8431) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.453991] Train Epoch [  3/ 10] : Batch [    3/   13] (Loss = 0.6013; |g| = 0.6759) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.456692] Train Epoch [  3/ 10] : Batch [    4/   13] (Loss = 0.5920; |g| = 0.6619) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.459572] Train Epoch [  3/ 10] : Batch [    5/   13] (Loss = 0.5909; |g| = 0.6395) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.462406] Train Epoch [  3/ 10] : Batch [    6/   13] (Loss = 0.5734; |g| = 0.8152) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.465228] Train Epoch [  3/ 10] : Batch [    7/   13] (Loss = 0.5681; |g| = 0.7550) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.467894] Train Epoch [  3/ 10] : Batch [    8/   13] (Loss = 0.5565; |g| = 0.7364) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.470816] Train Epoch [  3/ 10] : Batch [    9/   13] (Loss = 0.5659; |g| = 1.2075) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.473588] Train Epoch [  3/ 10] : Batch [   10/   13] (Loss = 0.5387; |g| = 0.9027) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.476358] Train Epoch [  3/ 10] : Batch [   11/   13] (Loss = 0.5389; |g| = 0.7397) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.479310] Train Epoch [  3/ 10] : Batch [   12/   13] (Loss = 0.5207; |g| = 1.2821) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.481325] Train Epoch [  3/ 10] : Batch [   13/   13] (Loss = 0.5123; |g| = 0.9710) [Data: 29%; Compute: 70%]
+[2022-Mar-24 21:44:12.481376] ---------------------------------------------
+[2022-Mar-24 21:44:12.483278] Eval  Epoch [  3/ 10] : Batch [    1/    1] (Loss: 0.4952) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.483306] ---------------------------------------------
+[2022-Mar-24 21:44:12.485880] Train Epoch [  4/ 10] : Batch [    1/   13] (Loss = 0.4935; |g| = 0.9022) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.488682] Train Epoch [  4/ 10] : Batch [    2/   13] (Loss = 0.4938; |g| = 1.2143) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.491513] Train Epoch [  4/ 10] : Batch [    3/   13] (Loss = 0.4719; |g| = 0.9662) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.494438] Train Epoch [  4/ 10] : Batch [    4/   13] (Loss = 0.4500; |g| = 0.9934) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.497263] Train Epoch [  4/ 10] : Batch [    5/   13] (Loss = 0.4467; |g| = 0.9311) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.499958] Train Epoch [  4/ 10] : Batch [    6/   13] (Loss = 0.4131; |g| = 1.0441) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.502867] Train Epoch [  4/ 10] : Batch [    7/   13] (Loss = 0.3989; |g| = 1.0653) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.505824] Train Epoch [  4/ 10] : Batch [    8/   13] (Loss = 0.3787; |g| = 1.0276) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.508725] Train Epoch [  4/ 10] : Batch [    9/   13] (Loss = 0.3792; |g| = 1.6363) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.511581] Train Epoch [  4/ 10] : Batch [   10/   13] (Loss = 0.3550; |g| = 1.0581) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.514484] Train Epoch [  4/ 10] : Batch [   11/   13] (Loss = 0.3426; |g| = 1.0023) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.517373] Train Epoch [  4/ 10] : Batch [   12/   13] (Loss = 0.2936; |g| = 1.4798) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.519379] Train Epoch [  4/ 10] : Batch [   13/   13] (Loss = 0.2988; |g| = 1.1815) [Data: 28%; Compute: 71%]
+[2022-Mar-24 21:44:12.519430] ---------------------------------------------
+[2022-Mar-24 21:44:12.521356] Eval  Epoch [  4/ 10] : Batch [    1/    1] (Loss: 0.2726) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.521384] ---------------------------------------------
+[2022-Mar-24 21:44:12.524162] Train Epoch [  5/ 10] : Batch [    1/   13] (Loss = 0.2625; |g| = 1.0730) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.527103] Train Epoch [  5/ 10] : Batch [    2/   13] (Loss = 0.2755; |g| = 1.4952) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.529999] Train Epoch [  5/ 10] : Batch [    3/   13] (Loss = 0.2389; |g| = 1.0471) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.532929] Train Epoch [  5/ 10] : Batch [    4/   13] (Loss = 0.2056; |g| = 1.0033) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.535809] Train Epoch [  5/ 10] : Batch [    5/   13] (Loss = 0.2151; |g| = 0.8725) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.538687] Train Epoch [  5/ 10] : Batch [    6/   13] (Loss = 0.1812; |g| = 0.8620) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.541663] Train Epoch [  5/ 10] : Batch [    7/   13] (Loss = 0.1628; |g| = 0.9255) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.544553] Train Epoch [  5/ 10] : Batch [    8/   13] (Loss = 0.1507; |g| = 0.9014) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.547390] Train Epoch [  5/ 10] : Batch [    9/   13] (Loss = 0.1362; |g| = 1.2445) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.550044] Train Epoch [  5/ 10] : Batch [   10/   13] (Loss = 0.1544; |g| = 0.7431) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.552969] Train Epoch [  5/ 10] : Batch [   11/   13] (Loss = 0.1322; |g| = 0.7461) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.555798] Train Epoch [  5/ 10] : Batch [   12/   13] (Loss = 0.0885; |g| = 0.8082) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.558029] Train Epoch [  5/ 10] : Batch [   13/   13] (Loss = 0.1121; |g| = 0.8816) [Data: 25%; Compute: 74%]
+[2022-Mar-24 21:44:12.558095] ---------------------------------------------
+[2022-Mar-24 21:44:12.559975] Eval  Epoch [  5/ 10] : Batch [    1/    1] (Loss: 0.1017) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.560004] ---------------------------------------------
+[2022-Mar-24 21:44:12.562640] Train Epoch [  6/ 10] : Batch [    1/   13] (Loss = 0.0897; |g| = 0.7033) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.565345] Train Epoch [  6/ 10] : Batch [    2/   13] (Loss = 0.1126; |g| = 1.1823) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.568216] Train Epoch [  6/ 10] : Batch [    3/   13] (Loss = 0.0850; |g| = 0.6524) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.570971] Train Epoch [  6/ 10] : Batch [    4/   13] (Loss = 0.0662; |g| = 0.5126) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.573723] Train Epoch [  6/ 10] : Batch [    5/   13] (Loss = 0.0896; |g| = 0.5250) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.576370] Train Epoch [  6/ 10] : Batch [    6/   13] (Loss = 0.0659; |g| = 0.4642) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.579262] Train Epoch [  6/ 10] : Batch [    7/   13] (Loss = 0.0577; |g| = 0.4832) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.581992] Train Epoch [  6/ 10] : Batch [    8/   13] (Loss = 0.0546; |g| = 0.5334) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.584728] Train Epoch [  6/ 10] : Batch [    9/   13] (Loss = 0.0454; |g| = 0.6259) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.587365] Train Epoch [  6/ 10] : Batch [   10/   13] (Loss = 0.0802; |g| = 0.6173) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.590274] Train Epoch [  6/ 10] : Batch [   11/   13] (Loss = 0.0541; |g| = 0.4132) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.593194] Train Epoch [  6/ 10] : Batch [   12/   13] (Loss = 0.0324; |g| = 0.3817) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.595174] Train Epoch [  6/ 10] : Batch [   13/   13] (Loss = 0.0479; |g| = 0.5244) [Data: 29%; Compute: 70%]
+[2022-Mar-24 21:44:12.595225] ---------------------------------------------
+[2022-Mar-24 21:44:12.597129] Eval  Epoch [  6/ 10] : Batch [    1/    1] (Loss: 0.0477) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.597158] ---------------------------------------------
+[2022-Mar-24 21:44:12.599891] Train Epoch [  7/ 10] : Batch [    1/   13] (Loss = 0.0376; |g| = 0.3997) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.602848] Train Epoch [  7/ 10] : Batch [    2/   13] (Loss = 0.0569; |g| = 0.8279) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.605716] Train Epoch [  7/ 10] : Batch [    3/   13] (Loss = 0.0393; |g| = 0.4127) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.608603] Train Epoch [  7/ 10] : Batch [    4/   13] (Loss = 0.0288; |g| = 0.2585) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.611523] Train Epoch [  7/ 10] : Batch [    5/   13] (Loss = 0.0500; |g| = 0.3328) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.614408] Train Epoch [  7/ 10] : Batch [    6/   13] (Loss = 0.0317; |g| = 0.2720) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.617342] Train Epoch [  7/ 10] : Batch [    7/   13] (Loss = 0.0282; |g| = 0.2686) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.620230] Train Epoch [  7/ 10] : Batch [    8/   13] (Loss = 0.0268; |g| = 0.3339) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.623129] Train Epoch [  7/ 10] : Batch [    9/   13] (Loss = 0.0211; |g| = 0.3508) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.626023] Train Epoch [  7/ 10] : Batch [   10/   13] (Loss = 0.0586; |g| = 0.6750) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.628918] Train Epoch [  7/ 10] : Batch [   11/   13] (Loss = 0.0294; |g| = 0.2607) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.631828] Train Epoch [  7/ 10] : Batch [   12/   13] (Loss = 0.0168; |g| = 0.2235) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.633890] Train Epoch [  7/ 10] : Batch [   13/   13] (Loss = 0.0266; |g| = 0.3444) [Data: 28%; Compute: 71%]
+[2022-Mar-24 21:44:12.633942] ---------------------------------------------
+[2022-Mar-24 21:44:12.635808] Eval  Epoch [  7/ 10] : Batch [    1/    1] (Loss: 0.0292) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.635852] ---------------------------------------------
+[2022-Mar-24 21:44:12.638426] Train Epoch [  8/ 10] : Batch [    1/   13] (Loss = 0.0207; |g| = 0.2590) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.641154] Train Epoch [  8/ 10] : Batch [    2/   13] (Loss = 0.0360; |g| = 0.6229) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.644046] Train Epoch [  8/ 10] : Batch [    3/   13] (Loss = 0.0234; |g| = 0.2967) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.646941] Train Epoch [  8/ 10] : Batch [    4/   13] (Loss = 0.0164; |g| = 0.1646) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.649806] Train Epoch [  8/ 10] : Batch [    5/   13] (Loss = 0.0341; |g| = 0.2451) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.652456] Train Epoch [  8/ 10] : Batch [    6/   13] (Loss = 0.0189; |g| = 0.1816) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.655342] Train Epoch [  8/ 10] : Batch [    7/   13] (Loss = 0.0172; |g| = 0.1733) [Data: 36%; Compute: 63%]
+[2022-Mar-24 21:44:12.658228] Train Epoch [  8/ 10] : Batch [    8/   13] (Loss = 0.0160; |g| = 0.2263) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.661141] Train Epoch [  8/ 10] : Batch [    9/   13] (Loss = 0.0121; |g| = 0.2228) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.663998] Train Epoch [  8/ 10] : Batch [   10/   13] (Loss = 0.0487; |g| = 0.7077) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.666856] Train Epoch [  8/ 10] : Batch [   11/   13] (Loss = 0.0190; |g| = 0.1861) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.669547] Train Epoch [  8/ 10] : Batch [   12/   13] (Loss = 0.0104; |g| = 0.1487) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.671542] Train Epoch [  8/ 10] : Batch [   13/   13] (Loss = 0.0174; |g| = 0.2535) [Data: 28%; Compute: 71%]
+[2022-Mar-24 21:44:12.671593] ---------------------------------------------
+[2022-Mar-24 21:44:12.673489] Eval  Epoch [  8/ 10] : Batch [    1/    1] (Loss: 0.0208) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.673517] ---------------------------------------------
+[2022-Mar-24 21:44:12.676111] Train Epoch [  9/ 10] : Batch [    1/   13] (Loss = 0.0135; |g| = 0.1875) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.678817] Train Epoch [  9/ 10] : Batch [    2/   13] (Loss = 0.0262; |g| = 0.5092) [Data: 41%; Compute: 58%]
+[2022-Mar-24 21:44:12.681757] Train Epoch [  9/ 10] : Batch [    3/   13] (Loss = 0.0161; |g| = 0.2292) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.684647] Train Epoch [  9/ 10] : Batch [    4/   13] (Loss = 0.0110; |g| = 0.1223) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.687536] Train Epoch [  9/ 10] : Batch [    5/   13] (Loss = 0.0257; |g| = 0.1947) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.690423] Train Epoch [  9/ 10] : Batch [    6/   13] (Loss = 0.0128; |g| = 0.1330) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.693317] Train Epoch [  9/ 10] : Batch [    7/   13] (Loss = 0.0119; |g| = 0.1246) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.696186] Train Epoch [  9/ 10] : Batch [    8/   13] (Loss = 0.0107; |g| = 0.1627) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.699120] Train Epoch [  9/ 10] : Batch [    9/   13] (Loss = 0.0078; |g| = 0.1533) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.701998] Train Epoch [  9/ 10] : Batch [   10/   13] (Loss = 0.0425; |g| = 0.7138) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.704912] Train Epoch [  9/ 10] : Batch [   11/   13] (Loss = 0.0136; |g| = 0.1441) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.707801] Train Epoch [  9/ 10] : Batch [   12/   13] (Loss = 0.0072; |g| = 0.1071) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.709812] Train Epoch [  9/ 10] : Batch [   13/   13] (Loss = 0.0127; |g| = 0.2005) [Data: 29%; Compute: 70%]
+[2022-Mar-24 21:44:12.709863] ---------------------------------------------
+[2022-Mar-24 21:44:12.711759] Eval  Epoch [  9/ 10] : Batch [    1/    1] (Loss: 0.0161) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.711788] ---------------------------------------------
+[2022-Mar-24 21:44:12.714584] Train Epoch [ 10/ 10] : Batch [    1/   13] (Loss = 0.0097; |g| = 0.1451) [Data: 40%; Compute: 59%]
+[2022-Mar-24 21:44:12.717505] Train Epoch [ 10/ 10] : Batch [    2/   13] (Loss = 0.0207; |g| = 0.4376) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.720319] Train Epoch [ 10/ 10] : Batch [    3/   13] (Loss = 0.0120; |g| = 0.1874) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.723229] Train Epoch [ 10/ 10] : Batch [    4/   13] (Loss = 0.0080; |g| = 0.0992) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.726126] Train Epoch [ 10/ 10] : Batch [    5/   13] (Loss = 0.0207; |g| = 0.1630) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.729065] Train Epoch [ 10/ 10] : Batch [    6/   13] (Loss = 0.0093; |g| = 0.1036) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.731959] Train Epoch [ 10/ 10] : Batch [    7/   13] (Loss = 0.0089; |g| = 0.0963) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.734759] Train Epoch [ 10/ 10] : Batch [    8/   13] (Loss = 0.0077; |g| = 0.1235) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.737514] Train Epoch [ 10/ 10] : Batch [    9/   13] (Loss = 0.0055; |g| = 0.1122) [Data: 39%; Compute: 60%]
+[2022-Mar-24 21:44:12.740268] Train Epoch [ 10/ 10] : Batch [   10/   13] (Loss = 0.0380; |g| = 0.7103) [Data: 38%; Compute: 61%]
+[2022-Mar-24 21:44:12.743169] Train Epoch [ 10/ 10] : Batch [   11/   13] (Loss = 0.0104; |g| = 0.1174) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.746166] Train Epoch [ 10/ 10] : Batch [   12/   13] (Loss = 0.0053; |g| = 0.0811) [Data: 37%; Compute: 62%]
+[2022-Mar-24 21:44:12.748195] Train Epoch [ 10/ 10] : Batch [   13/   13] (Loss = 0.0098; |g| = 0.1687) [Data: 29%; Compute: 70%]
+[2022-Mar-24 21:44:12.748246] ---------------------------------------------
+[2022-Mar-24 21:44:12.750185] Eval  Epoch [ 10/ 10] : Batch [    1/    1] (Loss: 0.0131) | Accuracy: 1.000
+[2022-Mar-24 21:44:12.750214] ---------------------------------------------
+[2022-Mar-24 21:44:12.752170] All done (return value = 0). 
