@@ -1,0 +1,29 @@
+{
+    "neural_network": {
+        "num_epochs": 100,
+        "outfile": "out_inpaint_classifier.txt",
+        "layers": "./network_resnet50_classifier.json",
+        "checkpoints": {
+            "load": "./model_checkpoints/model_checkpoint_100.pt"
+        },
+        "data": {
+            "input_type": "images",
+            "target_type": "labels",
+            "input_path":      "./natural_images/training/",
+            "test_input_path": "./natural_images/testing",
+            "batch_size": 128,
+            "test_batch_size": 1024,
+            "preload": true,
+            "transforms": [
+                { "resize": [128, 128] }
+            ]
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 0.001
+        },
+        "loss": {
+            "function": "NLL"
+        }
+    }
+}
