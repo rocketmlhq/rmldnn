@@ -139,5 +139,17 @@ Submit a ticket with as many details as possible for of your issue
 
 # Publications
 
+- Botelho, Sergio, Ameya Joshi, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Santi Adavani, and Baskar Ganapathysubramanian. "Deep generative models that solve pdes: Distributed computing for training large data-free models." In 2020 IEEE/ACM Workshop on Machine Learning in High Performance Computing Environments (MLHPC) and Workshop on Artificial Intelligence and Machine Learning for Scientific Applications (AI4S), pp. 50-63. IEEE, 2020.
+
+- Aditya Balu, Sergio Botelho, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Adarsh Krishnamurthy, Santi Adavani, and Baskar Ganapathysubramanian. 2021. Distributed multigrid neural solvers on megavoxel domains. In Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '21). Association for Computing Machinery, New York, NY, USA, Article 49, 1–14. DOI:https://doi.org/10.1145/3458817.3476218
+
+- Rade, J., Balu, A., Herron, E., Jignasu, A., Botelho, S., Adavani, S., Sarkar, S., Ganapathysubramanian, B. and Krishnamurthy, A., 2021, November. Multigrid Distributed Deep CNNs for Structural Topology Optimization. In AAAI 2022 Workshop on AI for Design and Manufacturing (ADAM).
+
+- Botelho, S., Das, V., Vanzo, D., Devarakota, P., Rao, V. and Adavani, S., 2021, November. 3D seismic facies classification on CPU and GPU HPC clusters. In SPE/AAPG/SEG Asia Pacific Unconventional Resources Technology Conference. OnePetro.
+
+- Mukherjee, S., Lelièvre, P., Farquharson, C. and Adavani, S., 2021, September. Three-dimensional inversion of geophysical field data on an unstructured mesh using deep learning neural networks, applied to magnetic data. In First International Meeting for Applied Geoscience & Energy (pp. 1465-1469). Society of Exploration Geophysicists.
+
 # Talks
+
+- [Scientific Machine Learning talk at Rice Energy HPC conference 2022](https://www.youtube.com/watch?v=YJn0vACwnH0)
 
