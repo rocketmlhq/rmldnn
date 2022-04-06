@@ -11,7 +11,6 @@ Every possible aspect of how the run is configured must be passed in the JSON fi
 
 # Contents
 
-- [Concepts](#concepts)
 - [Benefits](#benefits)
 - [Who is this for?](#who-is-this-for)
 - [Who is this not for?](#who-is-this-not-for)
