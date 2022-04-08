@@ -78,7 +78,7 @@ As shown in the figure, a typical training process will need a data set, a deep 
             "num_epochs": 100,
             "data": {
                 ...
-            }
+            },
             "layers": {
                 ...
             },
