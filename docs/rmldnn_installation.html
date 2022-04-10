@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rmldnn installation &#8212; RocketML 0.4.0 (RocketML Confidential) documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tensorflow-based Inference Engine" href="rmltf_inference_engine.html" />
+    <link rel="prev" title="Deep Neural Networks" href="deep_neural_networks.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="rmldnn-installation">
+<h1><em>rmldnn</em> installation<a class="headerlink" href="#rmldnn-installation" title="Permalink to this headline">¶</a></h1>
+<p>This section describes <em>rmldnn</em> build requirements and dependencies.</p>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p><em>rmldnn</em> requires the following build tools:</p>
+<ul class="simple">
+<li><p>g++ 10.3.0 or above</p></li>
+<li><p>cmake 3.12.4 or above</p></li>
+</ul>
+<p><em>rmldnn</em> depends on the following libraries:</p>
+<ul class="simple">
+<li><p>OpenMPI 4.1.1</p></li>
+<li><p>PETSc 3.12.1</p></li>
+<li><p>OpenCV 3.4.2 (requires FFMPEG)</p></li>
+<li><p>CUDA 10.1 &amp; cuDNN 8+</p></li>
+<li><p>Boost 1.76.0 (header only)</p></li>
+<li><p>Libtorch 1.7.0 (pre-compiled)</p></li>
+</ul>
+</div>
+<div class="section" id="library-installation">
+<h2>Library installation<a class="headerlink" href="#library-installation" title="Permalink to this headline">¶</a></h2>
+<p>Installation instructions for most libraries <em>rmldnn</em> depends on are given below.
+This process was completed successfully on Ubuntu 18.04, but should be repeatable without
+major changes in other Unix-like operating systems.</p>
+<div class="section" id="openmpi">
+<h3>OpenMPI<a class="headerlink" href="#openmpi" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum version: 4.1.1</p></li>
+<li><p>Installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvzf openmpi-4.1.1.tar.gz
+<span class="nb">cd</span> openmpi-4.1.1
+./configure --prefix<span class="o">=</span>/usr/local --enable-mpi-cxx
+make -j8
+sudo make install
+sudo ldconfig
+</pre></div>
+</div>
+</div>
+<div class="section" id="petsc">
+<h3>PETSc<a class="headerlink" href="#petsc" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minumum version: 3.12.1</p></li>
+<li><p>Installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvzf petsc-3.12.1.tar.gz
+<span class="nb">cd</span> petsc-3.12.1/
+./configure --prefix<span class="o">=</span>/usr/local/petsc/petsc-3.12.1-opt --with-fc<span class="o">=</span><span class="m">0</span> --with-debugging<span class="o">=</span><span class="m">0</span> <span class="nv">COPTFLAGS</span><span class="o">=</span><span class="s1">&#39;-O3 -march=native \</span>
+<span class="s1">    -mtune=native&#39;</span> <span class="nv">CXXOPTFLAGS</span><span class="o">=</span><span class="s1">&#39;-O3 -march=native -mtune=native&#39;</span> --download-hdf5 --with-64-bit-indices
+make <span class="nv">PETSC_DIR</span><span class="o">=</span>../petsc-3.12.1 <span class="nv">PETSC_ARCH</span><span class="o">=</span>arch-linux2-c-opt all
+sudo make <span class="nv">PETSC_DIR</span><span class="o">=</span>../petsc-3.12.1 <span class="nv">PETSC_ARCH</span><span class="o">=</span>arch-linux2-c-opt install
+</pre></div>
+</div>
+</div>
+<div class="section" id="ffmpeg">
+<h3>FFMPEG<a class="headerlink" href="#ffmpeg" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Needed by OpenCV</p></li>
+<li><p>Installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xjvf ffmpeg-snapshot_N-97953-g64b1262.tar.bz2
+<span class="nb">cd</span> ffmpeg/
+./configure --prefix<span class="o">=</span>/usr/local/ffmpeg --extra-cflags<span class="o">=</span><span class="s2">&quot;-fPIC&quot;</span> --enable-pic --enable-shared
+make -j8
+sudo make install
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>:/usr/local/ffmpeg/lib:/usr/local/petsc/petsc-3.12.1-opt/lib/
+</pre></div>
+</div>
+</div>
+<div class="section" id="opencv">
+<h3>OpenCV<a class="headerlink" href="#opencv" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum version: 3.4.2</p></li>
+<li><p>Installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvzf opencv_3.4.2.tar.gz
+<span class="nb">cd</span> opencv-3.4.2/
+mkdir build
+<span class="nb">cd</span> build
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>:/usr/local/ffmpeg/lib/
+<span class="nb">export</span> <span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PKG_CONFIG_PATH</span><span class="si">}</span>:/usr/local/ffmpeg/lib/pkgconfig
+<span class="nb">export</span> <span class="nv">PKG_CONFIG_LIBDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">PKG_CONFIG_LIBDIR</span><span class="si">}</span>:/usr/local/ffmpeg/lib
+cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr/local -DWITH_FFMPEG<span class="o">=</span>ON ..
+make -j8
+sudo make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="libtorch">
+<h3>libtorch<a class="headerlink" href="#libtorch" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Minimum version: 1.7.0</p></li>
+<li><p>Installation steps (from pre-built library):</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>unzip libtorch-cxx11-abi-shared-with-deps-1.7.0.dev20200923_cuda10.1.zip
+sudo mkdir -p /usr/local/libtorch/1.7.0/
+sudo mv libtorch/* /usr/local/libtorch/1.7.0/
+</pre></div>
+</div>
+</div>
+<div class="section" id="cuda-and-cudnn">
+<h3>CUDA and cuDNN<a class="headerlink" href="#cuda-and-cudnn" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Mininum versions: CUDA 10.1 and cuDNN 8.1</p></li>
+<li><p>Installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.243-418.87.00_1.0-1_amd64.deb
+sudo apt-key add /var/cuda-repo-10-1-local-10.1.243-418.87.00/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda
+
+sudo dpkg -i libcudnn8_8.1.1.33-1+cuda11.2_amd64.deb
+sudo dpkg -i libcudnn8-dev_8.1.1.33-1+cuda11.2_amd64.deb
+sudo dpkg -i libcudnn8-samples_8.1.1.33-1+cuda11.2_amd64.deb
+</pre></div>
+</div>
+</div>
+<div class="section" id="ndiff-and-h5py">
+<h3>ndiff and h5py<a class="headerlink" href="#ndiff-and-h5py" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Needed to run the <em>rmldnn</em> test suite</p></li>
+<li><p>Minimum version: 2.0</p></li>
+<li><p>installation steps:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install h5py
+
+tar xvzf ndiff-2.00.tar.gz
+<span class="nb">cd</span> ndiff-2.00
+./configure
+make
+sudo cp ndiff /usr/local/bin/
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-rmldnn">
+<h2>Building <em>rmldnn</em><a class="headerlink" href="#building-rmldnn" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>:/usr/local/ffmpeg/lib:/usr/local/petsc/petsc-3.12.1-opt/lib/:/usr/local/lib/:/usr/local/libtorch/1.7.0/lib/
+<span class="nb">cd</span> rocketml-cpp
+mkdir build
+<span class="nb">cd</span> build
+cmake ..
+make rmldnn -j4
+sudo cp rmldnn /usr/local/bin/
+</pre></div>
+</div>
+</div>
+<div class="section" id="licenses">
+<h2>Licenses<a class="headerlink" href="#licenses" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Library / Tool</p></th>
+<th class="head"><p>License</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GNU g++ 10.3.0</p></td>
+<td><p>General Public License (GPL), Ver. 3</p></td>
+</tr>
+<tr class="row-odd"><td><p>CMake 3.12.4</p></td>
+<td><p>3-clause BSD License</p></td>
+</tr>
+<tr class="row-even"><td><p>OpenMPI 4.1.1</p></td>
+<td><p>3-clause BSD License</p></td>
+</tr>
+<tr class="row-odd"><td><p>PETSc 3.12.1</p></td>
+<td><p>2-clause BSD License</p></td>
+</tr>
+<tr class="row-even"><td><p>FFMPEG</p></td>
+<td><p>GNU Lesser General Public License (LGPL) Ver. 2.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>OpenCV 3.4.2</p></td>
+<td><p>3-clause BSD License</p></td>
+</tr>
+<tr class="row-even"><td><p>Pytorch 1.7.0</p></td>
+<td><p>3-clause BSD License</p></td>
+</tr>
+<tr class="row-odd"><td><p>CUDA 10.1 / CuDNN 8+</p></td>
+<td><p>NVIDIA proprietary Software License Agreement</p></td>
+</tr>
+<tr class="row-even"><td><p>Boost 1.76.0</p></td>
+<td><p>Boost Software License, Ver. 1.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">RocketML</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="deep_neural_networks.html">Deep Neural Networks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><em>rmldnn</em> installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#library-installation">Library installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openmpi">OpenMPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#petsc">PETSc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ffmpeg">FFMPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opencv">OpenCV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libtorch">libtorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda-and-cudnn">CUDA and cuDNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ndiff-and-h5py">ndiff and h5py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-rmldnn">Building <em>rmldnn</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licenses">Licenses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rmltf_inference_engine.html">Tensorflow-based Inference Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rmltf_execution.html"><em>rmltf</em> execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rmltf_installation.html"><em>rmltf</em> installation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="deep_neural_networks.html" title="previous chapter">Deep Neural Networks</a></li>
+      <li>Next: <a href="rmltf_inference_engine.html" title="next chapter">Tensorflow-based Inference Engine</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Sergio Botelho.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/rmldnn_installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
