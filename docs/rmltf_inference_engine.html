@@ -102,10 +102,10 @@ list of input samples.</p>
 <h4>Slicers sub-section<a class="headerlink" href="#slicers-sub-section" title="Permalink to this headline">¶</a></h4>
 <p>The <strong>numpy</strong> data loader also supports extracting the input samples from a single large numpy array by chopping it off into smaller
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input numpy array is a 3D block of shape <span class="math">(H,W,D)</span>,
-one could chop it into smaller blocks of shape <span class="math">(h,w,d</span>), where <span class="math">h \le H</span>, <span class="math">w \le W</span> and <span class="math">d \le D</span>,
-or slice it into 2D tiles along the <span class="math">xy</span>-plane with shape <span class="math">(h,w)</span>,
-or even extract 1D lines of length <span class="math">w &lt; W</span> along the <span class="math">y</span>-axis.
+network can handle their shapes. For example, if the input numpy array is a 3D block of shape <img class="math" src="_images/math/e83927553b2140bc4a007e656843091ae7bf8b79.png" alt="(H,W,D)"/>,
+one could chop it into smaller blocks of shape <img class="math" src="_images/math/4e511e60dc95aa27223c973c409097b809c24520.png" alt="(h,w,d"/>), where <img class="math" src="_images/math/7659d34d232c2f08af76f7b0193285d7e4865c4d.png" alt="h \le H"/>, <img class="math" src="_images/math/ce90168eeb20a2df7ba10b459456838637771845.png" alt="w \le W"/> and <img class="math" src="_images/math/fcfc4db70bb523ba029b56d2c5209fd4219f569a.png" alt="d \le D"/>,
+or slice it into 2D tiles along the <img class="math" src="_images/math/86d65811848faa07e28196570f82cd1aa83907a8.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/9ec1618a45dbda24c96f5638319fe0efd118f093.png" alt="(h,w)"/>,
+or even extract 1D lines of length <img class="math" src="_images/math/188339533baac6277e73d2071f1b38104be43941.png" alt="w &lt; W"/> along the <img class="math" src="_images/math/1b5e577d6216dca3af7d87aa122a0b9b360d6cb3.png" alt="y"/>-axis.
 Multiple slice sets can be defined, each with its own slice size and orientation (the dimensionality of slices across all sets
 must be the same, though, since the neural network is common to all). The configuration below shows an example of how to extract
 2D samples from a 3D input array using 2 slice sets:</p>
@@ -136,8 +136,8 @@ must be the same, though, since the neural network is common to all). The config
 <li><p><strong>name</strong>: Slice set name (optional)</p></li>
 <li><p><strong>sizes</strong>: Slice sizes (required). Expects N elements for N-dimensional input data. Setting an element to 1 flattens the slice along that dimension,
 reducing the dimensionality of the input samples into the network.</p></li>
-<li><p><strong>padding</strong>: Symmetric padding to be added along each dimension (defaults to zero). If <span class="math">\textrm{sizes=} [h,w,d]</span> and
-<span class="math">\textrm{padding=}[p_x, p_y, p_z]</span>, then slices will have shape <span class="math">(h + 2 p_x, w + 2 p_y, d + 2 p_z)</span>.
+<li><p><strong>padding</strong>: Symmetric padding to be added along each dimension (defaults to zero). If <img class="math" src="_images/math/4c0880addc1c05a04ecaed29678ba0abdc919ac2.png" alt="\textrm{sizes=} [h,w,d]"/> and
+<img class="math" src="_images/math/2122eb987fa2d045b29c1c19a8526a2e7387d4e6.png" alt="\textrm{padding=}[p_x, p_y, p_z]"/>, then slices will have shape <img class="math" src="_images/math/be25f8c404fcaa937396b72181f0555ea7c166db.png" alt="(h + 2 p_x, w + 2 p_y, d + 2 p_z)"/>.
 Cannot be specified together with <cite>padded_sizes</cite>.</p></li>
 <li><p><strong>padded_sizes</strong>: Total slice size after padding (defaults to <cite>sizes</cite>). Useful in case the desired padding is asymmetric.
 Cannot be specified together with <cite>padding</cite>.</p></li>
