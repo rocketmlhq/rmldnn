@@ -11,11 +11,6 @@ Welcome to RocketML's DNN documentation!
    :caption: Contents:
 
    deep_neural_networks.rst
-..
-   rmldnn_installation.rst
-   rmltf_inference_engine.rst
-   rmltf_execution.rst
-   rmltf_installation.rst
   
 
 Indices and tables
