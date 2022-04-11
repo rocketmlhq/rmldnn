@@ -3,7 +3,7 @@
 RocketML Deep Neural Networks
 -----------------------------
 
-**rmldnn** is a command-line tool that makes it easy to build and train deep learning models. It does not require knowledge of any deep-learning framework (Pytorch, Tensorflow, Keras, etc) or any Python code. Using rmldnn, one can build deep-learning models either on a small laptop with a single GPU or on a large supercomputer with hundreds of GPUs or CPUs without any prior knowledge of distributed computing.
+**rmldnn** is a command-line tool that makes deep-learning models easy to build and fast to train. It does not require knowledge of any deep-learning framework (Pytorch, Tensorflow, Keras, etc) or any Python code. Using rmldnn, one can build deep-learning models on either a small single-GPU laptop or a large supercomputer with hundreds of GPUs or CPUs without any prior knowledge of distributed computing.
 
 In a nutshell, to launch a deep-learning training or inference run, one only needs to do the following at the command line:
 
@@ -31,14 +31,23 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 
 # Why rmldnn?
 
-  
+**rmldnn** was built from the start with two main design principles in mind:
+
+- **Ease-of-use:** Simple, code-free, configuration-based command-line interface
+- **Uncompromising performance**: Blazing-fast speed and HPC-grade scalability on large-scale GPU/CPU clusters
+
+The plots below show rmldnn scalability results (time per epoch as function of number of processes) to train two Unet-2D models 
+on large scale CPU and GPU clusters, demonstrating almost linear speedups on up to 128 CPU processes (7680 cores) and on 512 GPUs.
+
+![scaling](figures/scaling.jpg)
+
 # Benefits
 
 - Does not require any knowledge of deep-learning frameworks (Pytorch, Keras, etc) or Python.
-- Designed with scalability & performance in mind from the start, so you can focus on fine-tuning your deep learning model.
-- Agnositc to machine and processor architectures, running seamlessly on both CPU and GPU clusters.
-- Allows building models for different computer vision use-cases like image classification, object detection, image segmentation, autoencoders, and generative networks.
+- Is designed with scalability & performance in mind from the get-go.
+- Is agnositc to machine and processor architectures, running seamlessly on both CPU and GPU systems.
 - Runs on anything from one to hundreds of GPUs or CPUs without any required knowledge of distributed computing, automatically managing data partitioning and communication among nodes.
+- Allows building models for different computer vision use-cases like image classification, object detection, image segmentation, autoencoders, and generative networks.
 
 # Who is this for?
 
@@ -50,7 +59,7 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 
 # Who is this *not* for?
 
-- Data scientists or developers who are experienced writing deep-learning code and need maximum flexibility to implement their own custom layers, optimizes, loss functions, data loaders, etc.
+- Data scientists or developers who are experienced writing more advanced deep-learning code and need maximum flexibility to implement their own custom layers, optimizes, loss functions, data loaders, etc.
 
 # Install
 
