@@ -32,8 +32,8 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 - **Ease-of-use:** Simple, code-free, configuration-based command-line interface
 - **Uncompromising performance**: Blazing-fast speeds and HPC-grade scalability on GPU/CPU clusters
 
-The plots below show rmldnn scalability results (time per epoch as function of number of processes) to train two different Unet-2D models 
-on large scale CPU and GPU clusters, demonstrating almost linear speedups on up to 128 CPU processes (7680 cores) and on 512 GPUs.
+The plots below show rmldnn scalability results (time per epoch as function of number of processes) to train two different 3D Unet models 
+on large scale CPU and GPU clusters, achieving almost linear speedups on up to 128 CPU processes (7680 cores) and on 512 GPUs.
 
 ![scaling](figures/scaling.jpg)
 
@@ -82,21 +82,72 @@ Details about all rmldnn options and capabilities can be found in the [documenta
 
 # Install
 
+**rmldnn** is available as [Docker](https://www.docker.com/) and [Singularity](https://sylabs.io/singularity) images.
+This substantially simplifies the installation process and increases portability.
+                                               
+If starting from scratch (i.e., no previous installation exists) and the user has no preference, we recommend
+going with Singularity, as it is simpler to setup and makes it easier to execute.
+
 - Docker
-  - docker pull
+
+  - If not already install, follow instructions [here](https://docs.docker.com/engine/install/) to install Docker on your system.
+  - Pull the latest rmldnn image from DockerHub:
+  ```
+   $ sudo docker pull rocketml/rmldnn:1.0
+  ```
+
 - Singularity
-  - singularity pull
+
+  - If not already installed, follow instructions [here](https://sylabs.io/guides/3.9/user-guide/quick_start.html#quick-installation-steps)
+    to install SingularityCE on your system.
+  - The image can be created by pulling from DockerHub and converting to Singularity in the same step:
+  ```
+   $ sudo singularity build rmldnn.sif docker://rocketml/rmldnn:1.0
+   $ export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
+  ```
 
 # Usage
 
-- Single GPU
-  - Docker
-    ```
-      docker run –gpus all -it /bin/bash
-      rmldnn –config= ./<configuration_file>
-    ```
-  - Singularity
-  singularity exec .. 
+We will use the smoke tests in this repo to demonstrate how to run rmldnn on one or two processes using both Docker or Singularity containers.
+First, clone the current repo:
+  ```
+   $ git clone https://github.com/rocketmlhq/rmldnn
+   $ cd rmldnn/smoke_tests/
+  ```
+
+- Docker
+
+  - We will run under user `ubuntu`, mount the current directory as `/home/ubuntu` inside the container,
+    and use that as our work directory. If running on GPUs, add the option `--gpus=all` to the command:
+  ```
+   $ sudo docker run --cap-add=SYS_PTRACE [--gpus=all] \
+     -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu rocketml/rmldnn:1.0 \
+     rmldnn --config=config_rmldnn_test.json
+  ```
+  - To run in parallel on a CPU system, use the `-np` option of `mpirun` to indicate how many processes to launch 
+    and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use.
+    E.g., on a system with 16 CPU cores, one might want to launch 2 processes using 8 cores each:
+  ```
+   $ sudo docker run --cap-add=SYS_PTRACE -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+     rocketml/rmldnn:1.0 mpirun -np 2 --bind-to none -x OMP_NUM_THREADS=8 \
+     rmldnn --config=config_rmldnn_test.json
+  ```
+  - On a multi-GPU system, the variable `CUDA_VISIBLE_DEVICES` must be set to indicate which devices to use.
+    E.g., on a 4-GPU system, the following command can be used to launch a 4x parallel run:
+  ```
+   $ sudo docker run --cap-add=SYS_PTRACE --gpus=all -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+     rocketml/rmldnn:1.0 mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+     rmldnn --config=config_rmldnn_test.json
+  ```
+
+- Singularity
+
+  Set the environment variable `RMLDNN_IMAGE` to the location of the Singularity image (see [install](#install) section).
+                                               
+  - 
+  ```
+   $ singularity exec ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
+  ```
 
 - Single node with multiple GPUs
   - Docker
