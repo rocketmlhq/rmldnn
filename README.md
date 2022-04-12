@@ -17,14 +17,10 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 - [Benefits](#benefits)
 - [Who is this for?](#who-is-this-for)
 - [Who is this not for?](#who-is-this-not-for)
-- [Install](#install)
 - [Concepts](#concepts)
+- [Install](#install)
 - [Usage](#usage)
 - [Applications](#applications)
-- [Guides](#guides)
-- [Troubleshooting](#troubleshooting)
-- [FAQs](#faqs)
-- [Citation](#citation)
 - [Publications](#publications)
 - [Talks](#talks)
 
@@ -34,9 +30,9 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 **rmldnn** was built from the start with two main design principles in mind:
 
 - **Ease-of-use:** Simple, code-free, configuration-based command-line interface
-- **Uncompromising performance**: Blazing-fast speed and HPC-grade scalability on large-scale GPU/CPU clusters
+- **Uncompromising performance**: Blazing-fast speeds and HPC-grade scalability on GPU/CPU clusters
 
-The plots below show rmldnn scalability results (time per epoch as function of number of processes) to train two Unet-2D models 
+The plots below show rmldnn scalability results (time per epoch as function of number of processes) to train two different Unet-2D models 
 on large scale CPU and GPU clusters, demonstrating almost linear speedups on up to 128 CPU processes (7680 cores) and on 512 GPUs.
 
 ![scaling](figures/scaling.jpg)
@@ -61,53 +57,35 @@ on large scale CPU and GPU clusters, demonstrating almost linear speedups on up 
 
 - Data scientists or developers who are experienced writing more advanced deep-learning code and need maximum flexibility to implement their own custom layers, optimizes, loss functions, data loaders, etc.
 
+# Concepts
+
+**rmldnn** implements the *data-parallel* distributed deep-learning strategy, where multiple replicas of the model are simultaneously trained
+by independent processes on local subsets of data to minimize a common objective function, as depicted below.
+
+<p align="center">
+  <img width="750" src="figures/data_parallel.png">
+</p>
+
+The entire training (or inference) run is configured in the json file passed in as input to rmldnn.
+This file controls everything from log file names to hyperparameter values.
+It contains a few json blocks responsible for configuring different modules, e.g.,
+a **data** block that configures the data-loader (input location, data transforms, etc.),
+**optimizer** and **loss** blocks that control what optimization method and loss function to use, and so on.
+The neural network is defined as a [Keras](https://keras.io/) file and passed into the parameter **layers**.
+A typical config file example is shown below, and several other examples are available in the tutorials.
+Details about all rmldnn options and capabilities can be found in the [documentation](https://rocketmlhq.github.io/rmldnn/).
+
+<p align="center">
+  <img width=600" src="figures/config_json.png">
+</p>
+
+
 # Install
 
 - Docker
   - docker pull
 - Singularity
   - singularity pull
-
-# Concepts
-
-To launch a deep-learning run from the command line, one has to do:
-
-`rmldnn --config=<json_config_file>`
-
-Every possible aspect of how the run is configured must be passed in the JSON file specified with the --config command-line argument. This file controls everything from log file names to hyperparameter values, all the way to details of every layer in the network. It is composed of several sections (JSON objects) which configure different aspects of the deep-learning run (e.g., optimizer parameters, data loader type, etc), some of which are specific to the type of application being executed. 
-
-![dnn_training](dnn_training.png)
-
-As shown in the figure, a typical training process will need a data set, a deep learning model represented by a network architecture like ResNet50, U-Net etc. that is used to calculate the loss value using a function like NLL, BCE, Dice etc., back-propagation to compute gradients, and an optimizer like SGD, Adam etc. to update model weights. The json file must contain one single object named neural_network, inside which all these configurations will reside:
-
-
-    {
-        "neural_network": {
-            "outfile": "log_file.txt",
-            "num_epochs": 100,
-            "data": {
-                ...
-            },
-            "layers": {
-                ...
-            },
-            "loss": {
-                ...
-            },
-            "optimizer": {
-                ...
-            }                       
-        }
-    }
-
-**Data** section is where the types of training and test data are configured, in particular, what specific data loader will be used to feed data into the neural network, as well as how that data will be split into mini-batches, how many samples will be used for training and evaluation, etc.
-
-**Layers** section allows for detailed specification of all layers in the neural network, as well as the connections between them. The syntax is supposed to follow closely the one used by Keras, which allows exporting a programmatically built neural network as a json file.
-
-**Loss** section specifies which loss function to use for the neural network. The loss function computes some kind of metric that estimates the error (loss) between the network result for a given input and its corresponding target. The choice of loss function must be consistent with the network design, in particular, with the last layer in the network and its activation.
-
-**Optimizer** section configures the optimizer for the neural network, which can be selected with the parameter type. We support the most important first-order algorithms available in PyTorch (module torch.optim), as well as a Hessian-based second-order optimizer. Each optimizer type has its own set of supported hyper-parameters.
-
 
 # Usage
 
@@ -139,31 +117,17 @@ As shown in the figure, a typical training process will need a data set, a deep 
 - Self-supervision
 - Generative Adversarial Networks
 
-# Guides
-
-- RocketML
-- AWS
-- Azure
-
-# Troubleshooting
-
-Submit a ticket with as many details as possible for of your issue
-
-# FAQs
-
-# Citation
-
 # Publications
 
-- Botelho, Sergio, Ameya Joshi, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Santi Adavani, and Baskar Ganapathysubramanian. "Deep generative models that solve pdes: Distributed computing for training large data-free models." In 2020 IEEE/ACM Workshop on Machine Learning in High Performance Computing Environments (MLHPC) and Workshop on Artificial Intelligence and Machine Learning for Scientific Applications (AI4S), pp. 50-63. IEEE, 2020. [Paper](https://arxiv.org/abs/2007.12792v1)
+- Sergio Botelho, Ameya Joshi, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Santi Adavani, and Baskar Ganapathysubramanian. **Deep generative models that solve pdes: Distributed computing for training large data-free models.**, *2020 IEEE/ACM Workshop on Machine Learning in High Performance Computing Environments (MLHPC) and Workshop on Artificial Intelligence and Machine Learning for Scientific Applications (AI4S)*, pp. 50-63. IEEE, 2020. ([paper](https://arxiv.org/abs/2007.12792v1))
 
-- Aditya Balu, Sergio Botelho, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Adarsh Krishnamurthy, Santi Adavani, and Baskar Ganapathysubramanian. 2021. Distributed multigrid neural solvers on megavoxel domains. In Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '21). Association for Computing Machinery, New York, NY, USA, Article 49, 1–14. [Paper](https://doi.org/10.1145/3458817.3476218)
+- Aditya Balu, Sergio Botelho, Biswajit Khara, Vinay Rao, Soumik Sarkar, Chinmay Hegde, Adarsh Krishnamurthy, Santi Adavani, and Baskar Ganapathysubramanian. **Distributed multigrid neural solvers on megavoxel domains**, *Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC '21).* Association for Computing Machinery, New York, NY, USA, Article 49, 1–14. ([paper](https://doi.org/10.1145/3458817.3476218))
 
-- Rade, J., Balu, A., Herron, E., Jignasu, A., Botelho, S., Adavani, S., Sarkar, S., Ganapathysubramanian, B. and Krishnamurthy, A., 2021, November. Multigrid Distributed Deep CNNs for Structural Topology Optimization. In AAAI 2022 Workshop on AI for Design and Manufacturing (ADAM). [Paper](https://openreview.net/pdf?id=BJSHAXe-XZz)
+- Rade, J., Balu, A., Herron, E., Jignasu, A., Botelho, S., Adavani, S., Sarkar, S., Ganapathysubramanian, B. and Krishnamurthy, A., 2021, November. **Multigrid Distributed Deep CNNs for Structural Topology Optimization**, *AAAI 2022 Workshop on AI for Design and Manufacturing (ADAM)*. ([paper](https://openreview.net/pdf?id=BJSHAXe-XZz))
 
-- Botelho, S., Das, V., Vanzo, D., Devarakota, P., Rao, V. and Adavani, S., 2021, November. 3D seismic facies classification on CPU and GPU HPC clusters. In SPE/AAPG/SEG Asia Pacific Unconventional Resources Technology Conference. OnePetro. [Paper](https://onepetro.org/URTECAP/proceedings/21APUR/1-21APUR/D012S001R026/472261)
+- Botelho, S., Das, V., Vanzo, D., Devarakota, P., Rao, V. and Adavani, S., 2021, November. **3D seismic facies classification on CPU and GPU HPC clusters**, *SPE/AAPG/SEG Asia Pacific Unconventional Resources Technology Conference* ([paper](https://onepetro.org/URTECAP/proceedings/21APUR/1-21APUR/D012S001R026/472261))
 
-- Mukherjee, S., Lelièvre, P., Farquharson, C. and Adavani, S., 2021, September. Three-dimensional inversion of geophysical field data on an unstructured mesh using deep learning neural networks, applied to magnetic data. In First International Meeting for Applied Geoscience & Energy (pp. 1465-1469). Society of Exploration Geophysicists. [Paper](https://library.seg.org/doi/abs/10.1190/segam2021-3583565.1)
+- Mukherjee, S., Lelièvre, P., Farquharson, C. and Adavani, S., 2021, September. **Three-dimensional inversion of geophysical field data on an unstructured mesh using deep learning neural networks, applied to magnetic data**, *First International Meeting for Applied Geoscience & Energy* (pp. 1465-1469). Society of Exploration Geophysicists. ([paper](https://library.seg.org/doi/abs/10.1190/segam2021-3583565.1))
 
 # Talks
 
