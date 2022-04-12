@@ -90,19 +90,19 @@ going with Singularity, as it is simpler to setup and makes it easier to execute
 
 - Docker
 
-  - If not already install, follow instructions [here](https://docs.docker.com/engine/install/) to install Docker on your system.
+  - If not already available, follow instructions [here](https://docs.docker.com/engine/install/) to install Docker on your system.
   - Pull the latest rmldnn image from DockerHub:
   ```
-   $ sudo docker pull rocketml/rmldnn:1.0
+   $ sudo docker pull rocketml/rmldnn:latest
   ```
 
 - Singularity
 
-  - If not already installed, follow instructions [here](https://sylabs.io/guides/3.9/user-guide/quick_start.html#quick-installation-steps)
+  - If not already available, follow instructions [here](https://sylabs.io/guides/3.9/user-guide/quick_start.html#quick-installation-steps)
     to install SingularityCE on your system.
   - The image can be created by pulling from DockerHub and converting to Singularity in the same step:
   ```
-   $ sudo singularity build rmldnn.sif docker://rocketml/rmldnn:1.0
+   $ sudo singularity build rmldnn.sif docker://rocketml/rmldnn:latest
    $ export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
   ```
 
@@ -118,55 +118,60 @@ First, clone the current repo:
 - Docker
 
   - We will run under user `ubuntu`, mount the current directory as `/home/ubuntu` inside the container,
-    and use that as our work directory. If running on GPUs, add the option `--gpus=all` to the command:
+    and use that as our work directory (if running on GPUs, add the option `--gpus=all` to the command):
   ```
    $ sudo docker run --cap-add=SYS_PTRACE [--gpus=all] \
-     -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu rocketml/rmldnn:1.0 \
+     -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu rocketml/rmldnn:latest \
      rmldnn --config=config_rmldnn_test.json
   ```
   - To run in parallel on a CPU system, use the `-np` option of `mpirun` to indicate how many processes to launch 
     and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use.
-    E.g., on a system with 16 CPU cores, one might want to launch 2 processes using 8 cores each:
+    E.g., on a system with 32 CPU cores, one might want to launch 4 processes using 8 cores each:
   ```
    $ sudo docker run --cap-add=SYS_PTRACE -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
-     rocketml/rmldnn:1.0 mpirun -np 2 --bind-to none -x OMP_NUM_THREADS=8 \
+     rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
      rmldnn --config=config_rmldnn_test.json
   ```
   - On a multi-GPU system, the variable `CUDA_VISIBLE_DEVICES` must be set to indicate which devices to use.
     E.g., on a 4-GPU system, the following command can be used to launch a 4x parallel run:
   ```
    $ sudo docker run --cap-add=SYS_PTRACE --gpus=all -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
-     rocketml/rmldnn:1.0 mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+     rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
      rmldnn --config=config_rmldnn_test.json
   ```
 
 - Singularity
 
-  Set the environment variable `RMLDNN_IMAGE` to the location of the Singularity image (see [install](#install) section).
+  Set the environment variable `RMLDNN_IMAGE` to the location of the rmldnn Singularity image (see [install](#install) section).
                                                
-  - 
+  - To run rmldnn on a single process (add `--nv` if running on a GPU):
   ```
-   $ singularity exec ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
+   $ singularity exec [--nv] ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
   ```
-
-- Single node with multiple GPUs
-  - Docker
-
-- Multiple-nodes with multiple GPUs
-  - Singularity
-  - RocketML managed platform 
-  - AWS
-  - Azure
+  - To run in parallel on a CPU system, use the `-np` option of `mpirun` to indicate how many processes to launch 
+    and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use:
+  ```
+   $ singularity exec ${RMLDNN_IMAGE} mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+     rmldnn --config=./config_rmldnn_test.json
+  ```
+  - To run in parallel on a GPU system, add the `--nv` option and set the variable `CUDA_VISIBLE_DEVICES` accordingly:
+  ```
+   $ singularity exec --nv ${RMLDNN_IMAGE} mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+     rmldnn --config=./config_rmldnn_test.json
+  ```
 
 # Applications
 
-- Image Classification
-- 2D Image Segmentation
-- 3D Image Segmentation
-- Object Detection
-- Transfer Learning
-- Self-supervision
-- Generative Adversarial Networks
+Please take a look a the tutorials available in this repo for examples of how to use rmldnn to tackle
+real-world deep-learning problems in the areas of:
+
+- Image classification
+- 2D and 3D image segmentation
+- Self-superviside learning
+- Transfer learning
+- Object detection
+- Neural PDE solvers
+- Generative adversarial networks (GANs)
 
 # Publications
 
