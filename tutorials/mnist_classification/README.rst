@@ -36,7 +36,7 @@ We'll assume that one has unziped the images into the following directory struct
 There are a total of 60000 images for training (across all 10 classes), and 10000 for testing (or evaluation).
 They are all single-channel (grayscale) images of size 28 x 28, similar to the ones in the figure below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist.png
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
@@ -45,16 +45,16 @@ Since MNIST is a very simple dataset to train with, we will use a small (shallow
 consisting of two convolutional layers and a single dense layer at the end (with a log-softmax activation), 
 as shown in the figure below. This network can be easily coded (e.g., using 
 `Keras <https://keras.io/>`__) and is available here in the file
-`mnist_keras_net.json <https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/mnist_keras_net.json>`__.
+`mnist_keras_net.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/mnist_keras_net.json>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_net.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_net.png
 
 Running training
 ~~~~~~~~~~~~~~~~
 
 `rmldnn` is a code-free, high-performance tool for distributed deep-learning, and the entire flow can be defined
 in a single configuration file. To run MNINST training, we will use the following
-(`config_mnist_training.json <https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/config_mnist_training.json>`__):
+(`config_mnist_training.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_training.json>`__):
 
 .. code:: bash
 
@@ -105,7 +105,7 @@ From the command line, one should do:
 
 `rmldnn` will configure the run and start training on the MNIST dataset:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_run_training.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_training.png
   :width: 1000
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
@@ -116,11 +116,11 @@ of correctly labeled data samples).
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_loss.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_loss.png
   :width: 500
   :align: center
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_accuracy.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_accuracy.png
   :width: 500
   :align: center
 
@@ -132,12 +132,12 @@ This model can be used to run stand-alone inference on a given set of MNIST digi
 For example, assume we want to classify the following 10 random digits, which have been
 copied under ``mnist_digits/digit_*.jpg``:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_test_digits.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_test_digits.png
   :width: 1000
   :align: center
 
 This simple configuration file
-(`config_mnist_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/config_mnist_test.json>`__)
+(`config_mnist_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
 can be used to run `rmldnn` inference:
 
 .. code:: bash
@@ -164,7 +164,7 @@ We can run inference on a single CPU by doing:
 
     $ singularity exec rmldnn_image.sif rmldnn --config= ./config_mnist_test.json
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/mnist_classification/figures/mnist_run_testing.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_testing.png
   :width: 1000
   :align: center
 
