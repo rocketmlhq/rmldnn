@@ -72,7 +72,8 @@ It contains a few json blocks responsible for configuring different modules, e.g
 a **data** block that configures the data-loader (input location, data transforms, etc.),
 **optimizer** and **loss** blocks that control what optimization method and loss function to use, and so on.
 The neural network is defined as a [Keras](https://keras.io/) file and passed into the parameter **layers**.
-A typical config file example is shown below, and several other examples are available in the tutorials.
+A typical config file example is shown below, and several other examples are available in the
+[tutorials](https://github.com/rocketmlhq/rmldnn/tree/main/tutorials).
 Details about all rmldnn options and capabilities can be found in the [documentation](https://rocketmlhq.github.io/rmldnn/).
 
 <p align="center">
@@ -162,7 +163,8 @@ First, clone the current repo:
 
 # Applications
 
-Please take a look a the tutorials available in this repo for examples of how to use rmldnn to tackle
+Please take a look a the [tutorials](https://github.com/rocketmlhq/rmldnn/tree/main/tutorials)
+available in this repo for examples of how to use rmldnn to tackle
 real-world deep-learning problems in the areas of:
 
 - Image classification
