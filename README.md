@@ -163,7 +163,7 @@ First, clone the current repo:
 
 # Applications
 
-Please take a look a the [tutorials](https://github.com/rocketmlhq/rmldnn/tree/main/tutorials)
+Please take a look at the [tutorials](https://github.com/rocketmlhq/rmldnn/tree/main/tutorials)
 available in this repo for examples of how to use rmldnn to tackle
 real-world deep-learning problems in the areas of:
 
