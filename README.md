@@ -23,6 +23,7 @@ The entire run is configured in the JSON file `config.json`. This file controls 
 - [Applications](#applications)
 - [Publications](#publications)
 - [Talks](#talks)
+- [Citation](#citation)
 
 
 # Why rmldnn?
@@ -193,3 +194,16 @@ real-world deep-learning problems in the areas of:
 - [CVPR 2021 Distributed Deep Learning Workshop](https://youtube.com/playlist?list=PLcK0exoS00ZRbYP4VATWX791kxdEf6ckf)
 - [SC21 Scientific Machine Learning Tutorial](https://youtube.com/playlist?list=PLcK0exoS00ZTPdvhmh0IdyCIlVQ2lzjJ5)
 - [3D Seismic Facies Classification using Distributed Deep Learning](https://www.youtube.com/watch?v=uerDzx1GB0k)
+                                               
+# Citation
+
+Please cite rmldnn in your publications if it helps your research:
+                                               
+```
+@software{rmldnn,
+  author = {{RocketML Inc}},
+  title = {Rocket{ML} {Deep} {Neural} {Networks}},
+  url = {https://rocketml.net},
+  howpublished = {\url{https://github.com/rocketmlhq/rmldnn}}
+}
+```
