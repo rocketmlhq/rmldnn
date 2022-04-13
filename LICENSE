@@ -1,21 +1,35 @@
-MIT License
+RMLDNN Software License Agreement v1.0
 
 Copyright (c) 2022 rocketmlhq
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+The RMLDNN software ("Software") has been developed by RocketML Inc. and made 
+available through RocketML for your internal, non-profit, non-commercial use.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+RocketML allows employees and researchers at your institution to run, display
+and distribute Software on the following conditions:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. You understand that the Software is provided as a demo tool for non-commercial
+applications and, as such, might contain limited or restricted functionality. 
+If you wish to obtain the Software for any commercial purposes, including 
+fee-based service projects, you will need to execute a separate licensing
+agreement with RocketML. In that case please contact: support@rocketml.net
+
+2. You agree to retain in the Software the copyright, trademark, or other notices
+pertaining to the Software as included by RocketML.
+
+3. You agree to acknowledge the contribution the Software makes to your research,
+and cite appropriate references about the Software in your publications.
+
+4. You agree to provide RocketML with feedback on the use of the Software in your
+own work or research, and that RocketML is permitted to use any information you
+provide in making future changes to the Software. 
+
+5. You accept all risks associated with using the Software at your institution,
+and understand that RocketML has no obligation to provide accompanying services
+or support.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT ANY WARRANTIES OR GUARANTEES, WHETHER
+EXPRESSED OR IMPLIED, PERTAINING TO NON-INFRINGEMENT, MERCHANTABILITY OR 
+FITNESS FOR A PARTICULAR PURPOSE.
+
+
