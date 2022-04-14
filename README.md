@@ -7,7 +7,7 @@ RocketML Deep Neural Networks
 
 In a nutshell, to launch a deep-learning training or inference run, one only needs to do the following at the command line:
 
-    $ rmldnn --config=config.json
+    rmldnn --config=config.json
 
 The entire run is configured in the JSON file `config.json`. This file controls everything from hyperparameters to output file names. It is composed of several sections (JSON objects) which configure different aspects of the deep-learning run (e.g., network, optimizes, data loader, etc). More on the configuration file in the [concepts](#concepts) section.
 
@@ -85,82 +85,108 @@ Details about all rmldnn options and capabilities can be found in the [documenta
 # Install
 
 **rmldnn** is available as [Docker](https://www.docker.com/) and [Singularity](https://sylabs.io/singularity) images.
-This substantially simplifies the installation process and increases portability.
+This substantially simplifies the installation process and increases portability. These images have been tested 
+on Linux Ubuntu 18.04, and should work on all popular Linux distros.
                                                
 If starting from scratch (i.e., no previous installation exists) and the user has no preference, we recommend
 going with Singularity, as it is simpler to setup and makes it easier to execute.
 
-- Docker
+- **Docker**
 
   - If not already available, follow instructions [here](https://docs.docker.com/engine/install/) to install Docker on your system.
   - Pull the latest rmldnn image from DockerHub:
   ```
-   $ sudo docker pull rocketml/rmldnn:latest
+   sudo docker pull rocketml/rmldnn:latest
   ```
 
-- Singularity
+- **Singularity**
 
   - If not already available, follow instructions [here](https://sylabs.io/guides/3.9/user-guide/quick_start.html#quick-installation-steps)
     to install SingularityCE on your system.
   - The image can be created by pulling from DockerHub and converting to Singularity in the same step:
   ```
-   $ sudo singularity build rmldnn.sif docker://rocketml/rmldnn:latest
-   $ export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
+   sudo singularity build rmldnn.sif docker://rocketml/rmldnn:latest
+   export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
   ```
 
 # Usage
 
-We will use the smoke tests in this repo to demonstrate how to run rmldnn on one or two processes using both Docker or Singularity containers.
+The examples below demonstrate how to run rmldnn on a Linux shell using both Docker and Singularity containers.
+We will use the smoke tests in this repo and show how to run them on one or multiple processes.
+
 First, clone the current repo:
   ```
-   $ git clone https://github.com/rocketmlhq/rmldnn
-   $ cd rmldnn/smoke_tests/
+   git clone https://github.com/rocketmlhq/rmldnn
+   cd rmldnn/smoke_tests/
   ```
 
-- Docker
+  **Docker**
+  ----------
 
-  - We will run under user `ubuntu`, mount the current directory as `/home/ubuntu` inside the container,
-    and use that as our work directory (if running on GPUs, add the option `--gpus=all` to the command):
-  ```
-   $ sudo docker run --cap-add=SYS_PTRACE [--gpus=all] \
-     -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu rocketml/rmldnn:latest \
-     rmldnn --config=config_rmldnn_test.json
-  ```
-  - To run in parallel on a CPU system, use the `-np` option of `mpirun` to indicate how many processes to launch 
-    and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use.
-    E.g., on a system with 32 CPU cores, one might want to launch 4 processes using 8 cores each:
-  ```
-   $ sudo docker run --cap-add=SYS_PTRACE -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
-     rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
-     rmldnn --config=config_rmldnn_test.json
-  ```
-  - On a multi-GPU system, the variable `CUDA_VISIBLE_DEVICES` must be set to indicate which devices to use.
-    E.g., on a 4-GPU system, the following command can be used to launch a 4x parallel run:
-  ```
-   $ sudo docker run --cap-add=SYS_PTRACE --gpus=all -u ubuntu -v ${PWD}:/home/ubuntu -w /home/ubuntu \
-     rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
-     rmldnn --config=config_rmldnn_test.json
-  ```
+  - We will mount the current directory as `/home/ubuntu` inside the container, and use that as our work directory.
 
-- Singularity
+  - **Single-process**:
+    - CPU system:
+      ```
+       sudo docker run -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+          rocketml/rmldnn:latest rmldnn --config=config_rmldnn_test.json
+      ```
+    - GPU system:
+      ```
+       sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+          rocketml/rmldnn:latest rmldnn --config=config_rmldnn_test.json
+      ```
 
-  Set the environment variable `RMLDNN_IMAGE` to the location of the rmldnn Singularity image (see [install](#install) section).
-                                               
-  - To run rmldnn on a single process (add `--nv` if running on a GPU):
-  ```
-   $ singularity exec [--nv] ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
-  ```
-  - To run in parallel on a CPU system, use the `-np` option of `mpirun` to indicate how many processes to launch 
-    and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use:
-  ```
-   $ singularity exec ${RMLDNN_IMAGE} mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
-     rmldnn --config=./config_rmldnn_test.json
-  ```
-  - To run in parallel on a GPU system, add the `--nv` option and set the variable `CUDA_VISIBLE_DEVICES` accordingly:
-  ```
-   $ singularity exec --nv ${RMLDNN_IMAGE} mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
-     rmldnn --config=./config_rmldnn_test.json
-  ```
+  - **Multi-process**:
+    - CPU system:
+
+       Use the `-np` option of `mpirun` to indicate how many processes to launch 
+       and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use.
+       E.g., on a system with 32 CPU cores, one might want to launch 4 processes using 8 cores each:
+       ```                                        
+        sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+           rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+           rmldnn --config=config_rmldnn_test.json
+       ```
+    - GPU system:
+
+       Use the variable `CUDA_VISIBLE_DEVICES` to indicate which devices to use.
+       E.g., on a 4-GPU system, the following command can be used to launch a 4x parallel run:
+       ```
+        sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+           rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+           rmldnn --config=config_rmldnn_test.json
+       ```
+
+  **Singularity**
+  ---------------
+
+  - Set the environment variable `RMLDNN_IMAGE` to the location of the rmldnn Singularity image (see [install](#install) section).
+  - **Single-process**:
+    - CPU system:
+      ```
+       singularity exec ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
+      ```
+    - GPU system:
+      ```
+       singularity exec --nv ${RMLDNN_IMAGE} rmldnn --config=./config_rmldnn_test.json
+      ```
+  - **Multi-process**:
+    - CPU system:
+
+       Use the `-np` option of `mpirun` to indicate how many processes to launch 
+       and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use:
+       ```
+        singularity exec ${RMLDNN_IMAGE} mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+           rmldnn --config=./config_rmldnn_test.json
+       ```
+    - GPU system:
+
+       Add the `--nv` option and set the variable `CUDA_VISIBLE_DEVICES` accordingly:
+       ```
+        singularity exec --nv ${RMLDNN_IMAGE} mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+           rmldnn --config=./config_rmldnn_test.json
+       ```
 
 # Applications
 
@@ -170,10 +196,10 @@ real-world deep-learning problems in the areas of:
 
 - Image classification
 - 2D and 3D image segmentation
-- Self-superviside learning
+- Self-supervised learning
 - Transfer learning
-- Object detection
 - Neural PDE solvers
+- Object detection
 - Generative adversarial networks (GANs)
 
 # Publications
