@@ -765,6 +765,9 @@ This is the complete list of currently supported network operations in RocketML:
   * Conv1D
   * Conv2D
   * Conv3D
+  * DepthwiseConv1D
+  * DepthwiseConv2D
+  * DepthwiseConv3D
   * Conv1DTranspose
   * Conv2DTranspose
   * Conv3DTranspose

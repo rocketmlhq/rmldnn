@@ -1,52 +1,58 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Deep Neural Networks &#8212; RocketML 1.0.0 (RocketML Confidential) documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0 (RocketML Confidential)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to RocketML’s DNN documentation!" href="index.html" />
+    <link rel="prev" title="Welcome to RocketML Deep Neural Networks documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="deep-neural-networks">
 <h1>Deep Neural Networks<a class="headerlink" href="#deep-neural-networks" title="Permalink to this headline">¶</a></h1>
 <p>All deep-learning applications in RocketML are built into an executable called <cite>rmldnn</cite>. To launch a deep-learning run from the
 command line, one has to do:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rmldnn <span class="o">[</span>--app<span class="o">=</span>&lt;application&gt;<span class="o">]</span> --config<span class="o">=</span>&lt;json_config_file&gt;
+<div class="highlight-bash"><div class="highlight"><pre><span></span>rmldnn <span class="o">[</span>--app<span class="o">=</span>&lt;application&gt;<span class="o">]</span> --config<span class="o">=</span>&lt;json_config_file&gt;
 </pre></div>
 </div>
-<p>Every possible aspect of how the run is configured must be passed in the <em>json</em> file specified with the <code class="code docutils literal notranslate"><span class="pre">--config</span></code> command-line argument.
+<p>Every possible aspect of how the run is configured must be passed in the <em>json</em> file specified with the <code class="code docutils literal"><span class="pre">--config</span></code> command-line argument.
 This file controls everything from log file names to hyperparameter values, all the way to details of every layer
 in the network. It is composed of several sections (json objects) which configure different aspects of the deep-learning run (e.g., optimizer
 parameters, data loader type, etc), some of which are specific to the type of application being executed.</p>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>The json file must contain one single object named <code class="code docutils literal notranslate"><span class="pre">neural_network</span></code>, inside which all configuration will reside:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<p>The json file must contain one single object named <code class="code docutils literal"><span class="pre">neural_network</span></code>, inside which all configuration will reside:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
     <span class="s2">&quot;neural_network&quot;</span>: <span class="o">{</span>
         <span class="s2">&quot;outfile&quot;</span>: <span class="s2">&quot;log_file.txt&quot;</span>,
         <span class="s2">&quot;num_epochs&quot;</span>: <span class="m">100</span>,
@@ -66,80 +72,80 @@ parameters, data loader type, etc), some of which are specific to the type of ap
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>The <code class="code docutils literal notranslate"><span class="pre">neural_network</span></code> object contains several sub-objects (sections) which will be discussed below, in addition to
+<p>The <code class="code docutils literal"><span class="pre">neural_network</span></code> object contains several sub-objects (sections) which will be discussed below, in addition to
 a few basic parameters:</p>
 <ul class="simple">
-<li><p><strong>outfile</strong>: Base name for the output files produced by the run (with loss values, accuracies, etc). If not provided, no output files are created.</p></li>
-<li><p><strong>num_epochs</strong>: How many total epochs to run for (default: 1).</p></li>
-<li><p><strong>debug</strong>: Whether to enable debug output. The specific behavior (i.e., what debug data exactly is created) depends on the application.
-For instance, if <cite>debug = true</cite>, the image segmentation application will write out images produced during inference.</p></li>
-<li><p><strong>debug_interval</strong>: How often to write out debug info (in terms of number of epochs).</p></li>
+<li><strong>outfile</strong>: Base name for the output files produced by the run (with loss values, accuracies, etc). If not provided, no output files are created.</li>
+<li><strong>num_epochs</strong>: How many total epochs to run for (default: 1).</li>
+<li><strong>debug</strong>: Whether to enable debug output. The specific behavior (i.e., what debug data exactly is created) depends on the application.
+For instance, if <cite>debug = true</cite>, the image segmentation application will write out images produced during inference.</li>
+<li><strong>debug_interval</strong>: How often to write out debug info (in terms of number of epochs).</li>
 </ul>
 <div class="section" id="optimizer-section">
 <h3>Optimizer section<a class="headerlink" href="#optimizer-section" title="Permalink to this headline">¶</a></h3>
-<p>This section configures the optimizer for the neural network, which can be selected with the parameter <code class="code docutils literal notranslate"><span class="pre">type</span></code>.
+<p>This section configures the optimizer for the neural network, which can be selected with the parameter <code class="code docutils literal"><span class="pre">type</span></code>.
 RocketML supports the most important first-order algorithms available in PyTorch
 (module <a class="reference external" href="https://pytorch.org/docs/stable/optim.html#algorithms/">torch.optim</a>),
 as well as a Hessian-based second-order optimizer.
 Each optimizer type has its own set of supported hyper-parameters:</p>
 <ul>
-<li><p>SGD:</p>
+<li><p class="first">SGD:</p>
 <ul class="simple">
-<li><p><strong>learning_rate</strong>: Base learning rate (default: 0.01)</p></li>
-<li><p><strong>momentum</strong>: Momentum factor (default: 0)</p></li>
-<li><p><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</p></li>
-<li><p><strong>dampening</strong>: Dampening for momentum (default: 0)</p></li>
-<li><p><strong>nesterov</strong>: Enables Nesterov momentum (default: false)</p></li>
+<li><strong>learning_rate</strong>: Base learning rate (default: 0.01)</li>
+<li><strong>momentum</strong>: Momentum factor (default: 0)</li>
+<li><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</li>
+<li><strong>dampening</strong>: Dampening for momentum (default: 0)</li>
+<li><strong>nesterov</strong>: Enables Nesterov momentum (default: false)</li>
 </ul>
 </li>
-<li><p>Adagrad:</p>
+<li><p class="first">Adagrad:</p>
 <ul class="simple">
-<li><p><strong>learning_rate</strong>: Base learning rate (default: 0.01)</p></li>
-<li><p><strong>lr_decay</strong>: Learning rate decay (default: 0)</p></li>
-<li><p><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</p></li>
+<li><strong>learning_rate</strong>: Base learning rate (default: 0.01)</li>
+<li><strong>lr_decay</strong>: Learning rate decay (default: 0)</li>
+<li><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</li>
 </ul>
 </li>
-<li><p>Adam and AdamW:</p>
+<li><p class="first">Adam and AdamW:</p>
 <ul class="simple">
-<li><p><strong>learning_rate</strong>: The base learning rate (default: 0.01)</p></li>
-<li><p><strong>beta1</strong> and <strong>beta2</strong>: Coefficients used for computing running averages of gradient and its square (defaults: 0.9 and 0.999)</p></li>
-<li><p><strong>weight_decay</strong>: weight decay (L2 penalty) (default: 0)</p></li>
-<li><p><strong>eps</strong>: Term added to the denominator to improve numerical stability (default: 1e-8)</p></li>
-<li><p><strong>amsgrad</strong>: Whether to use the AMSGrad variant of this algorithm (default: false)</p></li>
+<li><strong>learning_rate</strong>: The base learning rate (default: 0.01)</li>
+<li><strong>beta1</strong> and <strong>beta2</strong>: Coefficients used for computing running averages of gradient and its square (defaults: 0.9 and 0.999)</li>
+<li><strong>weight_decay</strong>: weight decay (L2 penalty) (default: 0)</li>
+<li><strong>eps</strong>: Term added to the denominator to improve numerical stability (default: 1e-8)</li>
+<li><strong>amsgrad</strong>: Whether to use the AMSGrad variant of this algorithm (default: false)</li>
 </ul>
 </li>
-<li><p>RMSprop:</p>
+<li><p class="first">RMSprop:</p>
 <ul class="simple">
-<li><p><strong>learning_rate</strong>: Base learning rate (default: 0.01)</p></li>
-<li><p><strong>momentum</strong>: Momentum factor (default: 0)</p></li>
-<li><p><strong>alpha</strong>: Smoothing constant (default: 0.99)</p></li>
-<li><p><strong>eps</strong>: Term added to the denominator to improve numerical stability (default: 1e-8)</p></li>
-<li><p><strong>centered</strong>: If true, compute the centered RMSProp, and normalize the gradient by its variance (default: false)</p></li>
-<li><p><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</p></li>
+<li><strong>learning_rate</strong>: Base learning rate (default: 0.01)</li>
+<li><strong>momentum</strong>: Momentum factor (default: 0)</li>
+<li><strong>alpha</strong>: Smoothing constant (default: 0.99)</li>
+<li><strong>eps</strong>: Term added to the denominator to improve numerical stability (default: 1e-8)</li>
+<li><strong>centered</strong>: If true, compute the centered RMSProp, and normalize the gradient by its variance (default: false)</li>
+<li><strong>weight_decay</strong>: Weight decay (L2 penalty) (default: 0)</li>
 </ul>
 </li>
-<li><p>LARS (see <a class="reference external" href="https://arxiv.org/pdf/1708.03888.pdf">https://arxiv.org/pdf/1708.03888.pdf</a>):</p>
+<li><p class="first">LARS (see <a class="reference external" href="https://arxiv.org/pdf/1708.03888.pdf">https://arxiv.org/pdf/1708.03888.pdf</a>):</p>
 <p>SGD-based first-order optimizer suitable for large-batch training.
 It accepts all parameters of the SGD optimizer, plus the LARS coefficient:</p>
 <ul class="simple">
-<li><p><strong>eta</strong>: LARS’s coefficient <img class="math" src="_images/math/97db043c7cba573ac389b71add78b048077e8a13.png" alt="\eta"/>, or trust-ratio multiplier (default: 1e-3)</p></li>
+<li><strong>eta</strong>: LARS’s coefficient <img class="math" src="_images/math/5635a7c34414599c2452d72430811e816b460335.png" alt="\eta"/>, or trust-ratio multiplier (default: 1e-3)</li>
 </ul>
 </li>
-<li><p>LAMB (see <a class="reference external" href="https://arxiv.org/pdf/1904.00962.pdf">https://arxiv.org/pdf/1904.00962.pdf</a>):</p>
+<li><p class="first">LAMB (see <a class="reference external" href="https://arxiv.org/pdf/1904.00962.pdf">https://arxiv.org/pdf/1904.00962.pdf</a>):</p>
 <p>Adam-based first-order optimizer suitable for large-batch training.
 It accepts all parameters of the Adam optimizer.</p>
 </li>
-<li><p>Hessian:</p>
+<li><p class="first">Hessian:</p>
 <ul class="simple">
-<li><p><strong>max_iterations</strong>: Maximum number of iterations (default: 2000)</p></li>
-<li><p><strong>max_func_eval</strong>: Maximum number of objective function evaluations (default: 4000)</p></li>
-<li><p><strong>absolute_tolerance</strong>: Absolute tolerance (default: 1e-8)</p></li>
-<li><p><strong>relative_tolerance</strong>: Relative tolerance (default: 1e-8)</p></li>
+<li><strong>max_iterations</strong>: Maximum number of iterations (default: 2000)</li>
+<li><strong>max_func_eval</strong>: Maximum number of objective function evaluations (default: 4000)</li>
+<li><strong>absolute_tolerance</strong>: Absolute tolerance (default: 1e-8)</li>
+<li><strong>relative_tolerance</strong>: Relative tolerance (default: 1e-8)</li>
 </ul>
 </li>
 </ul>
 <p>Therefore, a typical example of invoking the Adagrad optimizer would look like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;optimizer&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;optimizer&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;Adagrad&quot;</span>,
     <span class="s2">&quot;learning_rate&quot;</span>: <span class="m">0</span>.001,
     <span class="s2">&quot;lr_decay&quot;</span>: 1e-5
@@ -153,13 +159,13 @@ It accepts all parameters of the Adam optimizer.</p>
 The syntax is supposed to follow closely the one used by Keras, which allows exporting a programmatically built neural network
 as a json file – see the <a class="reference external" href="https://keras.io/">Keras documentation</a>. Not all functionality exposed by Keras has been integrated into
 RocketML, though, either due to being low priority, or because they would require support for different network architectures
-not currently available in <code class="code docutils literal notranslate"><span class="pre">rmldnn</span></code>.</p>
+not currently available in <code class="code docutils literal"><span class="pre">rmldnn</span></code>.</p>
 <p>One can either put the network description on a separate file (e.g., <cite>model.json</cite>) and pass the file name to RocketML configuration,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;layers&quot;</span>: <span class="s2">&quot;../path/model.json&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;layers&quot;</span>: <span class="s2">&quot;../path/model.json&quot;</span>
 </pre></div>
 </div>
 <p>or enter it directly as an array of json objects, one for each layer:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;layers&quot;</span>: <span class="o">[</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;layers&quot;</span>: <span class="o">[</span>
     <span class="o">{</span>
         <span class="s2">&quot;class_name&quot;</span>: <span class="s2">&quot;Conv2D&quot;</span>,
         <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
@@ -182,20 +188,20 @@ not currently available in <code class="code docutils literal notranslate"><span
 </div>
 <p>The configuration parameters available for each layer are, of course, specific to the functionality of that particular layer.
 Please refer to the Keras documentation for details. For example, a two-dimensional convolutional layer is represented in Keras
-by a <code class="code docutils literal notranslate"><span class="pre">Conv2D</span></code> object, which accepts the following configuration parameters, among others:</p>
+by a <code class="code docutils literal"><span class="pre">Conv2D</span></code> object, which accepts the following configuration parameters, among others:</p>
 <ul class="simple">
-<li><p><strong>filters</strong>: The number of channels of the output (i.e., number of output filters in the convolution)</p></li>
-<li><p><strong>kernel_size</strong>: An integer or list of 2 integers specifying the height and width of the 2D convolution window</p></li>
-<li><p><strong>strides</strong>:  An integer or list of 2 integers specifying the strides of the convolution along the height and width</p></li>
-<li><p><strong>padding</strong>: An integer or list of 2 integers specifying the amount of zero-padding along the height and width.
-Also accepts a string with either <cite>same</cite> or <cite>valid</cite> (Tensorflow notation)</p></li>
-<li><p><strong>dilation_rate</strong>: An integer or list of 2 integers specifying the dilation rate to use for dilated convolution</p></li>
-<li><p><strong>use_bias</strong>: A boolean indicating whether the layer uses a bias vector</p></li>
-<li><p><strong>trainable</strong>: If set to <cite>false</cite>, the layer gets <cite>frozen</cite>, i.e., its parameters are not updated during training.
-This can be applied to all trainable layers (not only <cite>Conv2d</cite>), and might be useful when loading a pre-trained model.</p></li>
+<li><strong>filters</strong>: The number of channels of the output (i.e., number of output filters in the convolution)</li>
+<li><strong>kernel_size</strong>: An integer or list of 2 integers specifying the height and width of the 2D convolution window</li>
+<li><strong>strides</strong>:  An integer or list of 2 integers specifying the strides of the convolution along the height and width</li>
+<li><strong>padding</strong>: An integer or list of 2 integers specifying the amount of zero-padding along the height and width.
+Also accepts a string with either <cite>same</cite> or <cite>valid</cite> (Tensorflow notation)</li>
+<li><strong>dilation_rate</strong>: An integer or list of 2 integers specifying the dilation rate to use for dilated convolution</li>
+<li><strong>use_bias</strong>: A boolean indicating whether the layer uses a bias vector</li>
+<li><strong>trainable</strong>: If set to <cite>false</cite>, the layer gets <cite>frozen</cite>, i.e., its parameters are not updated during training.
+This can be applied to all trainable layers (not only <cite>Conv2d</cite>), and might be useful when loading a pre-trained model.</li>
 </ul>
 <p>Therefore, in order to add such a layer to the network in RocketML, the following json object could be used:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
     <span class="s2">&quot;class_name&quot;</span>: <span class="s2">&quot;Conv2D&quot;</span>,
     <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
         <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;conv_layer_1&quot;</span>,
@@ -221,7 +227,7 @@ This can be applied to all trainable layers (not only <cite>Conv2d</cite>), and 
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>The parameter <code class="code docutils literal notranslate"><span class="pre">inbound_nodes</span></code> is used to indicate which layers feed into <cite>conv_layer_1</cite>. If not specified, RocketML assumes
+<p>The parameter <code class="code docutils literal"><span class="pre">inbound_nodes</span></code> is used to indicate which layers feed into <cite>conv_layer_1</cite>. If not specified, RocketML assumes
 that the output of the previous layer becomes the input of the next layer. This parameter can be a list of layers, which must all feed into a
 so-called <cite>merge layer</cite>, which then combines the incoming data tensors into a single tensor (via either concatenation, addition, or subtraction).</p>
 </div>
@@ -232,26 +238,26 @@ the error (loss) between the network result for a given input and its correspond
 <p>The choice of loss function must be consistent with the network design, in particular, with the last layer in the network and its activation.
 For example, the Negative Log-Likelihood (NLL) loss function expects its input to contain the log-probabilities of each class.
 This can be accomplished, for example, by terminating the network with a Log-Softmax activation function.</p>
-<p><code class="code docutils literal notranslate"><span class="pre">rmldnn</span></code> currently supports several types of loss functions, some of which are directly available in PyTorch, while others are
+<p><code class="code docutils literal"><span class="pre">rmldnn</span></code> currently supports several types of loss functions, some of which are directly available in PyTorch, while others are
 custom implementations:</p>
 <ul class="simple">
-<li><p><strong>nll</strong>: Log-Likelihood (NLL) loss function. Useful to train a classification problem with <img class="math" src="_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png" alt="C"/> classes. Accepts an optional
-list of weights to be applied to each class.</p></li>
-<li><p><strong>bce</strong>: Binary cross entroy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.</p></li>
-<li><p><strong>mse</strong>: Mean squared error (squared L2 norm) loss function.</p></li>
-<li><p><strong>Dice</strong>: Computes the Dice coefficient (a.k.a. F1-score) between output and target.</p></li>
-<li><p><strong>Jaccard</strong>: Computes the Jaccard score (a.k.a. Intersection-over-Union, or IoU) between output and target.</p></li>
-<li><p><strong>Focal</strong>: Computes the focal loss, a generalization of the cross entropy loss suitable for highly imbalanced classes.</p></li>
-<li><p><strong>Lovasz</strong>: Computes an optimization of the mean IoU loss based on the convex Lovasz extension of sub-modular losses.</p></li>
-<li><p><strong>Wasserstein</strong>: Used exclusively in GANs to maximize the gap between scores from real and generated samples (<code class="code docutils literal notranslate"><span class="pre">--app=gan</span></code>)</p></li>
-<li><p><strong>YOLOv3</strong>: Used exclusively for object detection (<code class="code docutils literal notranslate"><span class="pre">--app=obj</span></code>)</p></li>
-<li><p><strong>Burgers_pde</strong>: Loss function encoded as an invariant (PDE + boundary condition) of the Burgers’ 1+1-dimensional
-partial differential equation (<code class="code docutils literal notranslate"><span class="pre">--app=pde</span></code>).</p></li>
-<li><p><strong>Poisson2D_pde</strong>: Invariant loss function for the 2D Poisson PDE (<code class="code docutils literal notranslate"><span class="pre">--app=pde</span></code>).</p></li>
-<li><p><strong>Poisson3D_pde</strong>: Invariant loss function for the 3D Poisson PDE (<code class="code docutils literal notranslate"><span class="pre">--app=pde</span></code>).</p></li>
+<li><strong>nll</strong>: Log-Likelihood (NLL) loss function. Useful to train a classification problem with <img class="math" src="_images/math/afce44aa7c55836ca9345404c22fc7b599d2ed84.png" alt="C"/> classes. Accepts an optional
+list of weights to be applied to each class.</li>
+<li><strong>bce</strong>: Binary cross entroy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.</li>
+<li><strong>mse</strong>: Mean squared error (squared L2 norm) loss function.</li>
+<li><strong>Dice</strong>: Computes the Dice coefficient (a.k.a. F1-score) between output and target.</li>
+<li><strong>Jaccard</strong>: Computes the Jaccard score (a.k.a. Intersection-over-Union, or IoU) between output and target.</li>
+<li><strong>Focal</strong>: Computes the focal loss, a generalization of the cross entropy loss suitable for highly imbalanced classes.</li>
+<li><strong>Lovasz</strong>: Computes an optimization of the mean IoU loss based on the convex Lovasz extension of sub-modular losses.</li>
+<li><strong>Wasserstein</strong>: Used exclusively in GANs to maximize the gap between scores from real and generated samples (<code class="code docutils literal"><span class="pre">--app=gan</span></code>)</li>
+<li><strong>YOLOv3</strong>: Used exclusively for object detection (<code class="code docutils literal"><span class="pre">--app=obj</span></code>)</li>
+<li><strong>Burgers_pde</strong>: Loss function encoded as an invariant (PDE + boundary condition) of the Burgers’ 1+1-dimensional
+partial differential equation (<code class="code docutils literal"><span class="pre">--app=pde</span></code>).</li>
+<li><strong>Poisson2D_pde</strong>: Invariant loss function for the 2D Poisson PDE (<code class="code docutils literal"><span class="pre">--app=pde</span></code>).</li>
+<li><strong>Poisson3D_pde</strong>: Invariant loss function for the 3D Poisson PDE (<code class="code docutils literal"><span class="pre">--app=pde</span></code>).</li>
 </ul>
 <p>A typical way to engage, for example, the NLL loss function would be:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;function&quot;</span>: <span class="s2">&quot;NLL&quot;</span>,
     <span class="s2">&quot;weight&quot;</span>: <span class="o">[</span><span class="m">0</span>.3, <span class="m">0</span>.4, <span class="m">0</span>.5, <span class="m">0</span>.6, <span class="m">0</span>.7, <span class="m">0</span>.8<span class="o">]</span>
 <span class="o">}</span>
@@ -265,28 +271,28 @@ to feed data into the neural network, as well as how that data will be split int
 how many samples will be used for training and evaluation, etc.</p>
 <p>The following data types are currently supported in RocketML:</p>
 <ul class="simple">
-<li><p><strong>mnist</strong>: Loads data from the MNIST handwritten digits database in binary format.</p></li>
-<li><p><strong>images</strong>: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.</p></li>
-<li><p><strong>labels</strong>: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).</p></li>
-<li><p><strong>numpy</strong>: Loads data from NumPy arrays in either <code class="code docutils literal notranslate"><span class="pre">.npy</span></code> format (one sample per file) or <code class="code docutils literal notranslate"><span class="pre">.npz</span></code> format (multipler samples per file).
-Also supports the data slicing capability described below.</p></li>
-<li><p><strong>pde</strong>: Generates initial conditions to be used with a DNN-based partial differential equation solver.</p></li>
+<li><strong>mnist</strong>: Loads data from the MNIST handwritten digits database in binary format.</li>
+<li><strong>images</strong>: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.</li>
+<li><strong>labels</strong>: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).</li>
+<li><strong>numpy</strong>: Loads data from NumPy arrays in either <code class="code docutils literal"><span class="pre">.npy</span></code> format (one sample per file) or <code class="code docutils literal"><span class="pre">.npz</span></code> format (multipler samples per file).
+Also supports the data slicing capability described below.</li>
+<li><strong>pde</strong>: Generates initial conditions to be used with a DNN-based partial differential equation solver.</li>
 </ul>
 <p>The following parameters apply to all data loader types, and are critical to configuring the run:</p>
 <ul class="simple">
-<li><p><strong>input_type</strong>: Input data type.</p></li>
-<li><p><strong>target_type</strong>: Target data type.</p></li>
-<li><p><strong>type</strong>: If input and target types are the same, this parameter can be used for simplicity.</p></li>
-<li><p><strong>input_path</strong>: Path to directory with training input samples. If not defined, training step is skipped.</p></li>
-<li><p><strong>target_path</strong>: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)</p></li>
-<li><p><strong>test_input_path</strong>: Path to directory with test (evaluation) input samples. If not defined, evaluation step is skipped.</p></li>
-<li><p><strong>test_target_path</strong>: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).</p></li>
-<li><p><strong>batch_size</strong>: Number of training samples per mini-batch (default is 64).</p></li>
-<li><p><strong>test_batch_size</strong>: Number of test (evaluation) samples per mini-batch (default is 64).</p></li>
-<li><p><strong>preload</strong>: Whether samples will be read up-front from disk and loaded from memory during training/eval (default is <em>false</em>).</p></li>
-<li><p><strong>target_is_mask</strong>: If set to <em>true</em>, target samples are handled as discrete (integer) data, e.g., operations like
-rotation and resize will apply a nearest-neighbor interpolation scheme (default is <em>false</em>).</p></li>
-<li><p><strong>transforms</strong>: Data transform operations that can be applied to the samples – see details below.</p></li>
+<li><strong>input_type</strong>: Input data type.</li>
+<li><strong>target_type</strong>: Target data type.</li>
+<li><strong>type</strong>: If input and target types are the same, this parameter can be used for simplicity.</li>
+<li><strong>input_path</strong>: Path to directory with training input samples. If not defined, training step is skipped.</li>
+<li><strong>target_path</strong>: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)</li>
+<li><strong>test_input_path</strong>: Path to directory with test (evaluation) input samples. If not defined, evaluation step is skipped.</li>
+<li><strong>test_target_path</strong>: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).</li>
+<li><strong>batch_size</strong>: Number of training samples per mini-batch (default is 64).</li>
+<li><strong>test_batch_size</strong>: Number of test (evaluation) samples per mini-batch (default is 64).</li>
+<li><strong>preload</strong>: Whether samples will be read up-front from disk and loaded from memory during training/eval (default is <em>false</em>).</li>
+<li><strong>target_is_mask</strong>: If set to <em>true</em>, target samples are handled as discrete (integer) data, e.g., operations like
+rotation and resize will apply a nearest-neighbor interpolation scheme (default is <em>false</em>).</li>
+<li><strong>transforms</strong>: Data transform operations that can be applied to the samples – see details below.</li>
 </ul>
 <p>This section also supports parameters that are specific to the type of data being loaded. For example, <cite>grayscale</cite> is a parameter that
 applies to image data only, but not to numpy arrays. More details on how to configure each type of data loader will be shown in
@@ -295,14 +301,14 @@ the applications section.</p>
 <h4>Slicers sub-section<a class="headerlink" href="#slicers-sub-section" title="Permalink to this headline">¶</a></h4>
 <p>The <strong>numpy</strong> data loader supports extracting the input samples from a single large numpy array by chopping it off into smaller
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input numpy array is a 3D block of shape <img class="math" src="_images/math/e83927553b2140bc4a007e656843091ae7bf8b79.png" alt="(H,W,D)"/>,
-one could chop it into smaller blocks of shape <img class="math" src="_images/math/4e511e60dc95aa27223c973c409097b809c24520.png" alt="(h,w,d"/>), where <img class="math" src="_images/math/7659d34d232c2f08af76f7b0193285d7e4865c4d.png" alt="h \le H"/>, <img class="math" src="_images/math/ce90168eeb20a2df7ba10b459456838637771845.png" alt="w \le W"/> and <img class="math" src="_images/math/fcfc4db70bb523ba029b56d2c5209fd4219f569a.png" alt="d \le D"/>,
-or slice it into 2D tiles along the <img class="math" src="_images/math/86d65811848faa07e28196570f82cd1aa83907a8.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/9ec1618a45dbda24c96f5638319fe0efd118f093.png" alt="(h,w)"/>,
-or even extract 1D lines of length <img class="math" src="_images/math/188339533baac6277e73d2071f1b38104be43941.png" alt="w &lt; W"/> along the <img class="math" src="_images/math/1b5e577d6216dca3af7d87aa122a0b9b360d6cb3.png" alt="y"/>-axis.
+network can handle their shapes. For example, if the input numpy array is a 3D block of shape <img class="math" src="_images/math/32c738275ea0864a0729ff5ae9d9f8a1c96ec3f6.png" alt="(H,W,D)"/>,
+one could chop it into smaller blocks of shape <img class="math" src="_images/math/a70680e082d0253830854d660dcfc36f206fef05.png" alt="(h,w,d"/>), where <img class="math" src="_images/math/ba91f86e467a31f7bff59f60e84560ec216034d5.png" alt="h \le H"/>, <img class="math" src="_images/math/ffc0d2af687a563feba436a54118a8db24b377c1.png" alt="w \le W"/> and <img class="math" src="_images/math/87a92a98b4d03a624fe14157b41596719aa0f965.png" alt="d \le D"/>,
+or slice it into 2D tiles along the <img class="math" src="_images/math/fa6e138b022ee026f2511136dc7ae1aa592471be.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/74d6c08677b4a17dd8df8c1776409779d868e60d.png" alt="(h,w)"/>,
+or even extract 1D lines of length <img class="math" src="_images/math/5267cecca6d578d190e686ba72fe9c7c138e249f.png" alt="w &lt; W"/> along the <img class="math" src="_images/math/276f7e256cbddeb81eee42e1efc348f3cb4ab5f8.png" alt="y"/>-axis.
 Multiple slice sets can be defined, each with its own slice size and orientation (the dimensionality of slices across all sets
 must be the same, though, since the neural network is common to all). The configuration below shows an example of how to extract
 2D samples from a 3D input array using 2 slice sets:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;slicers&quot;</span>: <span class="o">[</span>
         <span class="o">{</span>
@@ -325,18 +331,18 @@ must be the same, though, since the neural network is common to all). The config
 </div>
 <p>The following options can be set:</p>
 <ul class="simple">
-<li><p><strong>name</strong>: Slice set name (optional)</p></li>
-<li><p><strong>sizes</strong>: Slice sizes (required). Expects N elements for N-dimensional input data. Setting an element to 1 flattens the slice along that dimension,
-reducing the dimensionality of the input samples into the network.</p></li>
-<li><p><strong>padding</strong>: Symmetric padding to be added along each dimension (defaults to zero). If <img class="math" src="_images/math/4c0880addc1c05a04ecaed29678ba0abdc919ac2.png" alt="\textrm{sizes=} [h,w,d]"/> and
-<img class="math" src="_images/math/2122eb987fa2d045b29c1c19a8526a2e7387d4e6.png" alt="\textrm{padding=}[p_x, p_y, p_z]"/>, then slices will have shape <img class="math" src="_images/math/be25f8c404fcaa937396b72181f0555ea7c166db.png" alt="(h + 2 p_x, w + 2 p_y, d + 2 p_z)"/>.
-Cannot be specified together with <cite>padded_sizes</cite>.</p></li>
-<li><p><strong>padded_sizes</strong>: Total slice size after padding (defaults to <cite>sizes</cite>). Useful in case the desired padding is asymmetric.
-Cannot be specified together with <cite>padding</cite>.</p></li>
-<li><p><strong>strides</strong>: Displacements used when slicing in each direction (defaults to <cite>sizes</cite>). If smaller than <cite>sizes</cite>, then slices will overlap.</p></li>
-<li><p><strong>discard_remainders</strong>: Whether to discard regions of the input data which are left over after slicing (default is <cite>false</cite>, i.e.,
-leftovers are padded up to <cite>sizes</cite> and added to the sample list).</p></li>
-<li><p><strong>transpose</strong>: Whether to transpose each slice before and after network traversal. Only valid for 2D slices (default is <cite>false</cite>).</p></li>
+<li><strong>name</strong>: Slice set name (optional)</li>
+<li><strong>sizes</strong>: Slice sizes (required). Expects N elements for N-dimensional input data. Setting an element to 1 flattens the slice along that dimension,
+reducing the dimensionality of the input samples into the network.</li>
+<li><strong>padding</strong>: Symmetric padding to be added along each dimension (defaults to zero). If <img class="math" src="_images/math/acea77da57466a571cff27ff46b7f596da02a3be.png" alt="\textrm{sizes=} [h,w,d]"/> and
+<img class="math" src="_images/math/cd250daa1e1893829bd64c40c4be1ce2950880e2.png" alt="\textrm{padding=}[p_x, p_y, p_z]"/>, then slices will have shape <img class="math" src="_images/math/baaa4f4c7058e98c9b6d29c7054bcb8b04bc39de.png" alt="(h + 2 p_x, w + 2 p_y, d + 2 p_z)"/>.
+Cannot be specified together with <cite>padded_sizes</cite>.</li>
+<li><strong>padded_sizes</strong>: Total slice size after padding (defaults to <cite>sizes</cite>). Useful in case the desired padding is asymmetric.
+Cannot be specified together with <cite>padding</cite>.</li>
+<li><strong>strides</strong>: Displacements used when slicing in each direction (defaults to <cite>sizes</cite>). If smaller than <cite>sizes</cite>, then slices will overlap.</li>
+<li><strong>discard_remainders</strong>: Whether to discard regions of the input data which are left over after slicing (default is <cite>false</cite>, i.e.,
+leftovers are padded up to <cite>sizes</cite> and added to the sample list).</li>
+<li><strong>transpose</strong>: Whether to transpose each slice before and after network traversal. Only valid for 2D slices (default is <cite>false</cite>).</li>
 </ul>
 <p>The inference process, including the addition and removal of padding (as well as optional slice transposition), is
 depicted in the figure below:</p>
@@ -345,7 +351,7 @@ depicted in the figure below:</p>
 <p>The predictions obtained by running inferences on the slices can be assembled back into a multi-dimensional array and saved to disk
 as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
 In order to enable HDF5 writing, set the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;hdf5_outfile&quot;</span>: <span class="s2">&quot;prediction.h5&quot;</span>
     ...
@@ -358,9 +364,9 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 <a class="reference internal image-reference" href="_images/slicer_flow.png"><img alt="slicer_flow.png" src="_images/slicer_flow.png" style="width: 600px;" /></a>
 <p><strong>Restrictions:</strong></p>
 <ul class="simple">
-<li><p>The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</p></li>
-<li><p>The shape of the output tensor produced by the network must be equal to the input shape plus en extra channel dimension.</p></li>
-<li><p>Only 2D slices can be transposed.</p></li>
+<li>The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
+<li>The shape of the output tensor produced by the network must be equal to the input shape plus en extra channel dimension.</li>
+<li>Only 2D slices can be transposed.</li>
 </ul>
 </div>
 <div class="section" id="transforms-sub-section">
@@ -369,76 +375,76 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 Notice that:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Operations which are stochastic in nature (e.g., random rotation or random zoom) result in different samples being produced
-at different epochs, thus providing a mechanism for data augmentation that should enhance training convergence.</p></li>
-<li><p>Operations which require resizing (e.g., rotation, zooming, resize) apply a linear interpolation scheme by default.
-If the targets contain discrete data (e.g., masks with segmentation labels), one should set <code class="docutils literal notranslate"><span class="pre">target_is_mask</span></code> to <em>true</em>
-(see <strong>Data</strong> section), so that a nearest-neighbor interpolation scheme is used for them instead.</p></li>
+<li>Operations which are stochastic in nature (e.g., random rotation or random zoom) result in different samples being produced
+at different epochs, thus providing a mechanism for data augmentation that should enhance training convergence.</li>
+<li>Operations which require resizing (e.g., rotation, zooming, resize) apply a linear interpolation scheme by default.
+If the targets contain discrete data (e.g., masks with segmentation labels), one should set <code class="docutils literal"><span class="pre">target_is_mask</span></code> to <em>true</em>
+(see <strong>Data</strong> section), so that a nearest-neighbor interpolation scheme is used for them instead.</li>
 </ul>
 </div></blockquote>
 <p>The following transformations are supported:</p>
 <ul>
-<li><p><strong>resize</strong>: Resizes the sample to a given size using bilinear interpolation.</p>
+<li><p class="first"><strong>resize</strong>: Resizes the sample to a given size using bilinear interpolation.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">resize:</span> <span class="pre">[Sx,</span> <span class="pre">Sy]</span></code>, where <img class="math" src="_images/math/9a033f843f8bf0537eb2299cd676545cecb0928e.png" alt="S_x \times S_y"/> is the desired sample size.</p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">resize:</span> <span class="pre">[Sx,</span> <span class="pre">Sy]</span></code>, where <img class="math" src="_images/math/72b1a0f7e9601d4ee4cf3afbc9ffbd7a9faafc0a.png" alt="S_x \times S_y"/> is the desired sample size.</p>
 </div></blockquote>
 </li>
-<li><p><strong>center_crop</strong>: Crops the sample at the center to a given output size.</p>
+<li><p class="first"><strong>center_crop</strong>: Crops the sample at the center to a given output size.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">center_crop:</span> <span class="pre">[Sx,</span> <span class="pre">Sy]</span></code>, where <img class="math" src="_images/math/9a033f843f8bf0537eb2299cd676545cecb0928e.png" alt="S_x \times S_y"/> is the output size.</p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">center_crop:</span> <span class="pre">[Sx,</span> <span class="pre">Sy]</span></code>, where <img class="math" src="_images/math/72b1a0f7e9601d4ee4cf3afbc9ffbd7a9faafc0a.png" alt="S_x \times S_y"/> is the output size.</p>
 </div></blockquote>
 </li>
-<li><p><strong>jitter_crop</strong>: Crops the sample in each direction <img class="math" src="_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.png" alt="i"/> by <img class="math" src="_images/math/a2662af0dbe5121e13d4a4d359e2690c63c5b59c.png" alt="c \times S_i / 2"/>,
-where <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> is a random variable uniformly sampled from <img class="math" src="_images/math/1816ad001f4bd2bdca6c22011c6fee8f79e26779.png" alt="c \in [0, C_\textrm{max})"/>.</p>
+<li><p class="first"><strong>jitter_crop</strong>: Crops the sample in each direction <img class="math" src="_images/math/df0deb143e5ac127f00bd248ee8001ecae572adc.png" alt="i"/> by <img class="math" src="_images/math/1bff272fa169564c0d00fb3da08b44b4fe567ee5.png" alt="c \times S_i / 2"/>,
+where <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> is a random variable uniformly sampled from <img class="math" src="_images/math/40a5d1d435d43477516f7cb6ff8b2f784ce61651.png" alt="c \in [0, C_\textrm{max})"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">jitter_crop:</span> <span class="pre">Cmax</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">jitter_crop:</span> <span class="pre">Cmax</span></code></p>
 </div></blockquote>
 </li>
-<li><p><strong>random_horizontal_flip</strong>: Randomly flips the sample horizontally with a given probability <img class="math" src="_images/math/141bbefb74014fc5e43499901bf78607ae335583.png" alt="p"/>.</p>
+<li><p class="first"><strong>random_horizontal_flip</strong>: Randomly flips the sample horizontally with a given probability <img class="math" src="_images/math/27d463da4622be5b3ef1d4176ced7d7a323c6425.png" alt="p"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">random_horizontal_flip:</span> <span class="pre">p</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">random_horizontal_flip:</span> <span class="pre">p</span></code></p>
 </div></blockquote>
 </li>
-<li><p><strong>random_vertical_flip</strong>: Randomly flips the sample horizontally with a given probability <img class="math" src="_images/math/141bbefb74014fc5e43499901bf78607ae335583.png" alt="p"/>.</p>
+<li><p class="first"><strong>random_vertical_flip</strong>: Randomly flips the sample horizontally with a given probability <img class="math" src="_images/math/27d463da4622be5b3ef1d4176ced7d7a323c6425.png" alt="p"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">random_vertical_flip:</span> <span class="pre">p</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">random_vertical_flip:</span> <span class="pre">p</span></code></p>
 </div></blockquote>
 </li>
-<li><p><strong>random_zoom</strong>: Randomly zooms in by <img class="math" src="_images/math/a2662af0dbe5121e13d4a4d359e2690c63c5b59c.png" alt="c \times S_i / 2"/> in each direction <img class="math" src="_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.png" alt="i"/>, where
-<img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> is a random variable uniformly sampled from <img class="math" src="_images/math/1816ad001f4bd2bdca6c22011c6fee8f79e26779.png" alt="c \in [0, C_\textrm{max})"/>.</p>
+<li><p class="first"><strong>random_zoom</strong>: Randomly zooms in by <img class="math" src="_images/math/1bff272fa169564c0d00fb3da08b44b4fe567ee5.png" alt="c \times S_i / 2"/> in each direction <img class="math" src="_images/math/df0deb143e5ac127f00bd248ee8001ecae572adc.png" alt="i"/>, where
+<img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> is a random variable uniformly sampled from <img class="math" src="_images/math/40a5d1d435d43477516f7cb6ff8b2f784ce61651.png" alt="c \in [0, C_\textrm{max})"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">random_zoom:</span> <span class="pre">Cmax</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">random_zoom:</span> <span class="pre">Cmax</span></code></p>
 </div></blockquote>
 </li>
-<li><p><strong>rotate</strong>: Rotates the sample clockwise by a given fixed angle.</p>
+<li><p class="first"><strong>rotate</strong>: Rotates the sample clockwise by a given fixed angle.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">rotate:</span> <span class="pre">phi</span></code>, where <img class="math" src="_images/math/fffd2357ee88a9c50ba9e831ed64c39c73d54a07.png" alt="\phi"/> is the rotation angle.</p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">rotate:</span> <span class="pre">phi</span></code>, where <img class="math" src="_images/math/c2f31c22645274c375eff7920cfdfdc18d60341f.png" alt="\phi"/> is the rotation angle.</p>
 </div></blockquote>
 </li>
-<li><p><strong>random_rotate</strong>: Rotates the sample by a random angle sampled uniformly between <img class="math" src="_images/math/6a52ec01c9ce0d6c7a0b3d72866f9e0ebd68788e.png" alt="-\alpha"/> and <img class="math" src="_images/math/d3a2a7e0c1ab63b4370b30f5b5a28d55ef256cf8.png" alt="+\alpha"/>.</p>
+<li><p class="first"><strong>random_rotate</strong>: Rotates the sample by a random angle sampled uniformly between <img class="math" src="_images/math/cf91d4374d6c1bcb3200d667c9804732b48e1ae7.png" alt="-\alpha"/> and <img class="math" src="_images/math/a7679ce57e090edbd51e1ad9e50cfe707937fd33.png" alt="+\alpha"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">random_rotate:</span> <span class="pre">alpha</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">random_rotate:</span> <span class="pre">alpha</span></code></p>
 </div></blockquote>
 </li>
-<li><p><strong>convert_color</strong>: Converts the image to a different color scheme (given as an openCV <a class="reference external" href="https://vovkos.github.io/doxyrest-showcase/opencv/sphinx_rtd_theme/enum_cv_ColorConversionCodes.html">color conversion code</a>).</p>
+<li><p class="first"><strong>convert_color</strong>: Converts the image to a different color scheme (given as an openCV <a class="reference external" href="https://vovkos.github.io/doxyrest-showcase/opencv/sphinx_rtd_theme/enum_cv_ColorConversionCodes.html">color conversion code</a>).</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">convert_color:</span> <span class="pre">code</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">convert_color:</span> <span class="pre">code</span></code></p>
 </div></blockquote>
 </li>
 </ul>
 <ul>
-<li><p><strong>normalize</strong>: Normalizes the resulting tensor using a given mean <img class="math" src="_images/math/2f5aa019312e1bbc969deab8dca8b00f76025404.png" alt="\alpha"/> and
-standard deviation <img class="math" src="_images/math/b52df27bfb0b1e3af0c2c68a7b9da459178c2a7d.png" alt="\sigma"/>, that is, <img class="math" src="_images/math/9d93fe0f8d04820c9980a4fe578a8fd43bdff99d.png" alt="x' = (x - \alpha) / \sigma"/>.</p>
+<li><p class="first"><strong>normalize</strong>: Normalizes the resulting tensor using a given mean <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/> and
+standard deviation <img class="math" src="_images/math/011e5790a6c33043ceadca81d9657dde6c61d769.png" alt="\sigma"/>, that is, <img class="math" src="_images/math/c91202c50910f66fae08009c9a2a08a849c0b879.png" alt="x' = (x - \alpha) / \sigma"/>.</p>
 <blockquote>
-<div><p>Usage: <code class="code docutils literal notranslate"><span class="pre">normalize:</span> <span class="pre">{&quot;mean&quot;:</span> <span class="pre">alpha,</span> <span class="pre">&quot;std&quot;:</span> <span class="pre">sigma}</span></code></p>
+<div><p>Usage: <code class="code docutils literal"><span class="pre">normalize:</span> <span class="pre">{&quot;mean&quot;:</span> <span class="pre">alpha,</span> <span class="pre">&quot;std&quot;:</span> <span class="pre">sigma}</span></code></p>
 </div></blockquote>
 </li>
 </ul>
 <p>Below is an example of how to use some of the above transforms.
 Operations are applied in the same order as they are listed.
-For that reason, if <code class="code docutils literal notranslate"><span class="pre">resize</span></code> is present, it should usually be the last operation applied,
+For that reason, if <code class="code docutils literal"><span class="pre">resize</span></code> is present, it should usually be the last operation applied,
 so that all samples going into the neural network have the same size.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;transforms&quot;</span>: <span class="o">[</span>
         <span class="o">{</span> <span class="s2">&quot;normalize&quot;</span>: <span class="o">{</span> <span class="s2">&quot;mean&quot;</span>: <span class="m">0</span>.5, <span class="s2">&quot;std&quot;</span>: <span class="m">0</span>.5 <span class="o">}</span> <span class="o">}</span>,
@@ -451,10 +457,10 @@ so that all samples going into the neural network have the same size.</p>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>The operations listed under <code class="code docutils literal notranslate"><span class="pre">transforms</span></code> will apply to both input and target samples. In order to specify different
-operations for inputs and targets, the settings <code class="code docutils literal notranslate"><span class="pre">input_transforms</span></code> and <code class="code docutils literal notranslate"><span class="pre">target_transforms</span></code> should
+<p>The operations listed under <code class="code docutils literal"><span class="pre">transforms</span></code> will apply to both input and target samples. In order to specify different
+operations for inputs and targets, the settings <code class="code docutils literal"><span class="pre">input_transforms</span></code> and <code class="code docutils literal"><span class="pre">target_transforms</span></code> should
 be used. For example, if one needs to resize inputs to a different size as the targets, one could do:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;input_transforms&quot;</span>: <span class="o">[</span>
         <span class="o">{</span> <span class="s2">&quot;resize&quot;</span>: <span class="o">[</span><span class="m">128</span>, <span class="m">128</span><span class="o">]</span> <span class="o">}</span>
@@ -467,12 +473,12 @@ be used. For example, if one needs to resize inputs to a different size as the t
 </div>
 <p><strong>Special-purpose transforms:</strong></p>
 <ul class="simple">
-<li><p><strong>random_patches</strong>: Extracts random square patches from the input samples,
+<li><strong>random_patches</strong>: Extracts random square patches from the input samples,
 and makes target samples from those patches. This enables unsupervised training of context encoder
-networks that learn visual features via <a class="reference external" href="https://arxiv.org/pdf/1604.07379.pdf">inpainting</a>.</p></li>
+networks that learn visual features via <a class="reference external" href="https://arxiv.org/pdf/1604.07379.pdf">inpainting</a>.</li>
 </ul>
 <p>This transform can be configured with the <cite>number</cite> of random patches and their linear <cite>size</cite>, as for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;transforms&quot;</span>: <span class="o">[</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;transforms&quot;</span>: <span class="o">[</span>
     <span class="o">{</span> <span class="s2">&quot;random_patches&quot;</span>: <span class="o">{</span> <span class="s2">&quot;number&quot;</span>: <span class="m">100</span>, <span class="s2">&quot;size&quot;</span>: <span class="m">10</span> <span class="o">}</span> <span class="o">}</span>
 <span class="o">]</span>
 </pre></div>
@@ -486,8 +492,8 @@ like this one:</p>
 <h3>Checkpoints section<a class="headerlink" href="#checkpoints-section" title="Permalink to this headline">¶</a></h3>
 <p>In order to save model checkpoints out to disk during training, one must add the <cite>checkpoints</cite> object to the <cite>json</cite> config file.
 This section can also be used to load the model from file before running training. Accepted model file formats are
-<code class="code docutils literal notranslate"><span class="pre">.pt</span></code> (from libtorch) and <code class="code docutils literal notranslate"><span class="pre">.h5</span></code> (HDF5 from Keras/TF).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
+<code class="code docutils literal"><span class="pre">.pt</span></code> (from libtorch) and <code class="code docutils literal"><span class="pre">.h5</span></code> (HDF5 from Keras/TF).</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;save&quot;</span>: <span class="s2">&quot;./checkpoint_dir/&quot;</span>
     <span class="s2">&quot;interval&quot;</span>: <span class="m">10</span>,
     <span class="s2">&quot;load&quot;</span>: <span class="s2">&quot;./model_checkpoint_100.pt&quot;</span>
@@ -495,9 +501,9 @@ This section can also be used to load the model from file before running trainin
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>save</strong>: The directory to save model checkpoint files into.</p></li>
-<li><p><strong>interval</strong>: When set to <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/>, will save model checkpoints at every <img class="math" src="_images/math/3bfb3a64189a14b2704f4610827762d5e3145114.png" alt="N"/> epochs (defaults to 1).</p></li>
-<li><p><strong>load</strong>: A previously created checkpoint file to load the model from.</p></li>
+<li><strong>save</strong>: The directory to save model checkpoint files into.</li>
+<li><strong>interval</strong>: When set to <img class="math" src="_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/>, will save model checkpoints at every <img class="math" src="_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/> epochs (defaults to 1).</li>
+<li><strong>load</strong>: A previously created checkpoint file to load the model from.</li>
 </ul>
 </div>
 </div>
@@ -507,7 +513,7 @@ This section can also be used to load the model from file before running trainin
 <h3>Image classification<a class="headerlink" href="#image-classification" title="Permalink to this headline">¶</a></h3>
 <p>In order to train a network for image classification purposes, one must use an <strong>image</strong> data loader, whose configuration
 would look something like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;input_type&quot;</span>: <span class="s2">&quot;images&quot;</span>,
     <span class="s2">&quot;target_type&quot;</span>: <span class="s2">&quot;labels&quot;</span>,
     <span class="s2">&quot;input_path&quot;</span>: <span class="s2">&quot;/path/to/training_data/&quot;</span>,
@@ -523,16 +529,16 @@ would look something like this:</p>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>The parameters <code class="code docutils literal notranslate"><span class="pre">input_grayscale</span></code> and <code class="code docutils literal notranslate"><span class="pre">target_grayscale</span></code> are specific to the image data loader, and
+<p>The parameters <code class="code docutils literal"><span class="pre">input_grayscale</span></code> and <code class="code docutils literal"><span class="pre">target_grayscale</span></code> are specific to the image data loader, and
 control whether input and target images should be converted to single-channel grayscale (default is <em>false</em>).
 If the same behavior is desired for both inputs and targets,
-the single parameter <code class="code docutils literal notranslate"><span class="pre">grayscale</span></code> can be used instead for simplicity.</p>
-<p>Specifying <code class="code docutils literal notranslate"><span class="pre">target_type:</span> <span class="pre">labels</span></code> triggers the generation of class labels based on directory names.
+the single parameter <code class="code docutils literal"><span class="pre">grayscale</span></code> can be used instead for simplicity.</p>
+<p>Specifying <code class="code docutils literal"><span class="pre">target_type:</span> <span class="pre">labels</span></code> triggers the generation of class labels based on directory names.
 This requires each image file to be inside a directory whose name uniquely identifies that image’s class.
 (If that is not convenient, one can instead use the parameters <strong>training_tag/testing_tag</strong> to indicate a directory
 anywhere in the path underneath which the class name can be found.)</p>
-<p>The <code class="code docutils literal notranslate"><span class="pre">labels</span></code> data loader generates targets which are 1D tensors containing a class index (label) in the
-range <img class="math" src="_images/math/2eb808d4e7d32e8f2273e80b60648cd15f6a331b.png" alt="[0, C]"/> for each input image in the mini-batch, where <img class="math" src="_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png" alt="C"/> is the number of classes. This requires
+<p>The <code class="code docutils literal"><span class="pre">labels</span></code> data loader generates targets which are 1D tensors containing a class index (label) in the
+range <img class="math" src="_images/math/582627475467c6d96840a3e9eef5a39bfbdb90c7.png" alt="[0, C]"/> for each input image in the mini-batch, where <img class="math" src="_images/math/afce44aa7c55836ca9345404c22fc7b599d2ed84.png" alt="C"/> is the number of classes. This requires
 the loss function to be like the <cite>NLL</cite>, which expects a target with such shape.</p>
 </div>
 <div class="section" id="image-segmentation">
@@ -542,10 +548,10 @@ a label for each training example. While the label is a number that is deduced a
 directory names, the target images have to be provided explicitly by means of the <strong>target_path</strong>
 and <strong>test_target_path</strong> parameters of the data loader. These specify the directories where the training and evaluation
 target images (masks) are located, respectively.
-Also, since the input and target types are the same in this case (i.e., images), one can simply specify <code class="code docutils literal notranslate"><span class="pre">type:</span> <span class="pre">images</span></code>,
-instead of passing both <code class="code docutils literal notranslate"><span class="pre">input_type</span></code> and <code class="code docutils literal notranslate"><span class="pre">target_type</span></code>.
+Also, since the input and target types are the same in this case (i.e., images), one can simply specify <code class="code docutils literal"><span class="pre">type:</span> <span class="pre">images</span></code>,
+instead of passing both <code class="code docutils literal"><span class="pre">input_type</span></code> and <code class="code docutils literal"><span class="pre">target_type</span></code>.
 The remaining parameters in the <strong>data</strong> section are the same as for image classification:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;images&quot;</span>,
     <span class="s2">&quot;input_path&quot;</span>:       <span class="s2">&quot;/path/to/training_images/&quot;</span>,
     <span class="s2">&quot;target_path&quot;</span>:      <span class="s2">&quot;/path/to/training_masks/&quot;</span>,
@@ -563,25 +569,25 @@ expects its input and target to be of the same shape (e.g., <cite>MSE</cite>, <c
 <p>These applications can solve partial differential equations by using the PDE function itself, as well as boundary and initial
 conditions, as constraints that are enforced by the loss function. It currently supports:</p>
 <ol class="arabic simple">
-<li><p>the 1+1D Burgers’ equation (one spatial dimension plus time) with boundary conditions <img class="math" src="_images/math/ee85202edeb96eb116aac8e8be446b664b92572e.png" alt="u(x,0)=b(x)"/> and <img class="math" src="_images/math/9dab1727ae9a863e62b0b8cd28eef9d4f6245f1e.png" alt="u(0,t)=0"/></p></li>
-<li><p>the 2D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/a7590e6b6b37b9edec737cf0e6b68f1396959feb.png" alt="u(0,y)=1"/>, <img class="math" src="_images/math/f9dda63a2a5219ffca810ab0f71b0d8417eeed11.png" alt="u(1,y)=0"/>
-and <img class="math" src="_images/math/3f007243ce7eb502638e9e3b30fc7be4f282e85e.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</p></li>
-<li><p>the 3D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/42d1b3d48cc232379fff11b8a77474b53774033f.png" alt="u(0,y,z)=1"/>, <img class="math" src="_images/math/f15c2a577645524a892b3d47ace115056818a6d9.png" alt="u(1,y,z)=0"/>
-and <img class="math" src="_images/math/3f007243ce7eb502638e9e3b30fc7be4f282e85e.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</p></li>
+<li>the 1+1D Burgers’ equation (one spatial dimension plus time) with boundary conditions <img class="math" src="_images/math/0a03b3884f3d1eee0781440990adbddfbd02e03e.png" alt="u(x,0)=b(x)"/> and <img class="math" src="_images/math/906ba81817d619d86a37b765f87da898f42f693e.png" alt="u(0,t)=0"/></li>
+<li>the 2D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/9a5cc5bab59d944129d6c75bf0975085648cd9e1.png" alt="u(0,y)=1"/>, <img class="math" src="_images/math/90d93f1903728131273bb6bef96bc8863511f08b.png" alt="u(1,y)=0"/>
+and <img class="math" src="_images/math/816691fba2a2705e69dd85d0618248516f29f45b.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</li>
+<li>the 3D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/e5db2b2608ce30eccce92d54813f9144bbfc0c55.png" alt="u(0,y,z)=1"/>, <img class="math" src="_images/math/92f0b2a0235a35ab7d77ba3e9d1904cde9db4315.png" alt="u(1,y,z)=0"/>
+and <img class="math" src="_images/math/816691fba2a2705e69dd85d0618248516f29f45b.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</li>
 </ol>
 <p><strong>Burgers’ PDE solver</strong></p>
 <p>The Burgers’ equation in one spatial dimension can be written as</p>
 <div class="math">
-<p><img src="_images/math/604ce16c49059549b69817b01894a2fc2e943476.png" alt="\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2},"/></p>
-</div><p>where <img class="math" src="_images/math/14eb89266154200b9c81dcfc3bd058638fa221bf.png" alt="\nu"/> is the diffusion coefficient. When <img class="math" src="_images/math/604a6014214c30c7e8c9bf948160ebeb1ded77c8.png" alt="\nu = 0"/>, the Burgers’ equation is said to be <cite>inviscid</cite>.</p>
-<p>The training examples for the network are sets of boundary condition functions <img class="math" src="_images/math/6ac074bff65c9eafdf67e6a87ca1306ed04fa071.png" alt="b(x)"/> with the form</p>
+<p><img src="_images/math/6f3c2d3aadbca5e72ae104952efc1019154ad976.png" alt="\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2},"/></p>
+</div><p>where <img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> is the diffusion coefficient. When <img class="math" src="_images/math/24c69650e2e972160b617b12c0326eb83694b726.png" alt="\nu = 0"/>, the Burgers’ equation is said to be <cite>inviscid</cite>.</p>
+<p>The training examples for the network are sets of boundary condition functions <img class="math" src="_images/math/2bc79bf20d1935420e91ec032e810c6dcdc579c1.png" alt="b(x)"/> with the form</p>
 <div class="math">
-<p><img src="_images/math/4b91785312c187f1970ad1d46eba4eb429ef5d9c.png" alt="b(x) = \frac{1}{2} \left( 1 - \cos(2 \pi c x / d) \right),"/></p>
+<p><img src="_images/math/aae13c8f967652542b06c3a49b67e5bceffda4e2.png" alt="b(x) = \frac{1}{2} \left( 1 - \cos(2 \pi c x / d) \right),"/></p>
 </div><p>as well as linear supperpositions of these raised-cosine functions,
-where <img class="math" src="_images/math/badad346f6fbe2e237af99bfbd9a93a4da53a3da.png" alt="d"/> is the domain size in the <cite>x</cite>-dimension, and the frequency <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> is sampled from the
-interval <img class="math" src="_images/math/306b4cd6173a91d67eb7d8a10a821ee2431edbde.png" alt="[c_{min}, c_{max}]"/> using one of the supported distributions (see <code class="code docutils literal notranslate"><span class="pre">bc_type</span></code> parameter below).</p>
+where <img class="math" src="_images/math/b9d10b54744d07746b97f53c55eb98046fd76c8c.png" alt="d"/> is the domain size in the <cite>x</cite>-dimension, and the frequency <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> is sampled from the
+interval <img class="math" src="_images/math/2a3040fb249c53d9128e9734ef9009c3dc86a0ef.png" alt="[c_{min}, c_{max}]"/> using one of the supported distributions (see <code class="code docutils literal"><span class="pre">bc_type</span></code> parameter below).</p>
 <p>The data loader in this case is, therefore, a PDE boundary condition generator, which accepts the following configuration:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;pde&quot;</span>,
     <span class="s2">&quot;domain_size&quot;</span>: <span class="m">128</span>,
     <span class="s2">&quot;num_examples&quot;</span>: <span class="m">64</span>,
@@ -595,28 +601,35 @@ interval <img class="math" src="_images/math/306b4cd6173a91d67eb7d8a10a821ee2431
 </div>
 <p>The following parameters can be set:</p>
 <ul>
-<li><p><strong>domain_size</strong> (required): The size of the domain in <img class="math" src="_images/math/888f7c323ac0341871e867220ae2d76467d74d6e.png" alt="x"/> (the number of time steps is determined by the network).</p></li>
-<li><p><strong>num_examples</strong>: The total number of training examples (i.e., initial conditions). If omitted, the training step is skipped.</p></li>
-<li><p><strong>batch_size</strong>: The number of examples per mini-batch during training (defaults to 64).</p></li>
-<li><p><strong>num_test_examples</strong>: The total number of evaluation examples. If omitted, the evaluation step is skipped.</p></li>
-<li><p><strong>test_batch_size</strong>: The number of examples per mini-batch during evaluation (defaults to 64).</p></li>
-<li><p><strong>bc_frequency</strong>: A range <img class="math" src="_images/math/7e9492a84ca58264fbe15b299ae0719cc14dd538.png" alt="\mathcal{R} = [c_{min}, c_{max}]"/> for the initial condition frequencies <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/>.</p></li>
-<li><p><strong>bc_type</strong>: The method for how to sample the frequencies from <img class="math" src="_images/math/65e76f5e2468322875399eeaec57937e5d68a31e.png" alt="\mathcal{R}"/>. Can have the following values:</p>
+<li><p class="first"><strong>domain_size</strong> (required): The size of the domain in <img class="math" src="_images/math/a59f68a4202623bb859a7093f0316bf466e6f75d.png" alt="x"/> (the number of time steps is determined by the network).</p>
+</li>
+<li><p class="first"><strong>num_examples</strong>: The total number of training examples (i.e., initial conditions). If omitted, the training step is skipped.</p>
+</li>
+<li><p class="first"><strong>batch_size</strong>: The number of examples per mini-batch during training (defaults to 64).</p>
+</li>
+<li><p class="first"><strong>num_test_examples</strong>: The total number of evaluation examples. If omitted, the evaluation step is skipped.</p>
+</li>
+<li><p class="first"><strong>test_batch_size</strong>: The number of examples per mini-batch during evaluation (defaults to 64).</p>
+</li>
+<li><p class="first"><strong>bc_frequency</strong>: A range <img class="math" src="_images/math/73047dee1f1c22af997061df225c786b174fd5ff.png" alt="\mathcal{R} = [c_{min}, c_{max}]"/> for the initial condition frequencies <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/>.</p>
+</li>
+<li><p class="first"><strong>bc_type</strong>: The method for how to sample the frequencies from <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>. Can have the following values:</p>
 <ul>
-<li><p><strong>random_uniform</strong>: Selects <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> randomly from <img class="math" src="_images/math/65e76f5e2468322875399eeaec57937e5d68a31e.png" alt="\mathcal{R}"/>
-with a uniform probability distribution <img class="math" src="_images/math/003d3f1580d1bf838358643d6cf301b88947cfef.png" alt="P(i) = 1 / (c_{max} - c_{min})"/>.</p></li>
-<li><p><strong>fixed_uniform</strong>: Selects <img class="math" src="_images/math/d520a12f1579170834c32ad5f656de081bbb36fe.png" alt="c"/> sequentialy from evenly spaced points in <img class="math" src="_images/math/65e76f5e2468322875399eeaec57937e5d68a31e.png" alt="\mathcal{R}"/>, i.e.,</p>
+<li><p class="first"><strong>random_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> randomly from <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>
+with a uniform probability distribution <img class="math" src="_images/math/5e65d328c2bfb7c08cb1f0d1a04963c424a9b5e4.png" alt="P(i) = 1 / (c_{max} - c_{min})"/>.</p>
+</li>
+<li><p class="first"><strong>fixed_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> sequentialy from evenly spaced points in <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>, i.e.,</p>
 <div class="math">
-<p><img src="_images/math/7cdbcea8b44e52a7783e40d843fa92c9aee0b3c6.png" alt="c_i = c_{min} + i \frac{c_{max} - c_{min}}{\textrm{num-examples} - 1}."/></p>
-</div><p>where <img class="math" src="_images/math/9443f3db7484c09ca4f1bcc915375f7bd468fb77.png" alt="i \in [0, \textrm{num-examples} - 1]"/>.</p>
+<p><img src="_images/math/1fe145fe2d728fce3722d67052869c3df5fff60f.png" alt="c_i = c_{min} + i \frac{c_{max} - c_{min}}{\textrm{num-examples} - 1}."/></p>
+</div><p>where <img class="math" src="_images/math/2ce06425ced8128644dde6a56483170c03460a35.png" alt="i \in [0, \textrm{num-examples} - 1]"/>.</p>
 </li>
 </ul>
 </li>
 </ul>
 <p>The loss function configuration depends on the specific equation being solved.
-For Burgers’ PDE, one must set the parameter <cite>function</cite> as <code class="code docutils literal notranslate"><span class="pre">Burgers_PDE</span></code>,
+For Burgers’ PDE, one must set the parameter <cite>function</cite> as <code class="code docutils literal"><span class="pre">Burgers_PDE</span></code>,
 and the following additional parameters are supported:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;function&quot;</span>: <span class="s2">&quot;Burgers_PDE&quot;</span>,
     <span class="s2">&quot;diffusion_coeff&quot;</span>: <span class="m">0</span>.01,
     <span class="s2">&quot;boundary_factor&quot;</span>: <span class="m">64</span>
@@ -624,41 +637,41 @@ and the following additional parameters are supported:</p>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>diffusion_coeff</strong>: The value of <img class="math" src="_images/math/14eb89266154200b9c81dcfc3bd058638fa221bf.png" alt="\nu"/> (defaults to zero, i.e., inviscid Burgers)</p></li>
-<li><p><strong>boundary_factor</strong>: A multiplier for the boundary + initial condition terms relative to the PDE term.
-Experiments have shown that a value of 64 works well (defaults to 1).</p></li>
+<li><strong>diffusion_coeff</strong>: The value of <img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> (defaults to zero, i.e., inviscid Burgers)</li>
+<li><strong>boundary_factor</strong>: A multiplier for the boundary + initial condition terms relative to the PDE term.
+Experiments have shown that a value of 64 works well (defaults to 1).</li>
 </ul>
 <p><strong>2D/3D Poisson PDE solver</strong></p>
 <p>The Poisson equation is defined as</p>
 <div class="math">
-<p><img src="_images/math/3907304e5f1c66cc1b7128ac982b0680c5d27ef2.png" alt="-\nabla\cdot (\nu(x,y) \nabla u) = f,"/></p>
-</div><p>where <img class="math" src="_images/math/7243c0f3ce326f8727a7a90b16d01d1b5e35806f.png" alt="\nu(x,y)"/> is the <cite>diffusivity</cite> function. The forcing function <img class="math" src="_images/math/5b7752c757e0b691a80ab8227eadb8a8389dc58a.png" alt="f"/> is assumed to be zero.
-The loss <cite>function</cite> must be set to <code class="code docutils literal notranslate"><span class="pre">Poisson2D_PDE</span></code> or <code class="code docutils literal notranslate"><span class="pre">Poisson3D_PDE</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
+<p><img src="_images/math/0e4f00fa94eb31902badf99249292d2909f9bbd0.png" alt="-\nabla\cdot (\nu(x,y) \nabla u) = f,"/></p>
+</div><p>where <img class="math" src="_images/math/b8ede2f1bd65d109994aaa4fef0ff61bbf1639ed.png" alt="\nu(x,y)"/> is the <cite>diffusivity</cite> function. The forcing function <img class="math" src="_images/math/875eb40014526135383caa89fd500ae40a835f56.png" alt="f"/> is assumed to be zero.
+The loss <cite>function</cite> must be set to <code class="code docutils literal"><span class="pre">Poisson2D_PDE</span></code> or <code class="code docutils literal"><span class="pre">Poisson3D_PDE</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;function&quot;</span>: <span class="s2">&quot;Poisson2D_PDE&quot;</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>To run <code class="code docutils literal notranslate"><span class="pre">rmldnn</span></code> with any of the PDE solver loss functions, add the parameter <code class="code docutils literal notranslate"><span class="pre">--app=pde</span></code> to the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rmldnn --app<span class="o">=</span>pde --config<span class="o">=</span>&lt;json_config_file&gt;
+<p>To run <code class="code docutils literal"><span class="pre">rmldnn</span></code> with any of the PDE solver loss functions, add the parameter <code class="code docutils literal"><span class="pre">--app=pde</span></code> to the command line:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>rmldnn --app<span class="o">=</span>pde --config<span class="o">=</span>&lt;json_config_file&gt;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="transfer-learning">
 <h2>Transfer Learning<a class="headerlink" href="#transfer-learning" title="Permalink to this headline">¶</a></h2>
-<p>Transfer learning can be realized in <code class="code docutils literal notranslate"><span class="pre">rmldnn</span></code> by leveraging the checkpointing system described above,
+<p>Transfer learning can be realized in <code class="code docutils literal"><span class="pre">rmldnn</span></code> by leveraging the checkpointing system described above,
 and by making (hopefully small) changes to the network files. When training a network on dataset
-<img class="math" src="_images/math/513eaa26119f8c509e28b028ec55e60e9125b263.png" alt="D_1"/>, enable checkpoint saving with</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
+<img class="math" src="_images/math/636c5daa08b9b147fb87ae06c68ae7d038e17d44.png" alt="D_1"/>, enable checkpoint saving with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;save&quot;</span>: <span class="s2">&quot;./checkpoints_D1/&quot;</span>
     <span class="s2">&quot;interval&quot;</span>: <span class="m">10</span>,
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Now, to transfer learning when training the same network with a new dataset <img class="math" src="_images/math/32e9cd3437f3bbc64ac7cd6529d307e418402d9b.png" alt="D_2"/>, load the model
-saved during <img class="math" src="_images/math/513eaa26119f8c509e28b028ec55e60e9125b263.png" alt="D_1"/> training:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
+<p>Now, to transfer learning when training the same network with a new dataset <img class="math" src="_images/math/65c334c88befaad71f9d8dcc54cee7542f8d3785.png" alt="D_2"/>, load the model
+saved during <img class="math" src="_images/math/636c5daa08b9b147fb87ae06c68ae7d038e17d44.png" alt="D_1"/> training:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;checkpoints&quot;</span>: <span class="o">{</span>
     <span class="s2">&quot;load&quot;</span>: <span class="s2">&quot;./checkpoints_D1/model_checkpoint_100.pt&quot;</span>,
     <span class="s2">&quot;save&quot;</span>: <span class="s2">&quot;./checkpoints_D2/&quot;</span>
     <span class="s2">&quot;interval&quot;</span>: <span class="m">10</span>,
@@ -671,7 +684,7 @@ saved during <img class="math" src="_images/math/513eaa26119f8c509e28b028ec55e60
 have the same rank) and, therefore, do not need to be changed when transfering learning.
 The only adjustment needed in the network file is the input size, usually defined in
 the first layer (e.g., InputLayer):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">{</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
     <span class="s2">&quot;class_name&quot;</span>: <span class="s2">&quot;InputLayer&quot;</span>,
         <span class="s2">&quot;config&quot;</span>: <span class="o">{</span>
             <span class="s2">&quot;batch_input_shape&quot;</span>: <span class="o">[</span>
@@ -691,9 +704,9 @@ the first layer (e.g., InputLayer):</p>
 <p>If the network contains layers whose configuration depends on the size of the training samples
 (e.g., Dense), then the parameters for those layers cannot be transferred from a model trained
 on a dataset with different size samples. In this case, those layers have to be renamed in the
-network file and retrained with the new dataset. When loading the model, <code class="code docutils literal notranslate"><span class="pre">rmldnn</span></code> will warn
+network file and retrained with the new dataset. When loading the model, <code class="code docutils literal"><span class="pre">rmldnn</span></code> will warn
 about layers whose parameters cannot be transfered:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Loading model checkpoint from file: ./checkpoints_D1/model_checkpoint_100.pt
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Loading model checkpoint from file: ./checkpoints_D1/model_checkpoint_100.pt
    Skipping layer dense_128_1: not found in model
    Skipping parameter dense_128_1.weight: not found in model
    Skipping parameter dense_128_1.bias: not found in model
@@ -716,85 +729,80 @@ network (bottom part of the “U”) will be initialized from the model trained 
 <h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
 <p>This is the complete list of currently supported network operations in RocketML:</p>
 <ul class="simple">
-<li><p>Core layers:</p>
-<ul>
-<li><p>Input</p></li>
-<li><p>Dense</p></li>
+<li>Core layers:<ul>
+<li>Input</li>
+<li>Dense</li>
 </ul>
 </li>
-<li><p>Convolution layers:</p>
-<ul>
-<li><p>Conv1D</p></li>
-<li><p>Conv2D</p></li>
-<li><p>Conv3D</p></li>
-<li><p>Conv1DTranspose</p></li>
-<li><p>Conv2DTranspose</p></li>
-<li><p>Conv3DTranspose</p></li>
+<li>Convolution layers:<ul>
+<li>Conv1D</li>
+<li>Conv2D</li>
+<li>Conv3D</li>
+<li>DepthwiseConv1D</li>
+<li>DepthwiseConv2D</li>
+<li>DepthwiseConv3D</li>
+<li>Conv1DTranspose</li>
+<li>Conv2DTranspose</li>
+<li>Conv3DTranspose</li>
 </ul>
 </li>
-<li><p>Pooling layers:</p>
-<ul>
-<li><p>MaxPooling1D</p></li>
-<li><p>MaxPooling2D</p></li>
-<li><p>MaxPooling3D</p></li>
-<li><p>AveragePooling1D</p></li>
-<li><p>AveragePooling2D</p></li>
-<li><p>AveragePooling3D</p></li>
-<li><p>GlobalMaxPooling1D</p></li>
-<li><p>GlobalMaxPooling2D</p></li>
-<li><p>GlobalMaxPooling3D</p></li>
-<li><p>GlobalAveragePooling1D</p></li>
-<li><p>GlobalAveragePooling2D</p></li>
-<li><p>GlobalAveragePooling3D</p></li>
+<li>Pooling layers:<ul>
+<li>MaxPooling1D</li>
+<li>MaxPooling2D</li>
+<li>MaxPooling3D</li>
+<li>AveragePooling1D</li>
+<li>AveragePooling2D</li>
+<li>AveragePooling3D</li>
+<li>GlobalMaxPooling1D</li>
+<li>GlobalMaxPooling2D</li>
+<li>GlobalMaxPooling3D</li>
+<li>GlobalAveragePooling1D</li>
+<li>GlobalAveragePooling2D</li>
+<li>GlobalAveragePooling3D</li>
 </ul>
 </li>
-<li><p>Normalization layers:</p>
-<ul>
-<li><p>BatchNormalization</p></li>
-<li><p>InstanceNormalization</p></li>
-<li><p>LayerNormalization</p></li>
+<li>Normalization layers:<ul>
+<li>BatchNormalization</li>
+<li>InstanceNormalization</li>
+<li>LayerNormalization</li>
 </ul>
 </li>
-<li><p>Regularization layers:</p>
-<ul>
-<li><p>Dropout</p></li>
-<li><p>SpatialDropout2D</p></li>
-<li><p>SpatialDropout3D</p></li>
+<li>Regularization layers:<ul>
+<li>Dropout</li>
+<li>SpatialDropout2D</li>
+<li>SpatialDropout3D</li>
 </ul>
 </li>
-<li><p>Reshaping layers:</p>
-<ul>
-<li><p>Reshape</p></li>
-<li><p>Flatten</p></li>
-<li><p>UpSampling1D</p></li>
-<li><p>UpSampling2D</p></li>
-<li><p>UpSampling3D</p></li>
-<li><p>ZeroPadding1D</p></li>
-<li><p>ZeroPadding2D</p></li>
-<li><p>ZeroPadding3D</p></li>
-<li><p>Cropping1D</p></li>
-<li><p>Cropping2D</p></li>
-<li><p>Cropping3D</p></li>
+<li>Reshaping layers:<ul>
+<li>Reshape</li>
+<li>Flatten</li>
+<li>UpSampling1D</li>
+<li>UpSampling2D</li>
+<li>UpSampling3D</li>
+<li>ZeroPadding1D</li>
+<li>ZeroPadding2D</li>
+<li>ZeroPadding3D</li>
+<li>Cropping1D</li>
+<li>Cropping2D</li>
+<li>Cropping3D</li>
 </ul>
 </li>
-<li><p>Merging layers</p>
-<ul>
-<li><p>Add</p></li>
-<li><p>Subtract</p></li>
-<li><p>Multiply</p></li>
-<li><p>Average</p></li>
-<li><p>Concatenate</p></li>
+<li>Merging layers<ul>
+<li>Add</li>
+<li>Subtract</li>
+<li>Multiply</li>
+<li>Average</li>
+<li>Concatenate</li>
 </ul>
 </li>
-<li><p>Activation layers:</p>
-<ul>
-<li><p>ReLU</p></li>
-<li><p>LeakyReLU</p></li>
-<li><p>Softmax</p></li>
-<li><p>Log_Softmax</p></li>
-<li><p>Sigmoid</p></li>
-<li><p>Tanh</p></li>
-<li><p>Swish</p></li>
+<li>Activation layers:<ul>
+<li>ReLU</li>
+<li>LeakyReLU</li>
+<li>Softmax</li>
+<li>Log_Softmax</li>
+<li>Sigmoid</li>
+<li>Tanh</li>
+<li>Swish</li>
 </ul>
 </li>
 </ul>
@@ -803,74 +811,61 @@ network (bottom part of the “U”) will be initialized from the model trained 
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">RocketML</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deep Neural Networks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#optimizer-section">Optimizer section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#layers-section">Layers section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#loss-section">Loss section</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#data-section">Data section</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#slicers-sub-section">Slicers sub-section</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#transforms-sub-section">Transforms sub-section</a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deep Neural Networks</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#optimizer-section">Optimizer section</a></li>
+<li><a class="reference internal" href="#layers-section">Layers section</a></li>
+<li><a class="reference internal" href="#loss-section">Loss section</a></li>
+<li><a class="reference internal" href="#data-section">Data section</a><ul>
+<li><a class="reference internal" href="#slicers-sub-section">Slicers sub-section</a></li>
+<li><a class="reference internal" href="#transforms-sub-section">Transforms sub-section</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#checkpoints-section">Checkpoints section</a></li>
+<li><a class="reference internal" href="#checkpoints-section">Checkpoints section</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#image-classification">Image classification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#image-segmentation">Image segmentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pde-solvers">PDE solvers</a></li>
+<li><a class="reference internal" href="#applications">Applications</a><ul>
+<li><a class="reference internal" href="#image-classification">Image classification</a></li>
+<li><a class="reference internal" href="#image-segmentation">Image segmentation</a></li>
+<li><a class="reference internal" href="#pde-solvers">PDE solvers</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#transfer-learning">Transfer Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a></li>
+<li><a class="reference internal" href="#transfer-learning">Transfer Learning</a></li>
+<li><a class="reference internal" href="#reference">Reference</a></li>
 </ul>
 </li>
 </ul>
-
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to RocketML’s DNN documentation!</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to RocketML Deep Neural Networks documentation!</a></li>
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/deep_neural_networks.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -879,8 +874,8 @@ network (bottom part of the “U”) will be initialized from the model trained 
       &copy;2022, RocketML.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |
       <a href="_sources/deep_neural_networks.rst.txt"
