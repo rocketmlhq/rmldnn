@@ -15,7 +15,7 @@ into the actual image files (as jpeg, png, etc) or, alternatively, directly load
 using one of the available MNIST dataset loaders out there 
 (e.g., from `torchvision <https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST>`__).
 We will use image files as input data in order to demonstrate the generic `image` data loader in `rmldnn`.
-For that, MNIST images can downladed as JPEG files from `here <https://github.com/teavanist/MNIST-JPG>`__ (as a single ZIP file).
+For that, MNIST images can downladed as JPEG files from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/mnist.tgz>`__ (as a single ZIP file).
 We'll assume that one has unziped the images into the following directory structure:
 
 .. code:: bash
