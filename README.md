@@ -128,12 +128,12 @@ First, clone the current repo:
   - **Single-process**:
     - CPU system:
       ```
-       sudo docker run -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+       sudo docker run -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
           rocketml/rmldnn:latest rmldnn --config=config_rmldnn_test.json
       ```
     - GPU system:
       ```
-       sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+       sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
           rocketml/rmldnn:latest rmldnn --config=config_rmldnn_test.json
       ```
 
@@ -144,7 +144,7 @@ First, clone the current repo:
        and the variable `OMP_NUM_THREADS` to indicate how many threads each process will use.
        E.g., on a system with 32 CPU cores, one might want to launch 4 processes using 8 cores each:
        ```                                        
-        sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+        sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
            rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
            rmldnn --config=config_rmldnn_test.json
        ```
@@ -153,7 +153,7 @@ First, clone the current repo:
        Use the variable `CUDA_VISIBLE_DEVICES` to indicate which devices to use.
        E.g., on a 4-GPU system, the following command can be used to launch a 4x parallel run:
        ```
-        sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu \
+        sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
            rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
            rmldnn --config=config_rmldnn_test.json
        ```
