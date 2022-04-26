@@ -113,7 +113,6 @@ will be used to configure the feature extraction run:
                 "input_path":  "./natural_images/training/",
                 "target_path": "./natural_images/training/",
                 "batch_size": 128,
-                "test_batch_size": 1024,
                 "preload": true,
                 "transforms": [
                     { "resize": [128, 128] },
