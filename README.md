@@ -105,7 +105,7 @@ going with Singularity, as it is simpler to setup and makes it easier to execute
     to install SingularityCE on your system.
   - The image can be created by pulling from DockerHub and converting to Singularity in the same step:
   ```
-   sudo singularity build rmldnn.sif docker://rocketml/rmldnn:latest
+   singularity build rmldnn.sif docker://rocketml/rmldnn:latest
    export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
   ```
 
