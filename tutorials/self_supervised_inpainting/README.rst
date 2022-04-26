@@ -164,9 +164,10 @@ depicted below and described in the file
 
 Because the encoder layers have exactly the same names in both networks, 
 their weights will be transfered from the feature extraction network into the classifier
-network when we load the model checkpoint in the next run. Then, by marking those
-layers with ``trainable = false``, we instruct `rmldnn` to freeze their weights, 
-leaving only the Dense layer parameters to be trained with labeled data.
+network when we load the model checkpoint in the next run. Then, we can freeze the weights
+of certain layers by setting ``trainable = false``, in which case only the remaining (unfrozen) layers
+would be further trained. The more unfrozen layers we have, the better the final accuracy will be, but
+the longer it will take to train the classifier. The Dense layer must be trained from scratch, of course.
 
 The following file,
 `config_inpaint_classifier.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/config_inpaint_classifier.json>`__,
@@ -195,8 +196,8 @@ will be used to train the classifier:
                 ]
             },
             "optimizer": {
-                "type": "Hessian",
-                "max_iterations": 10
+                "type": "Adam",
+                "learning_rate": 0.001
             },
             "loss": {
                 "function": "NLL"
