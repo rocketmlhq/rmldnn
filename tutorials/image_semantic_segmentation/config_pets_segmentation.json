@@ -1,0 +1,35 @@
+{
+    "neural_network": {
+        "outfile": "out_dnn_pets_segmentation.txt",
+        "num_epochs": 30,
+        "layers": "./network_xception2D.json",
+        "checkpoints": {
+            "save": "model_pets_segmentation/",
+            "interval": 5
+        },
+        "data": {
+            "type": "images",
+            "input_path":       "./oxford_pets/training/inputs/",
+            "target_path":      "./oxford_pets/training/masks/",
+            "test_input_path":  "./oxford_pets/testing/inputs/",
+            "test_target_path": "./oxford_pets/testing/masks/",
+            "batch_size": 64,
+            "test_batch_size": 128,
+            "preload": true,
+            "target_grayscale": true,
+            "target_is_mask": true,
+            "transforms": [
+                { "resize": [160, 160] },
+                { "normalize": { "mean": 0.0, "std": 0.003921568 } }
+            ]
+        },
+        "optimizer": {
+            "type": "rmsprop",
+            "learning_rate": 1e-3
+        },
+        "loss": {
+            "function": "Dice",
+            "source": "softmax"
+        }
+    }
+}
