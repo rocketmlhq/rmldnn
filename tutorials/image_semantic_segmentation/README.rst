@@ -120,7 +120,8 @@ The `rmldnn` configuration file used for training is shown below:
 A few points to notice in the configuration:
 
  - Since the targets are grayscale images (single-channel), the parameter ``target_grayscale`` is set to `true`,
-   otherwise they would be loaded as 3-channel tensors that would not match the output of the network.
+   otherwise they would be loaded as 3-channel tensors that would not match the target shape 
+   expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
  - Since `rmldnn` automatically scales pixel values by 255, a factor of 1/255 = 0.00392 is applied to 
