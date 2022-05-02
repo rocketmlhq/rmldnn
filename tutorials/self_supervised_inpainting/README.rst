@@ -129,14 +129,14 @@ will be used to configure the feature extraction run:
         }
     }
 
-We will run training on 8 GPUs using a Singularity image with `rmldnn` 
+We will run training on 4 GPUs using a Singularity image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
 .. code:: bash
 
   $ singularity exec --nv ./rmldnn_image.sif \
-    mpirun -np 8 -x CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+    mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config= ./config_inpaint_feature_extraction.json
 
 `rmldnn` will configure the run and start training the model. We will tain for 100 epochs,
@@ -204,12 +204,12 @@ will be used to train the classifier:
         }
     }
 
-We will again train on 8 GPUs for 100 epochs using `rmldnn` on a Singularity image:
+We will again train on 4 GPUs for 100 epochs using `rmldnn` on a Singularity image:
 
 .. code:: bash
 
   $ singularity exec --nv ./rmldnn_image.sif \
-    mpirun -np 8 -x CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+    mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config= ./config_inpaint_classification.json
 
 Notice how `rmldnn` warns about not finding the weights and biases for the Dense layer when loading
