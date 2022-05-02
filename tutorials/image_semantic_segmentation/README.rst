@@ -127,21 +127,21 @@ A few points to notice in the configuration:
  - Since `rmldnn` automatically scales pixel values by 255, a factor of 1/255 = 0.00392 is applied to 
    recover the original values. The last two bullets guarantee that target pixel values remain unchanged.
 
-We will run training for 30 epochs on 8 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
+We will run training for 30 epochs on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
 .. code:: bash
 
   $ singularity exec --nv ./rmldnn_image.sif \
-    mpirun -np 8 -x CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+    mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config= ./config_pets_segmentation.json
 
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/training_header.png
   :width: 600
   :align: center
 
-It takes about 5 minutes to train for 30 epochs on 8 GPUs. 
+It takes about 10 minutes to train for 30 epochs on 4 GPUs. 
 We can monitor the evolution of the training loss, which is reported in the log file
 ``out_dnn_pets_segmentation_train.txt``. Although the loss has fallen substantially by the 30th epoch, it hasn't 
 yet fully reached a stationary value, and training by a few more epochs would have probably further improved
@@ -208,7 +208,7 @@ of each class for that pixel), so we need to compute the ``argmax`` along the ch
     plt.show()
 
 Doing this for a few samples, we obtain the segmentation predictions below.
-Results are pretty good for a model trained for only 5 minutes! 
+Results are pretty good for a model trained for only 10 minutes! 
 
 ==================== ==================== ====================
 **Inputs**           **Predictions**      **Ground-truths**
