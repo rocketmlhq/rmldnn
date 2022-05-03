@@ -1,0 +1,823 @@
+{
+    "class_name": "Model",
+    "config": {
+        "name": "Uned3D depth-5 (Poisson)",
+        "layers": [
+            {
+                "class_name": "InputLayer",
+                "config": {
+                    "name": "input_1",
+                    "batch_input_shape": [
+                        null,
+                        64,
+                        64,
+                        64,
+                        1
+                    ],
+                    "dtype": "float32",
+                    "sparse": false
+                },
+                "inbound_nodes": []
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_down_1",
+                    "trainable": true,
+                    "filters": 16,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "dilation_rate": [1, 1, 1],
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "input_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_down_1",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_down_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "LeakyReLU",
+                "config": {
+                    "name": "leaky_relu_down_1",
+                    "trainable": true,
+                    "alpha": 0.2
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_down_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_down_2",
+                    "trainable": true,
+                    "filters": 32,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2 ,2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "dilation_rate": [1, 1, 1],
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_down_2",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_down_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "LeakyReLU",
+                "config": {
+                    "name": "leaky_relu_down_2",
+                    "trainable": true,
+                    "alpha": 0.2
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_down_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_down_3",
+                    "trainable": true,
+                    "filters": 64,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "dilation_rate": [1, 1, 1],
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_down_3",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_down_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "LeakyReLU",
+                "config": {
+                    "name": "leaky_relu_down_3",
+                    "trainable": true,
+                    "alpha": 0.2
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_down_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_down_4",
+                    "trainable": true,
+                    "filters": 128,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "dilation_rate": [1, 1, 1],
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_down_4",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_down_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "LeakyReLU",
+                "config": {
+                    "name": "leaky_relu_down_4",
+                    "trainable": true,
+                    "alpha": 0.2
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_down_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Dropout",
+                "config": {
+                    "name": "dropout_down_4",
+                    "rate": 0.5,
+                    "noise_shape": null,
+                    "seed": null
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_down_5",
+                    "trainable": true,
+                    "filters": 128,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "dilation_rate": [1, 1, 1],
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_down_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_down_5",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_down_5",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "LeakyReLU",
+                "config": {
+                    "name": "leaky_relu_down_5",
+                    "trainable": true,
+                    "alpha": 0.2
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_down_5",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Dropout",
+                "config": {
+                    "name": "dropout_down_5",
+                    "rate": 0.5,
+                    "noise_shape": null,
+                    "seed": null
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_5",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3DTranspose",
+                "config": {
+                    "name": "conv3d_tran_up_4",
+                    "trainable": true,
+                    "filters": 128,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_down_5",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_up_4",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_tran_up_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "ReLU",
+                "config": {
+                    "name": "relu_up_4",
+                    "trainable": true
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_up_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Dropout",
+                "config": {
+                    "name": "dropout_up_4",
+                    "rate": 0.5,
+                    "noise_shape": null,
+                    "seed": null
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "relu_up_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Concatenate",
+                "config": {
+                    "name": "concatenate_4",
+                    "trainable": true,
+                    "axis": -1
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_down_4",
+                            0,
+                            0,
+                            {}
+                        ],
+                        [
+                            "dropout_up_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3DTranspose",
+                "config": {
+                    "name": "conv3d_tran_up_3",
+                    "trainable": true,
+                    "filters": 64,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "concatenate_4",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_up_3",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_tran_up_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "ReLU",
+                "config": {
+                    "name": "relu_up_3",
+                    "trainable": true
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_up_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Dropout",
+                "config": {
+                    "name": "dropout_up_3",
+                    "rate": 0.5,
+                    "noise_shape": null,
+                    "seed": null
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "relu_up_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Concatenate",
+                "config": {
+                    "name": "concatenate_3",
+                    "trainable": true,
+                    "axis": -1
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_3",
+                            0,
+                            0,
+                            {}
+                        ],
+                        [
+                            "dropout_up_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3DTranspose",
+                "config": {
+                    "name": "conv3d_tran_up_2",
+                    "trainable": true,
+                    "filters": 32,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "concatenate_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_up_2",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_tran_up_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "ReLU",
+                "config": {
+                    "name": "relu_up_2",
+                    "trainable": true
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_up_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Concatenate",
+                "config": {
+                    "name": "concatenate_2",
+                    "trainable": true,
+                    "axis": -1
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_2",
+                            0,
+                            0,
+                            {}
+                        ],
+                        [
+                            "relu_up_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3DTranspose",
+                "config": {
+                    "name": "conv3d_tran_up_1",
+                    "trainable": true,
+                    "filters": 16,
+                    "kernel_size": [4, 4, 4],
+                    "strides": [2, 2, 2],
+                    "padding": "same",
+                    "data_format": "channels_last",
+                    "use_bias": false
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "concatenate_2",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "InstanceNormalization",
+                "config": {
+                    "name": "norm_up_1",
+                    "affine": false,
+                    "track_running_stats": false,
+                    "momentum": 0.1,
+                    "epsilon": 1e-5
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_tran_up_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "ReLU",
+                "config": {
+                    "name": "relu_up_1",
+                    "trainable": true
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "norm_up_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Concatenate",
+                "config": {
+                    "name": "concatenate_1",
+                    "trainable": true,
+                    "axis": -1
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "leaky_relu_down_1",
+                            0,
+                            0,
+                            {}
+                        ],
+                        [
+                            "relu_up_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "UpSampling3D",
+                "config": {
+                    "name": "upsample_1",
+                    "trainable": true,
+                    "size": [2, 2, 2],
+                    "data_format": "channels_last"
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "concatenate_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Conv3D",
+                "config": {
+                    "name": "conv3d_final",
+                    "trainable": true,
+                    "filters": 1,
+                    "kernel_size": [3, 3, 3],
+                    "strides": [1, 1, 1],
+                    "padding": "same",
+                    "dilation_rate": [1, 1, 1],
+                    "data_format": "channels_last",
+                    "use_bias": true
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "upsample_1",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            },
+            {
+                "class_name": "Activation",
+                "config": {
+                    "name": "sigmoid",
+                    "trainable": true,
+                    "activation": "sigmoid"
+                },
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv3d_final",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "input_layers": [
+            [
+                "input_1",
+                0,
+                0
+            ]
+        ],
+        "output_layers": [
+            [
+                "sigmoid",
+                0,
+                0
+            ]
+        ]
+    },
+    "keras_version": "2.1.5",
+    "backend": "tensorflow"
+}
