@@ -1,0 +1,25 @@
+{
+    "neural_network": {
+        "outfile": "out_dnn_poisson3d.txt",
+        "num_epochs": 20,
+        "layers": "./unet3d_poisson.json",
+        "checkpoints": {
+            "save": "./model_poisson3d/",
+            "interval": 5
+        },
+        "data": {
+            "type": "numpy",
+            "input_path":  "./diffusivity_maps/",
+            "target_path": "./diffusivity_maps/",
+            "batch_size": 128,
+            "preload": true
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 1e-4
+        },
+        "loss": {
+            "function": "Poisson3D_PDE"
+        }
+    }
+}
