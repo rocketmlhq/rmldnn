@@ -20,7 +20,7 @@
         },
         "loss": {
             "function": "Dice",
-            "source": "softmax"
+            "source": "log_softmax"
         }
     }
 }
