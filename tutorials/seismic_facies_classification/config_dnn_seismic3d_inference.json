@@ -1,0 +1,28 @@
+{
+    "neural_network": {
+        "debug": true,
+        "checkpoints": {
+            "load": "./model_seismic3d/model_checkpoint_20.pt"
+        },
+        "layers": "./unet3d_seismic.json",
+        "data": {
+            "type": "numpy",
+            "test_input_path":  "./parihaka/input3D_test.npy",
+            "test_target_path": "./parihaka/target3D_test.npy",
+            "test_batch_size": 1,
+            "slicers": [
+                {
+                    "name":  "test_sample",
+                    "sizes": [64, 576, 992],
+                    "discard_remainders": true
+                }
+            ]
+        },
+        "loss": {
+            "function": "Dice",
+            "source": "softmax"
+        }
+    }
+}
+
+

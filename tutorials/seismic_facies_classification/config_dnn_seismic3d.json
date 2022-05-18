@@ -1,0 +1,37 @@
+{
+    "neural_network": {
+        "outfile": "out_seismic3d.txt",
+        "checkpoints": {
+            "save": "./model_seismic3d/",
+            "interval": 2
+        },
+        "layers": "./unet3d_seismic.json",
+        "num_epochs": 20,
+        "data": {
+            "type": "numpy",
+            "input_path":       "./parihaka/input3D_train.npy",
+            "target_path":      "./parihaka/target3D_train.npy",
+            "test_input_path":  "./parihaka/input3D_test.npy",
+            "test_target_path": "./parihaka/target3D_test.npy",
+            "batch_size": 64,
+            "test_batch_size": 64,
+            "preload": true,
+            "slicers": [
+                {
+                    "name":    "samples",
+                    "sizes":   [64, 64, 256],
+                    "strides": [64, 64, 17],
+                    "discard_remainders": true
+                }
+            ]
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 1e-4
+        },
+        "loss": {
+            "function": "NLL"
+        }
+    }
+}
+
