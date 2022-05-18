@@ -74,7 +74,7 @@ that overlap in `z` by a large amount. This can be accomplished with this config
             "name":    "samples",
             "sizes":   [64, 64, 256],
             "strides": [64, 64, 17],
-            "discard_remainders": true
+            "discard_remainders": false
         }
     ],
 
