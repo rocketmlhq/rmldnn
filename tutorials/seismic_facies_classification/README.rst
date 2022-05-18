@@ -82,7 +82,7 @@ A few points to notice:
 
  - By setting the stride amount to 17 in the `z`-direction, along which the block size is 256,
    we achieve an overlap of 93% in that direction.
- - We set `discard_remainders` to false, so that leftover volumes are discarded. By default,
+ - We set `discard_remainders` to true, so that leftover volumes are discarded. By default,
    they would be padded and used for training, which we found to hurt accuracy in this particular case.
 
 The model
