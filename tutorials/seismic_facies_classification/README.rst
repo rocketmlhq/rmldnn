@@ -9,8 +9,8 @@ geological patterns in the Earth's subsurface. It plays a key role in the charac
 exploration and prospecting of hydrocarbon reservoirs. As the available 3D seismic data grows in complexity 
 and size, manual facies interpretation has become prohibitively time-consuming and error-prone. 
 For those reasons, automatic seismic analysis techniques have become extremely important in the 
-last several years. In that context, deep-learining (DL) has emerged as a prominent tool in this field.
-Convolutional Neural Networks (CNNs), in particluar, which have been shown to perform very well in image
+last several years. In that context, deep-learning (DL) has emerged as a prominent tool in this field.
+Convolutional Neural Networks (CNNs), in particular, which have been shown to perform very well in image
 processing and pattern recognition tasks, have been actively applied to facies classification problems 
 in the last several years.
 
@@ -62,7 +62,7 @@ network for training and evaluation, as shown below.
 
 The configuration of the slicer module is very simple, and is described in detail in the 
 `documentation <https://rocketmlhq.github.io/rmldnn/deep_neural_networks.html#slicers-sub-section>`__.
-We want to generate one set of 3D bricks of size 64 x 64 x 256. We choose a longer length in the 
+We want to generate one set of 3D bricks of size 64 x 64 x 256. We choose a longer length in
 the `z`-direction due to the asymmetric nature of the seismic data, where the facies types change
 more rapidly in the depth direction. In addition, we want to augment the dataset by generating blocks
 that overlap in `z` by a large amount. This can be accomplished with this configuration:
@@ -111,7 +111,7 @@ To train the Unet-3D model on the seismic dataset, we will use the following con
             "outfile": "out_seismic3d.txt",
             "checkpoints": {
                 "save": "./model_seismic3d/",
-                "interval": 5
+                "interval": 2
             },
             "layers": "./unet3d_seismic.json",
             "num_epochs": 20,
@@ -121,8 +121,8 @@ To train the Unet-3D model on the seismic dataset, we will use the following con
                 "target_path":      "./parihaka/target3D_train.npy",
                 "test_input_path":  "./parihaka/input3D_test.npy",
                 "test_target_path": "./parihaka/target3D_test.npy",
-                "batch_size": 64,
-                "test_batch_size": 64,
+                "batch_size": 16,
+                "test_batch_size": 16,
                 "preload": true,
                 "slicers": [
                     {
@@ -151,8 +151,8 @@ A few points to notice in the configuration:
  - We use the Adam first-order optimizer with a learning rate of 0.0001
  - We use the negative log-likelihood loss function. When the network outputs a higher-dimensional 
    tensor (e.g., in segmentation problems), this function computes a per-pixel loss
- - The training and test batch sizes are set to 64
- - We will train for 20 epochs and save the model out at every 5 epochs
+ - The training and test batch sizes are set to 16
+ - We will train for 20 epochs and save the model out at every 2 epochs
 
 We will run training on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
@@ -179,8 +179,8 @@ as shown below.
   :width: 600
   :align: center
 
-Making pedictions with the trained model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Making predictions with the trained model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We also instructed `rmldnn` to periodically evaluate the model by running inference
 on the test samples, and the results can be found in ``out_seismic3d_test.txt``. 
@@ -222,7 +222,7 @@ The following configuration will be used:
             },
             "loss": {
                 "function": "Dice",
-                "source": "softmax"
+                "source": "log_softmax"
             }
         }
     }
