@@ -9,7 +9,7 @@ identify regions of interest within that image. On digital images, this is usual
 of different colors to each segment, where each color (pixel value) corresponds to some category of interest. 
 
 Although several image segmentation techniques have been developed over the years (e.g, thresholding, 
-historgram-based bundling, k-means clustering, etc), deep-learning has been shown to achieve the best accuracies
+histogram-based bundling, k-means clustering, etc), deep-learning has been shown to achieve the best accuracy
 on a variety of image segmentation problems.
 
 In this tutorial, we will show how to use `rmldnn` to efficiently train an image segmentation model using
@@ -20,7 +20,7 @@ The dataset
 ~~~~~~~~~~~
 
 We will use the `Oxford Pets <https://www.kaggle.com/datasets/tanlikesmath/the-oxfordiiit-pet-dataset>`__
-dataset, which contains 37 catgories of cats and dogs with roughly 200 images per class, to a total of 7390 images. 
+dataset, which contains 37 categories of cats and dogs with roughly 200 images per class, to a total of 7390 images. 
 Each image has a corresponding trimap mask file with ground-truth segmentation: pixel value 0 for background, 
 1 for the contour and 2 for the animal, as shown below.
 
@@ -72,7 +72,7 @@ Training the model
 
 To train the Xception model on the pets dataset, we will use the RMSprop optimizer, as done in the Keras tutorial.
 However, instead of using a categorical cross-entropy loss function, we will take advantage of `rmldnn`'s implementation
-of the Dice loss, which is defined as the complement of the Dice coefficient computed between predition and target.
+of the Dice loss, which is defined as the complement of the Dice coefficient computed between prediction and target.
 First introduced in the context of medical image segmentation
 (`paper <https://arxiv.org/abs/1606.04797>`__),
 the Dice loss has been shown to perform very well for segmentation tasks in general.

@@ -31,7 +31,7 @@ The above tasks will exemplify how to use `rmldnn` to:
 The dataset
 ~~~~~~~~~~~
 
-We will use Kaggle `Natual Images` dataset, which contains JPEG 6,899 images from 8 distinct classes compiled 
+We will use the Kaggle `Natural Images` dataset, which contains JPEG 6,899 images from 8 distinct classes compiled 
 from various sources. The classes include airplane, car, cat, dog, flower, fruit, motorbike and person.
 It can be downloaded from
 `here <https://www.kaggle.com/datasets/prasunroy/natural-images>`__.
@@ -139,7 +139,7 @@ From the command line, one should do:
     mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config= ./config_inpaint_feature_extraction.json
 
-`rmldnn` will configure the run and start training the model. We will tain for 100 epochs,
+`rmldnn` will configure the run and start training the model. We will train for 100 epochs,
 and can monitor the progress by looking at the time decay of the loss value,
 which is reported in the log file ``out_inpaint_feature_extraction_train.txt``:
 
@@ -162,7 +162,7 @@ depicted below and described in the file
   :align: center
 
 Because the encoder layers have exactly the same names in both networks, 
-their weights will be transfered from the feature extraction network into the classifier
+their weights will be transferred from the feature extraction network into the classifier
 network when we load the model checkpoint in the next run. Then, we can freeze the weights
 of certain layers by setting ``trainable = false``, in which case only the remaining (unfrozen) layers
 would be further trained. The more unfrozen layers we have, the better the final accuracy will be, but

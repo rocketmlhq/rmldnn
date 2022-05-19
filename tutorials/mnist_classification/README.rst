@@ -15,8 +15,8 @@ into the actual image files (as jpeg, png, etc) or, alternatively, directly load
 using one of the available MNIST dataset loaders out there 
 (e.g., from `torchvision <https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST>`__).
 We will use image files as input data in order to demonstrate the generic `image` data loader in `rmldnn`.
-For that, MNIST images can downladed as JPEG files from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/mnist.tgz>`__ (as a single ZIP file).
-We'll assume that one has unziped the images into the following directory structure:
+For that, MNIST images can be downloaded as JPEG files from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/mnist.tgz>`__ (as a single ZIP file).
+We'll assume that one has unzipped the images into the following directory structure:
 
 .. code:: bash
 
@@ -53,7 +53,7 @@ Running training
 ~~~~~~~~~~~~~~~~
 
 `rmldnn` is a code-free, high-performance tool for distributed deep-learning, and the entire flow can be defined
-in a single configuration file. To run MNINST training, we will use the following
+in a single configuration file. To run MNIST training, we will use the following
 (`config_mnist_training.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_training.json>`__):
 
 .. code:: bash

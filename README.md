@@ -9,7 +9,7 @@ In a nutshell, to launch a deep-learning training or inference run, one only nee
 
     rmldnn --config=config.json
 
-The entire run is configured in the JSON file `config.json`. This file controls everything from hyperparameters to output file names. It is composed of several sections (JSON objects) which configure different aspects of the deep-learning run (e.g., network, optimizes, data loader, etc). More on the configuration file in the [concepts](#concepts) section.
+The entire run is configured in the JSON file `config.json`. This file controls everything from hyperparameters to output file names. It is composed of several sections (JSON objects) which configure different aspects of the deep-learning run (e.g., network, optimizers, data loader, etc). More on the configuration file in the [concepts](#concepts) section.
 
 # Contents
 
@@ -42,7 +42,7 @@ on large scale CPU and GPU clusters, achieving almost linear speedups on up to 1
 
 - Does not require any knowledge of deep-learning frameworks (Pytorch, Keras, etc) or Python.
 - Is designed with scalability & performance in mind from the get-go.
-- Is agnositc to machine and processor architectures, running seamlessly on both CPU and GPU systems.
+- Is agnostic to machine and processor architectures, running seamlessly on both CPU and GPU systems.
 - Runs on anything from one to hundreds of GPUs or CPUs without any required knowledge of distributed computing, automatically managing data partitioning and communication among nodes.
 - Allows building models for different computer vision use-cases like image classification, object detection, image segmentation, autoencoders, and generative networks.
 
@@ -56,7 +56,7 @@ on large scale CPU and GPU clusters, achieving almost linear speedups on up to 1
 
 # Who is this *not* for?
 
-- Data scientists or developers who are experienced writing more advanced deep-learning code and need maximum flexibility to implement their own custom layers, optimizes, loss functions, data loaders, etc.
+- Data scientists or developers who have experience writing more advanced deep-learning code and need maximum flexibility to implement their own custom layers, optimizers, loss functions, data loaders, etc.
 
 # Concepts
 
