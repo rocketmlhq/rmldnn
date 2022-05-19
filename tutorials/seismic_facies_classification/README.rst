@@ -307,7 +307,7 @@ along, say, the `y-z` plane:
 
 
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/prediction.png
-  :width: 800
+  :width: 1200
   :align: center
 
 Although the agreement between prediction and target is pretty good, it certainly can be improved.
