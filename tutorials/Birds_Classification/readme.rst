@@ -6,7 +6,7 @@ Introduction
 
 This tutorial explains how to use 'rmldnn' to perform transfer learning to train a model that classifies birds species images from dataset.(https://www.kaggle.com/datasets/gpiosenka/100-bird-species).
 
-Starting with a brief introduction about Transfer Learning, Transfer learning is a machine learning method in which a model generated for one job is reused as the starting point for a model on a different task. Here we have leveraged pre-trained RESNET50, which is trained on more than a million images from the ImageNet database. RESTNET50 is CNN (Convolutional Neural Network) model which is about 50 layers deep. Below Image shows architecture of RESNET50 
+Starting with a brief introduction about Transfer Learning, Transfer learning is a machine learning method in which a model generated for one job is reused as the starting point for a model on a different task. Here we have leveraged pre-trained RESNET50, which is trained on more than a million images from the ImageNet database. RESNET50 is CNN (Convolutional Neural Network) model which is about 50 layers deep. Below Image shows architecture of RESNET50 
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/ResnetArch.png?raw=true
     :width: 750
