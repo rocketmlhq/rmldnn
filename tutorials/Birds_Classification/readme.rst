@@ -8,8 +8,7 @@ This tutorial explains how to use 'rmldnn' to perform transfer learning to train
 
 Starting with a brief introduction about Transfer Learning, Transfer learning is a machine learning method in which a model generated for one job is reused as the starting point for a model on a different task. Here we have leveraged pre-trained RESNET50, which is trained on more than a million images from the ImageNet database. RESTNET50 is CNN (Convolutional Neural Network) model which is about 50 layers deep. Below Image shows architecture of RESNET50 
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification
-/ResnetArch.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/ResnetArch.png?raw=true
     :width: 750
     :align: center
   
@@ -27,8 +26,7 @@ We will use Kaggle Birds 400 Database which contains 400 bird species.58388 trai
 
 Note: In dataset provided in kaggle there is a typo in training set in directory BLACK & YELLOW BROADBILL which contains an extra space which is note there in validation or testing set. So before using this data kindly rename this file in training set removing extra space.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification
-/birds_cover.jpg?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/birds_cover.jpg?raw=true
 
 The pre-processed dataset can be downloaded directly from here for convenience.
 
@@ -56,8 +54,7 @@ On unzipping downloaded file we'll assume that it has following directory struct
 
 The images are multi-channel(Coloured) with size of 224 X 224, similar to ones in the figure below. 
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification
-/Birds_joined.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
