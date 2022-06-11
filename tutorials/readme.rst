@@ -14,41 +14,47 @@ Starting with a brief introduction about Transfer Learning, Transfer learning is
   
 The above tasks will exemplify how to use `rmldnn` to:
 
- - train a convolutional auto-encoder neural network;
  - perform `transfer learning` by reusing model weights in a different model;
- - use the `random patch` feature of the image dataset loader to generate input/target pairs for inpainting.
+ - train a convolutional neural network;
+ - use learning rate scheduler to decay leraning rate to reach to optimal model quickly.
 
 
 The dataset
 ~~~~~~~~~~~
 
-The MNIST dataset is commonly downloaded as a set of binary files that must be unpacked
-into the actual image files (as jpeg, png, etc) or, alternatively, directly loaded as binaries 
-using one of the available MNIST dataset loaders out there 
-(e.g., from `torchvision <https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST>`__).
-We will use image files as input data in order to demonstrate the generic `image` data loader in `rmldnn`.
-For that, MNIST images can be downloaded as JPEG files from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/mnist.tgz>`__ (as a single ZIP file).
-We'll assume that one has unzipped the images into the following directory structure:
+We will use Kaggle Birds 400 Database which contains 400 bird species.58388 training images, 2000 test images(5 images per species) and 2000 validation images(5 images per species.The classes includes ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other birds specieis. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ (as a zip file)
+
+Note: In dataset provided in kaggle there is a typo in training set in directory BLACK & YELLOW BROADBILL which contains an extra space which is note there in validation or testing set. So before using this data kindly rename this file in training set removing extra space.
+
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_cover.jpg?raw=true
+
+The pre-processed dataset can be downloaded directly from here for convenience.
+
+On unzipping downloaded file we'll assume that it has following directory structure:
 
 .. code:: bash
 
-    +-- mnist/
-    |   +-- training/
-        |   +-- 0/
-        |   +-- 1/
+    +-- Data/
+    |   +-- train/
+        |   +-- ABBOTTS BABBLER/
+        |   +-- ABBOTTS BOOBY/
         |   +-- ...
-        |   +-- 9/
-    |   +-- testing/
-        |   +-- 0/
-        |   +-- 1/
+        |   +-- YELLOW HEADED BLACKBIRD/
+    |   +-- valid/
+        |   +-- ABBOTTS BABBLER/
+        |   +-- ABBOTTS BOOBY/
         |   +-- ...
-        |   +-- 9/
+        |   +-- YELLOW HEADED BLACKBIRD/
+    |   +-- test/
+        |   +-- ABBOTTS BABBLER/
+        |   +-- ABBOTTS BOOBY/
+        |   +-- ...
+        |   +-- YELLOW HEADED BLACKBIRD/
 
 
-There are a total of 60000 images for training (across all 10 classes), and 10000 for testing (or evaluation).
-They are all single-channel (grayscale) images of size 28 x 28, similar to the ones in the figure below.
+The images are multi-channel(Coloured) with size of 224 X 224, similar to ones in the figure below. 
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
