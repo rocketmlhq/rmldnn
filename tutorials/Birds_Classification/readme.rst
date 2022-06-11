@@ -24,7 +24,7 @@ The dataset
 
 We will use Kaggle Birds 400 Database which contains 400 bird species.58388 training images, 2000 test images(5 images per species) and 2000 validation images(5 images per species.The classes includes ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other birds specieis. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ (as a zip file)
 
-Note: In dataset provided in kaggle there is a typo in training set in directory BLACK & YELLOW BROADBILL which contains an extra space which is not there in validation or testing set. So before using this data kindly rename this file in training set removing extra space.
+Note: There is an error in the training set in the directory BLACK & YELLOW BROADBILL in the dataset provided by Kaggle, which contains an extra space that is not present in the validation or testing sets. Please rename this file in the training set to remove any unnecessary space before using it.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/birds_cover.jpg?raw=true
 
