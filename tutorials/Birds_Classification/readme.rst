@@ -59,58 +59,79 @@ The images are multi-channel(Coloured) with size of 224 X 224, similar to ones i
 The neural network
 ~~~~~~~~~~~~~~~~~~
 
-Since MNIST is a very simple dataset to train with, we will use a small (shallow) neural network
-consisting of two convolutional layers and a single dense layer at the end (with a log-softmax activation), 
-as shown in the figure below. This network can be easily coded (e.g., using 
-`Keras <https://keras.io/>`__) and is available here in the file
-`mnist_keras_net.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/mnist_keras_net.json>`__.
+Since we'll be doing transfer learning, we'll need to first get our base model, which in our instance is RESNET50, and then add a single 400-unit dense layer at the end (with a log-softmax activation). After that, we'll need to save our prepared model as a Hdf5 file and our network architecture as a .json file so that we can train it with rmldnn. The network is depicted and described below:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_net.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/network_arch.png?raw=true
+    :height: 500
+    :align: center
+
+You can use this notebook to learn about all of the tasks involved in preparing and saving the model and its architecture. We've additionally made .hdf5 and.json availble to download directly from here.
 
 Running training
 ~~~~~~~~~~~~~~~~
 
 `rmldnn` is a code-free, high-performance tool for distributed deep-learning, and the entire flow can be defined
-in a single configuration file. To run MNIST training, we will use the following
-(`config_mnist_training.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_training.json>`__):
+in a single configuration file. To perform transfer learning using rmldnn we first need to load our prepared model as well as we will also use our network architecture json file which tells about layers present in our model. We will assume following directory structure is maintained inside main folder:
+
+
+.. code:: bash
+
+    +-- birds_classification/
+    |   +-- data/
+        |   +-- train/
+        |   +-- test/
+        |   +-- valid/
+    |   +-- model_checkpoint/
+        |   +-- model.h5
+    |   +-- layers.json
+
+To run training process we will use following(config_train.json):
 
 .. code:: bash
 
     {
-        "neural_network": {
-            "outfile": "out_mnist.txt",
-            "num_epochs": 20,
-            "layers": "./mnist_keras_net.json",
-            "checkpoints": {
-                "save": "./mnist_model/",
-                "interval": 20
-            },
-            "data": {
-                "input_type": "images",
-                "target_type": "labels",
-                "input_path":      "./mnist/training/",
-                "test_input_path": "./mnist/testing/",
-                "batch_size": 128,
-                "grayscale": true,
-                "preload": true
-            },
-            "optimizer": {
-                "type": "Adam",
-                "learning_rate": 1e-4
-            },
-            "loss": {
-                "function": "NLL"
+    "neural_network": {
+        "num_epochs": 6,
+        "outfile": "out_classifier.txt",
+        "layers": "./layers.json",
+        "checkpoints": {
+            "load": "./model_checkpoints/model.h5",
+            "save": "model_checkpoints_save/",
+            "interval": 3
+        },
+        "data": {
+            "input_type": "images",
+            "target_type": "labels",
+            "input_path":      "./data/train/",
+            "test_input_path": "./data/valid/",
+            "batch_size": 64,
+            "test_batch_size": 128,
+            "preload": true,
+            "transforms": [
+                { "resize": [224, 224] }
+            ]
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 0.001,
+            "lr_scheduler": {
+                "type": "Exponential",
+                "gamma": 0.5
             }
+        },
+        "loss": {
+            "function": "NLL"
         }
     }
+}
 
 Most parameters in the config file are self-explanatory. The most important here are:
 
  - The neural network description file is specified in ``layers``
  - The input training and test data location is passed in ``input_path`` and ``test_input_path``
- - The optimizer used will be Adam, with a learning rate of 1e-4
+ - The optimizer used will be Adam, in which we have used Leraning rate scheduler which decreases the learning rate exponentially as we train. We have used 0.001 as starting point for our learning rate.
  - The loss function used will be NLL (Negative Log-Likelihood)
- - We will train for 20 epochs using a batch-size of 128, and write out a model checkpoint file at the end of the 20th epoch.
+ - We will train for 6 epochs using a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 3 epochs.
 
 We will now run training on two GPUs using a Singularity image with `rmldnn`
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
