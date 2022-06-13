@@ -52,7 +52,7 @@ On unzipping downloaded file we'll assume that it has following directory struct
         |   +-- YELLOW HEADED BLACKBIRD/
 
 
-The images are multi-channel(Coloured) with size of 224 X 224, similar to ones in the figure below. 
+The images are multi-channel (Coloured) with size of 224 X 224, similar to ones in the figure below. 
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Birds_joined.png?raw=true
 
