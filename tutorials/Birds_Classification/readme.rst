@@ -65,7 +65,33 @@ Since we'll be doing transfer learning, we'll need to first get our base model, 
     :height: 500
     :align: center
 
-You can use this notebook to learn about all of the tasks involved in preparing and saving the model and its architecture. We've additionally made .hdf5 and.json availble to download directly from here.
+You can perform following steps to obtain model and its architecture. We've additionally made .hdf5 and.json availble to download directly from here.
+
+.. code:: bash
+
+    #importing libraries
+    import tensorflow as tf
+    from tensorflow.keras.applications.resnet50 import ResNet50
+    #preparing base model(RESNEt50)
+    pretrained_model = ResNet50(
+        input_shape=(224,224, 3),
+        include_top=False,
+        weights='imagenet',
+        pooling='avg'
+    )
+    pretrained_model.trainable = False
+    #adding dense layer with 400 units, log_softmax activation after base model
+    inputs = pretrained_model.input
+    outputs = Dense(400, activation='log_softmax')(pretrained_model.output)
+    model = Model(inputs=inputs, outputs=outputs)
+    #saving model
+    model.save("model.h5")
+    #saving architecture in json format
+    d=model.to_json()
+    with open("layers.json",'w') as f:
+        f.write(d)
+        
+ Note: After getting layers.json file from above steps kindly edit it using editor of choice and change activation function of last layer from "log_softmax_v2" to "log_softmax" cause it may lead to an error.
 
 Running training
 ~~~~~~~~~~~~~~~~
@@ -133,17 +159,17 @@ Most parameters in the config file are self-explanatory. The most important here
  - The loss function used will be NLL (Negative Log-Likelihood)
  - We will train for 6 epochs using a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 3 epochs.
 
-We will now run training on two GPUs using a Singularity image with `rmldnn`
+We will now run training on multi core CPU using a Docker image with `rmldnn`
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
 .. code:: bash
 
-  $ singularity exec --nv ./rmldnn_image.sif \
-    mpirun -np 2 -x CUDA_VISIBLE_DEVICES=0,1 \
-    rmldnn --config= ./config_mnist_training.json
+   $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+    rmldnn --config=config_test.json
 
-`rmldnn` will configure the run and start training on the MNIST dataset:
+`rmldnn` will configure the run and start the dataset:
 
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_training.png
   :width: 1000
