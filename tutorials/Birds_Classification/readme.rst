@@ -85,7 +85,7 @@ in a single configuration file. To perform transfer learning using rmldnn we fir
         |   +-- model.h5
     |   +-- layers.json
 
-To run training process we will use following(config_train.json):
+To run training process we will use following (config_train.json):
 
 .. code:: bash
 
