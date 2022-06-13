@@ -129,7 +129,7 @@ Most parameters in the config file are self-explanatory. The most important here
 
  - The neural network description file is specified in ``layers``
  - The input training and test data location is passed in ``input_path`` and ``test_input_path``
- - The optimizer used will be Adam, in which we have used Leraning rate scheduler which decreases the learning rate exponentially as we train. We have used 0.001 as starting point for our learning rate.
+ - The optimizer used will be Adam, in which we have used learning rate scheduler which decreases the learning rate exponentially as we train. We have used 0.001 as starting point for our learning rate.
  - The loss function used will be NLL (Negative Log-Likelihood)
  - We will train for 6 epochs using a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 3 epochs.
 
