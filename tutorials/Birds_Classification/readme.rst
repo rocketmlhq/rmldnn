@@ -171,23 +171,23 @@ From the command line, one should do:
 
 `rmldnn` will configure the run and start the dataset:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_training.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Train_SS.png?raw=true
   :width: 1000
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
-``outfile`` parameter in the config file. The file ``out_mnist_train.txt`` reports the loss value and gradient norm
-as functions of both time (in secs) as well as the epoch/batch number. The file ``out_mnist_test.txt`` reports loss
+``outfile`` parameter in the config file. The file ``out_classifier_train.txt`` reports the loss value and gradient norm
+as functions of both time (in secs) as well as the epoch/batch number. The file ``out_classifier_test.txt`` reports loss
 and accuracy for running inference on the test dataset (the accuracy for a classification problem is simply the fraction
 of correctly labeled data samples).
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_loss.png
-  :width: 500
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/test_rpoch_loss.png?raw=true
+  :width: 400
   :align: center
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_accuracy.png
-  :width: 500
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/test_rpoch_accuracy.png?raw=true
+  :width: 400
   :align: center
 
 Running inference on a pre-trained model
