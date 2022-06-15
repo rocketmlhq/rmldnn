@@ -171,7 +171,7 @@ From the command line, one should do:
 
 `rmldnn` will configure the run and start the dataset:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/images/Birds_Classification/images/Train_SS.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Train_SS.png?raw=true
   :width: 1000
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
