@@ -8,7 +8,7 @@ This tutorial explains how to use 'rmldnn' to perform transfer learning to train
 
 Starting with a brief introduction about Transfer Learning, Transfer learning is a machine learning method in which a model generated for one job is reused as the starting point for a model on a different task. Here we have leveraged pre-trained RESNET50, which is trained on more than a million images from the ImageNet database. RESNET50 is CNN (Convolutional Neural Network) model which is about 50 layers deep. Below Image shows architecture of RESNET50 
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/ResnetArch.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/ResnetArch.png?raw=true
     :width: 750
     :align: center
   
@@ -26,7 +26,7 @@ We will use Kaggle Birds 400 Database which contains 400 bird species.58388 trai
 
 Note: There is an error in the training set in the directory BLACK & YELLOW BROADBILL in the dataset provided by Kaggle, which contains an extra space that is not present in the validation or testing sets. Please rename this file in the training set to remove any unnecessary space before using it.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/birds_cover.jpg?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/birds_cover.jpg?raw=true
 
 The pre-processed dataset can be downloaded directly from here for convenience.
 
@@ -54,14 +54,14 @@ On unzipping downloaded file we'll assume that it has following directory struct
 
 The images are multi-channel (Coloured) with size of 224 X 224, similar to ones in the figure below. 
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Birds_joined.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
 
 Since we'll be doing transfer learning, we'll need to first get our base model, which in our instance is RESNET50, and then add a single 400-unit dense layer at the end (with a log-softmax activation). After that, we'll need to save our prepared model as a Hdf5 file and our network architecture as a .json file so that we can train it with rmldnn. The network is depicted and described below:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/network_arch.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/network_arch.png?raw=true
     :height: 500
     :align: center
 
@@ -171,7 +171,7 @@ From the command line, one should do:
 
 `rmldnn` will configure the run and start the dataset:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Train_SS.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/images/Birds_Classification/images/Train_SS.png?raw=true
   :width: 1000
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
@@ -182,11 +182,11 @@ of correctly labeled data samples).
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/test_rpoch_loss.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/test_rpoch_loss.png?raw=true
   :width: 400
   :align: center
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/test_rpoch_accuracy.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/test_rpoch_accuracy.png?raw=true
   :width: 400
   :align: center
 
@@ -228,7 +228,7 @@ We can run inference on a multiple CPU by doing:
     rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
     rmldnn --config=config_test.json
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Test_SS.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Test_SS.png?raw=true
   :width: 1000
   :align: center
 
