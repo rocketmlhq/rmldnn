@@ -65,7 +65,7 @@ Since we'll be doing transfer learning, we'll need to first get our base model, 
     :height: 500
     :align: center
 
-You can perform following steps to obtain model and its architecture. We've additionally made .hdf5 and.json availble to download directly from here.
+You can perform following steps to obtain model and its architecture. We've additionally made .hdf5 to download directly from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__.
 
 .. code:: bash
 
