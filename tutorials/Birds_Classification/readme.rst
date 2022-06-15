@@ -193,14 +193,10 @@ We can monitor the run by plotting quantities like the training loss and the tes
 Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The above run writes out the model trained up to the 20th epoch as ``mnist_model/model_checkpoint_20.pt``.
-This model can be used to run stand-alone inference on a given set of MNIST digits.
-For example, assume we want to classify the following 10 random digits, which have been
-copied under ``mnist_digits/digit_*.jpg``:
-
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_test_digits.png
-  :width: 1000
-  :align: center
+The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
+This model can be used to run stand-alone inference on a given set of birds species.
+For example, assume we want to classify the following 400 random species, which have been
+copied under ``test_sample/*.jpg``:
 
 This simple configuration file
 (`config_mnist_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
@@ -209,45 +205,42 @@ can be used to run `rmldnn` inference:
 .. code:: bash
 
     {
-        "neural_network": {
-            "debug": true,
-            "outfile": "./mnist_predictions.txt",
-            "layers": "./mnist_keras_net.json",
-            "checkpoints": {
-                "load": "./mnist_model/model_checkpoint_20.pt"
-            },
-            "data": {
-                "input_type": "images",
-                "test_input_path": "./mnist_digits/",
-                "grayscale": true
-            }
+    "neural_network": {
+        "debug": true,
+        "outfile": "./predictions.txt",
+        "layers": "./layers.json",
+        "checkpoints": {
+            "load": "./model_checkpoints_save/model_checkpoint_6.pt"
+        },
+        "data": {
+            "input_type": "images",
+            "test_input_path": "./test_sample/"
         }
     }
+}
 
-We can run inference on a single CPU by doing:
+
+We can run inference on a multiple CPU by doing:
 
 .. code:: bash
 
-    $ singularity exec rmldnn_image.sif rmldnn --config= ./config_mnist_test.json
+    $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+    rmldnn --config=config_test.json
 
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_testing.png
   :width: 1000
   :align: center
 
-The output of classification is a directory named ``mnist_predictions/`` containing one small numpy file for each input sample.
-Since the MNIST model predicts a probability for each sample to be of one out of 10 possible classes, 
-those numpy arrays will be of shape :math:`(10,)`. To obtain the actual predictions, one needs to compute
+The output of classification is a directory named ``predictions/`` containing one small numpy file for each input sample.
+Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
+those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predictions, one needs to compute
 the `argmax` for each array:
 
 .. code:: bash
 
     import numpy as np
     import os
-    for file in sorted(os.listdir('./mnist_predictions/')):
-        print(np.argmax(np.load('./mnist_predictions/' + file)), end=' ')
+    for file in sorted(os.listdir('./predictions/')):
+        print(np.argmax(np.load('./predictions/' + file)), end=' ')
     
-    >>> 3 5 1 9 4 7 2 0 6 8 
-
-For this test set, we achieved 100% prediction accuracy with a model trained for only 20 epochs!
-This is actually not surprising, given that MNIST is nowadays considered the `hello-world`
-of image classification problems.
