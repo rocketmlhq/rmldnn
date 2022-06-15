@@ -1,0 +1,35 @@
+{
+    "neural_network": {
+        "num_epochs": 6,
+        "outfile": "out_classifier.txt",
+        "layers": "./layers.json",
+        "checkpoints": {
+            "load": "./model_checkpoints/model.h5",
+            "save": "model_checkpoints_save/",
+            "interval": 3
+        },
+        "data": {
+            "input_type": "images",
+            "target_type": "labels",
+            "input_path":      "./data/train/",
+            "test_input_path": "./data/valid/",
+            "batch_size": 64,
+            "test_batch_size": 128,
+            "preload": true,
+            "transforms": [
+                { "resize": [224, 224] }
+            ]
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 0.001,
+            "lr_scheduler": {
+                "type": "Exponential",
+                "gamma": 0.5
+            }
+        },
+        "loss": {
+            "function": "NLL"
+        }
+    }
+}
