@@ -228,7 +228,7 @@ We can run inference on a multiple CPU by doing:
     rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
     rmldnn --config=config_test.json
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_testing.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/Test_SS.png?raw=true
   :width: 1000
   :align: center
 
