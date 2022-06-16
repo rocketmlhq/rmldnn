@@ -219,6 +219,19 @@ can be used to run `rmldnn` inference:
     }
 }
 
+To get test_sample folder run following python code inside your main directory:
+
+.. code:: bash
+
+    import os 
+    import shutil
+    import random
+    os.mkdir('test_sample')
+    src='./data/test/'
+    dest='./test_sample/'
+    for directory in os.listdir(src):
+        random_file=random.choice(os.listdir(src+directory))
+        shutil.copy(src+directory+'/'+random_file,dest)
 
 We can run inference on a multiple CPU by doing:
 
