@@ -71,6 +71,7 @@ You can perform following steps to obtain model and its architecture. We've addi
     #importing libraries
     import tensorflow as tf
     from tensorflow.keras.applications.resnet50 import ResNet50
+    from tensorflow.keras.layers import Dense
     #preparing base model(RESNEt50)
     pretrained_model = ResNet50(
         input_shape=(224,224, 3),
@@ -211,7 +212,7 @@ For example, assume we want to classify the following 400 random species we firs
         os.rename(dest+random_file,dest+directory+random_file)
 
 This simple configuration file
-(`config_mnist_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
+(`config_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
 can be used to run `rmldnn` inference:
 
 .. code:: bash
