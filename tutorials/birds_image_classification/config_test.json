@@ -1,0 +1,14 @@
+{
+    "neural_network": {
+        "debug": true,
+        "outfile": "./predictions.txt",
+        "layers": "./layers.json",
+        "checkpoints": {
+            "load": "./model_checkpoints_save/model_checkpoint_6.pt"
+        },
+        "data": {
+            "input_type": "images",
+            "test_input_path": "./test_sample/"
+        }
+    }
+}
