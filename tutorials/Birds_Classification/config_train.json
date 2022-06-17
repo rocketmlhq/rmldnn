@@ -4,7 +4,7 @@
         "outfile": "out_classifier.txt",
         "layers": "./layers.json",
         "checkpoints": {
-            "load": "./model_checkpoints/model.h5",
+            "load": "./model_resnet50_imagenet.h5",
             "save": "model_checkpoints_save/",
             "interval": 3
         },
