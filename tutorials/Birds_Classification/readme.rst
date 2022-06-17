@@ -64,7 +64,7 @@ Since we'll be doing transfer learning, we'll need to first get our base model, 
     :height: 500
     :align: center
 
-You can perform following steps to obtain model and its architecture. We've additionally made .hdf5 to download directly from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__.
+You can perform following steps to obtain model and its architecture. We've additionally made .h5 to download directly from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__.
 
 .. code:: bash
 
@@ -106,10 +106,9 @@ in a single configuration file. To perform transfer learning using rmldnn we fir
         |   +-- test/
         |   +-- valid/
     |   +-- model_resnet_imagenet.h5
-        |   +-- model.h5
     |   +-- layers.json
 
-To run training process we will use following (config_train.json):
+To run training process we will use following ( config_train.json ):
 
 .. code:: bash
 
@@ -145,16 +144,19 @@ To run training process we will use following (config_train.json):
         },
         "loss": {
             "function": "NLL"
+            }
         }
     }
-}
+
+
+We only trained for 6 epochs because we discovered that it peaks around 5-6 epochs throughout training, thus it would be better if we just trained for 6 epochs.
 
 Most parameters in the config file are self-explanatory. The most important here are:
 
  - The neural network description file is specified in ``layers``
  - The input training and test data location is passed in ``input_path`` and ``test_input_path``
  - The optimizer used will be Adam, in which we have used learning rate scheduler which decreases the learning rate exponentially as we train. We have used 0.001 as starting point for our learning rate.
- - The loss function used will be NLL (Negative Log-Likelihood)
+ - The loss function used will be NLL ( Negative Log-Likelihood )
  - We will train for 6 epochs using a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 3 epochs.
 
 We will now run training on multi core CPU using a Docker image with `rmldnn`
@@ -225,9 +227,9 @@ can be used to run `rmldnn` inference:
         "data": {
             "input_type": "images",
             "test_input_path": "./test_sample/"
+            }
         }
     }
-}
 
 
 We can run inference on a multiple CPU by doing:
