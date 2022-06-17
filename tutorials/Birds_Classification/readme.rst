@@ -22,13 +22,12 @@ The above tasks will exemplify how to use `rmldnn` to:
 The dataset
 ~~~~~~~~~~~
 
-We will use Kaggle Birds 400 Database which contains 400 bird species.58388 training images, 2000 test images(5 images per species) and 2000 validation images(5 images per species.The classes includes ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other birds specieis. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ (as a zip file)
+We will use Kaggle Birds 400 Database which contains 400 bird species out of which 58388 training images, 2000 test images ( 5 images per species ) and 2000 validation images ( 5 images per species ) .The classes includes ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other birds specieis. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ ( as a zip file )
 
 Note: There is an error in the training set in the directory BLACK & YELLOW BROADBILL in the dataset provided by Kaggle, which contains an extra space that is not present in the validation or testing sets. Please rename this file in the training set to remove any unnecessary space before using it.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/birds_cover.jpg?raw=true
 
-The pre-processed dataset can be downloaded directly from here for convenience.
 
 On unzipping downloaded file we'll assume that it has following directory structure:
 
@@ -52,14 +51,14 @@ On unzipping downloaded file we'll assume that it has following directory struct
         |   +-- YELLOW HEADED BLACKBIRD/
 
 
-The images are multi-channel (Coloured) with size of 224 X 224, similar to ones in the figure below. 
+The images are multi-channel ( Coloured ) with size of 224 X 224, similar to ones in the figure below. 
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
 
-Since we'll be doing transfer learning, we'll need to first get our base model, which in our instance is RESNET50, and then add a single 400-unit dense layer at the end (with a log-softmax activation). After that, we'll need to save our prepared model as a Hdf5 file and our network architecture as a .json file so that we can train it with rmldnn. The network is depicted and described below:
+Since we'll be doing transfer learning, we'll need to first get our base model, which in our instance is RESNET50, and then add a single 400-unit dense layer at the end ( with a log-softmax activation ). After that, we'll need to save our prepared model as a HDF5 file and our network architecture as a .json file so that we can train it with rmldnn. The network is depicted and described below:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/network_arch.png?raw=true
     :height: 500
@@ -195,8 +194,20 @@ Running inference on a pre-trained model
 
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
 This model can be used to run stand-alone inference on a given set of birds species.
-For example, assume we want to classify the following 400 random species, which have been
-copied under ``test_sample/*.jpg``:
+For example, assume we want to classify the following 400 random species we first need to prepare test_sample, whcih can done by following below code:
+
+.. code:: bash
+
+    import os 
+    import shutil
+    import random
+    os.mkdir('test_sample')
+    src='./data/test/'
+    dest='./test_sample/'
+    for directory in os.listdir(src):
+        random_file=random.choice(os.listdir(src+directory))
+        shutil.copy(src+directory+'/'+random_file,dest)
+        os.rename(dest+random_file,dest+directory+random_file)
 
 This simple configuration file
 (`config_mnist_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
@@ -219,19 +230,6 @@ can be used to run `rmldnn` inference:
     }
 }
 
-To get test_sample folder run following python code inside your main directory:
-
-.. code:: bash
-
-    import os 
-    import shutil
-    import random
-    os.mkdir('test_sample')
-    src='./data/test/'
-    dest='./test_sample/'
-    for directory in os.listdir(src):
-        random_file=random.choice(os.listdir(src+directory))
-        shutil.copy(src+directory+'/'+random_file,dest)
 
 We can run inference on a multiple CPU by doing:
 
@@ -247,13 +245,25 @@ We can run inference on a multiple CPU by doing:
 
 The output of classification is a directory named ``predictions/`` containing one small numpy file for each input sample.
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
-those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predictions, one needs to compute
+those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predictions as well as accuracy, one needs to compute
 the `argmax` for each array:
 
 .. code:: bash
 
     import numpy as np
     import os
-    for file in sorted(os.listdir('./predictions/')):
-        print(np.argmax(np.load('./predictions/' + file)), end=' ')
+    cnt=0
+    for i in range(400):
+        x = np.argmax(np.load('./predictions/output_1_' + str(i) +'.npy'))
+        print(x, end=' ')
+        if(x==i):
+            cnt+=1
+    print("\n Accuracy is " + str(cnt/4) +'%')
+    
+On running above code we got an accuracy of about 94.75% which looks pretty good for data this huge.
+
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Test_inference_SS.png?raw=true
+  :width: 1000
+  :align: center
+  
     
