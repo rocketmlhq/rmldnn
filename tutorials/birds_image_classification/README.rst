@@ -85,7 +85,7 @@ You can perform following steps to obtain model and its architecture. We've addi
     outputs = Dense(400, activation='log_softmax')(pretrained_model.output)
     model = Model(inputs=inputs, outputs=outputs)
     #saving model
-    model.save("model.h5")
+    model.save("model_renet50_imagenet.h5")
     #saving architecture in json format
     d=model.to_json()
     with open("layers.json",'w') as f:
