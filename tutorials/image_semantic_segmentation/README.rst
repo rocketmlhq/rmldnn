@@ -191,7 +191,7 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    $ singularity exec rmldnn_image.sif rmldnn --config= ./config_pets_inference.json
+    $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_pets_inference.json
 
 Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
 with `matplotlib`. As expected, the predictions are arrays with 3 channels per pixel (containing the probabilities

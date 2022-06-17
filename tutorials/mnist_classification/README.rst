@@ -163,7 +163,7 @@ We can run inference on a single CPU by doing:
 
 .. code:: bash
 
-    $ singularity exec rmldnn_image.sif rmldnn --config= ./config_mnist_test.json
+    $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_mnist_test.json
 
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/figures/mnist_run_testing.png
   :width: 1000
