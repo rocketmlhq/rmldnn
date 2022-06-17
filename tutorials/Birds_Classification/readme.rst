@@ -90,7 +90,6 @@ You can perform following steps to obtain model and its architecture. We've addi
     with open("layers.json",'w') as f:
         f.write(d)
         
- Note: After getting layers.json file from above steps kindly edit it using editor of choice and change activation function of last layer from "log_softmax_v2" to "log_softmax" cause it may lead to an error.
 
 Running training
 ~~~~~~~~~~~~~~~~
@@ -106,7 +105,7 @@ in a single configuration file. To perform transfer learning using rmldnn we fir
         |   +-- train/
         |   +-- test/
         |   +-- valid/
-    |   +-- model_checkpoint/
+    |   +-- model_resnet_imagenet.h5
         |   +-- model.h5
     |   +-- layers.json
 
@@ -120,7 +119,7 @@ To run training process we will use following (config_train.json):
         "outfile": "out_classifier.txt",
         "layers": "./layers.json",
         "checkpoints": {
-            "load": "./model_checkpoints/model.h5",
+            "load": "./model_resnet_imagenet.h5",
             "save": "model_checkpoints_save/",
             "interval": 3
         },
@@ -170,7 +169,7 @@ From the command line, one should do:
 
 `rmldnn` will configure the run and start the dataset:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/Train_SS.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/Birds_Classification/images/train_SS.png?raw=true
   :width: 1000
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
