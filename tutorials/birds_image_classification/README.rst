@@ -1,39 +1,39 @@
 Birds Species classification using transfer learning
-====================
+====================================================
 
 Introduction
 ~~~~~~~~~~~~
 
-This tutorial explains how to use 'rmldnn' to perform transfer learning to train a model that classifies birds species images from dataset.(https://www.kaggle.com/datasets/gpiosenka/100-bird-species).
+This tutorial explains how to use **rmldnn** to perform transfer learning in order to train a model that classifies bird species images.
 
-Starting with a brief introduction about Transfer Learning, Transfer learning is a machine learning method in which a model generated for one job is reused as the starting point for a model on a different task. Here we have leveraged pre-trained RESNET50, which is trained on more than a million images from the ImageNet database. RESNET50 is CNN (Convolutional Neural Network) model which is about 50 layers deep. Below Image shows architecture of RESNET50 
+*Transfer learning* is a machine learning method in which a model trained with a given dataset is reused as starting point for a different task. Here we have leveraged a pre-trained RESNET50 model, which was trained on more than a million images from the ImageNet dataset. RESNET50 is a CNN (Convolutional Neural Network) model which is about 50 layers deep. The image below shows the architecture of RESNET50:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/ResnetArch.png?raw=true
     :width: 750
     :align: center
   
-The above tasks will exemplify how to use `rmldnn` to:
+The above tasks will exemplify how to use rmldnn to:
 
  - perform `transfer learning` by reusing model weights in a different model;
  - train a convolutional neural network;
- - use learning rate scheduler to decay leraning rate to reach to optimal model quickly.
+ - use a learning rate scheduler to decay the learning rate in order to speed up convergence.
 
 
 The dataset
 ~~~~~~~~~~~
 
-We will use Kaggle Birds 400 Database which contains 400 bird species out of which 58388 training images, 2000 test images ( 5 images per species ) and 2000 validation images ( 5 images per species ) .The classes includes ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other birds specieis. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ ( as a zip file )
+We will use the *Kaggle Birds 400* dataset, which contains 62K images of 400 species of birds, from which 58388 are training images, 2000 test images (5 images per species) and 2000 are validation images (5 images per species). The classes include: ABBOTTS BABBLER, ABBOTTS BOOBY, ABYSSINIAN GROUND HORNBILL and 397 other bird species. You can get this dataset from  `here <https://www.kaggle.com/datasets/gpiosenka/100-bird-species>`__ (as a zip file).
 
-Note: There is an error in the training set in the directory BLACK & YELLOW BROADBILL in the dataset provided by Kaggle, which contains an extra space that is not present in the validation or testing sets. Please rename this file in the training set to remove any unnecessary space before using it.
+**IMPORTANT:** There is an error in the training set from Kaggle: the directory "BLACK & YELLOW BROADBILL" contains an extra space that is not present in the validation or testing sets. Please rename this directory in the training set by removing the extra space before proceeding.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/birds_cover.jpg?raw=true
 
 
-On unzipping downloaded file we'll assume that it has following directory structure:
+We'll create a directory named ``data/`` and unzip the archive inside. You should have the following directory structure:
 
 .. code:: bash
 
-    +-- Data/
+    +-- data/
     |   +-- train/
         |   +-- ABBOTTS BABBLER/
         |   +-- ABBOTTS BOOBY/
@@ -51,28 +51,29 @@ On unzipping downloaded file we'll assume that it has following directory struct
         |   +-- YELLOW HEADED BLACKBIRD/
 
 
-The images are multi-channel ( Coloured ) with size of 224 X 224, similar to ones in the figure below. 
+The images are multi-channel (colored) with size 224 X 224, similar to the ones in the figure below. 
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
 
-Since we'll be doing transfer learning, we'll need to first get our base model, which in our instance is RESNET50, and then add a single 400-unit dense layer at the end ( with a log-softmax activation ). After that, we'll need to save our prepared model as a HDF5 file and our network architecture as a .json file so that we can train it with rmldnn. The network is depicted and described below:
+Since we'll be doing transfer learning, we'll need to first get our base model, which in our case is RESNET50, and then add a single 400-unit dense layer at the end (with a log-softmax activation). After that, we'll need to save our prepared model as an HDF5 file and our network architecture as a .json file. The network is depicted below:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/network_arch.png?raw=true
     :height: 500
     :align: center
 
-You can perform following steps to obtain model and its architecture. We've additionally made .h5 to download directly from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__.
+For reference, the above steps (fetching and exporting the model) can be accomplished with the script below. However, for convenience, the .h5 is available from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__, and the network file
+`layers.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/layers.json>`__
+is provided with this tutorial.
 
-.. code:: bash
+.. code:: python
 
-    #importing libraries
     import tensorflow as tf
     from tensorflow.keras.applications.resnet50 import ResNet50
     from tensorflow.keras.layers import Dense
-    #preparing base model(RESNEt50)
+    
     pretrained_model = ResNet50(
         input_shape=(224,224, 3),
         include_top=False,
@@ -80,13 +81,16 @@ You can perform following steps to obtain model and its architecture. We've addi
         pooling='avg'
     )
     pretrained_model.trainable = False
-    #adding dense layer with 400 units, log_softmax activation after base model
+    
+    # Add dense layer with 400 units and log_softmax activation after base model
     inputs = pretrained_model.input
     outputs = Dense(400, activation='log_softmax')(pretrained_model.output)
     model = Model(inputs=inputs, outputs=outputs)
-    #saving model
+    
+    # Export model as HDF5
     model.save("model_renet50_imagenet.h5")
-    #saving architecture in json format
+    
+    # Save network architecture in json format
     d=model.to_json()
     with open("layers.json",'w') as f:
         f.write(d)
@@ -95,9 +99,8 @@ You can perform following steps to obtain model and its architecture. We've addi
 Running training
 ~~~~~~~~~~~~~~~~
 
-`rmldnn` is a code-free, high-performance tool for distributed deep-learning, and the entire flow can be defined
-in a single configuration file. To perform transfer learning using rmldnn we first need to load our prepared model as well as we will also use our network architecture json file which tells about layers present in our model. We will assume following directory structure is maintained inside main folder:
-
+**rmldnn** is a code-free, high-performance tool for distributed deep-learning, and the entire flow can be defined
+in a single configuration file. We will assume the following directory structure inside the main folder:
 
 .. code:: bash
 
@@ -109,9 +112,10 @@ in a single configuration file. To perform transfer learning using rmldnn we fir
     |   +-- model_resnet_imagenet.h5
     |   +-- layers.json
 
-To run training process we will use following ( config_train.json ):
+To run training, we will use the following configuration file
+(`config_train.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/config_train.json>`__):
 
-.. code:: bash
+.. code:: json
 
     {
     "neural_network": {
@@ -121,10 +125,10 @@ To run training process we will use following ( config_train.json ):
         "checkpoints": {
             "load": "./model_resnet_imagenet.h5",
             "save": "model_checkpoints_save/",
-            "interval": 3
+            "interval": 2
         },
         "data": {
-            "input_type": "images",
+            "input_type":  "images",
             "target_type": "labels",
             "input_path":      "./data/train/",
             "test_input_path": "./data/valid/",
@@ -150,27 +154,24 @@ To run training process we will use following ( config_train.json ):
     }
 
 
-We only trained for 6 epochs because we discovered that it peaks around 5-6 epochs throughout training, thus it would be better if we just trained for 6 epochs.
-
 Most parameters in the config file are self-explanatory. The most important here are:
 
+ - The number of epochs is set to 6, since test accuracy was found to peak at around 5 to 6 epochs during training.
  - The neural network description file is specified in ``layers``
- - The input training and test data location is passed in ``input_path`` and ``test_input_path``
- - The optimizer used will be Adam, in which we have used learning rate scheduler which decreases the learning rate exponentially as we train. We have used 0.001 as starting point for our learning rate.
- - The loss function used will be NLL ( Negative Log-Likelihood )
- - We will train for 6 epochs using a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 3 epochs.
+ - The input training and test data locations are passed in ``input_path`` and ``test_input_path``
+ - The optimizer used will be Adam, with a learning rate scheduler which lowers the learning rate exponentially as we train. We have used 0.001 as the initial learning rate.
+ - The loss function used will be NLL (Negative Log-Likelihood)
+ - We will use a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 2 epochs.
 
-We will now run training on multi core CPU using a Docker image with `rmldnn`
+We will run training on a multi-core CPU node using a Docker image with `rmldnn`
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
-From the command line, one should do:
+The following command will run training in parallel by spawning 4 processes, each using 8 threads:
 
 .. code:: bash
 
    $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
-    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
-    rmldnn --config=config_test.json
-
-`rmldnn` will configure the run and start the dataset:
+     rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+     rmldnn --config=config_train.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/train_SS.png?raw=true
   :width: 1000
@@ -195,24 +196,27 @@ Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
-This model can be used to run stand-alone inference on a given set of birds species.
-For example, assume we want to classify the following 400 random species we first need to prepare test_sample, whcih can done by following below code:
+This model can be used to run stand-alone inference on a given set of birds images.
+For example, the below script will copy one random image from each bird species (to a total of 400 imges) into a new ``test_samples/`` directory:
 
-.. code:: bash
+.. code:: python
 
     import os 
     import shutil
     import random
-    os.mkdir('test_sample')
-    src='./data/test/'
-    dest='./test_sample/'
-    for directory in os.listdir(src):
-        random_file=random.choice(os.listdir(src+directory))
-        shutil.copy(src+directory+'/'+random_file,dest)
-        os.rename(dest+random_file,dest+directory+random_file)
 
-This simple configuration file
-(`config_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/mnist_classification/config_mnist_test.json>`__)
+    src='./data/test/'
+    dest='./test_samples/'
+    
+    os.mkdir(dest)
+    
+    for directory in os.listdir(src):
+        random_file = random.choice(os.listdir(src + directory))
+        shutil.copy(src + directory + '/' + random_file, dest)
+        os.rename(dest + random_file, dest + directory + random_file)
+
+The following configuration file
+(`config_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/config_test.json>`__)
 can be used to run `rmldnn` inference:
 
 .. code:: bash
@@ -227,42 +231,52 @@ can be used to run `rmldnn` inference:
         },
         "data": {
             "input_type": "images",
-            "test_input_path": "./test_sample/"
-            }
+            "test_input_path": "./test_samples/",
+            "transforms": [
+                { "resize": [224, 224] }
+            ]
         }
     }
 
 
-We can run inference on a multiple CPU by doing:
+We will run inference in parallel using 4 processes (8 threads each) on a multi-core CPU node:
 
 .. code:: bash
 
     $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
-    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
-    rmldnn --config=config_test.json
+      rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+      rmldnn --config=config_test.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_SS.png?raw=true
   :width: 1000
   :align: center
 
-The output of classification is a directory named ``predictions/`` containing one small numpy file for each input sample.
+The output of classification is a directory named ``predictions/`` containing one numpy file for each input sample.
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
-those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predictions as well as accuracy, one needs to compute
-the `argmax` for each array:
+those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
+the `argmax` of each array. This is done in the below script (available as 
+`print_predictions.py <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/print_predictions.py>`__),
+which also computes the total accuracy:
 
-.. code:: bash
+.. code:: python
 
     import numpy as np
     import os
-    cnt=0
-    for i in range(400):
+
+    right = 0
+    size  = 400
+
+    for i in range(size):
         x = np.argmax(np.load('./predictions/output_1_' + str(i) +'.npy'))
         print(x, end=' ')
-        if(x==i):
-            cnt+=1
-    print("\n Accuracy is " + str(cnt/4) +'%')
-    
-On running above code we got an accuracy of about 94.75% which looks pretty good for data this huge.
+        if (x == i):
+            right += 1
+
+    print("\n\nAccuracy is " + str(100 * right / size) +'%')
+
+Since our test dataset contains one image from each bird species in order, the above script should print a sequence from 0 to 399, 
+if all predictions are correct. In reality, we get an accuracy of about 95%, which is great for a classification problem 
+with 400 classes trained for only 6 epochs, showing the power of the transfer learning method.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_inference_SS.png?raw=true
   :width: 1000
