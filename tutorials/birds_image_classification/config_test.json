@@ -8,7 +8,10 @@
         },
         "data": {
             "input_type": "images",
-            "test_input_path": "./test_sample/"
+            "test_input_path": "./test_samples/",
+            "transforms": [
+                { "resize": [224, 224] }
+            ]
         }
     }
 }
