@@ -70,9 +70,10 @@ is provided with this tutorial.
 
 .. code:: python
 
-    import tensorflow as tf
+    import json
     from tensorflow.keras.applications.resnet50 import ResNet50
     from tensorflow.keras.layers import Dense
+    from tensorflow.keras.models import Model
     
     pretrained_model = ResNet50(
         input_shape=(224,224, 3),
@@ -91,9 +92,9 @@ is provided with this tutorial.
     model.save("model_renet50_imagenet.h5")
     
     # Save network architecture in json format
-    d=model.to_json()
+    net = json.dumps(json.loads(model.to_json()), indent=4)
     with open("layers.json",'w') as f:
-        f.write(d)
+        f.write(net)
         
 
 Running training
@@ -174,7 +175,7 @@ The following command will run training in parallel by spawning 4 processes, eac
      rmldnn --config=config_train.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/train_SS.png?raw=true
-  :width: 1000
+  :width: 800
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
 ``outfile`` parameter in the config file. The file ``out_classifier_train.txt`` reports the loss value and gradient norm
@@ -248,7 +249,7 @@ We will run inference in parallel using 4 processes (8 threads each) on a multi-
       rmldnn --config=config_test.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_SS.png?raw=true
-  :width: 1000
+  :width: 800
   :align: center
 
 The output of classification is a directory named ``predictions/`` containing one numpy file for each input sample.
@@ -279,7 +280,7 @@ if all predictions are correct. In reality, we get an accuracy of about 95%, whi
 with 400 classes trained for only 6 epochs, showing the power of the transfer learning method.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_inference_SS.png?raw=true
-  :width: 1000
+  :width: 800
   :align: center
   
     
