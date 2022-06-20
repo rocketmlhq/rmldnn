@@ -89,7 +89,7 @@ is provided with this tutorial.
     model = Model(inputs=inputs, outputs=outputs)
     
     # Export model as HDF5
-    model.save("model_renet50_imagenet.h5")
+    model.save("model_resnet50_imagenet.h5")
     
     # Save network architecture in json format
     net = json.dumps(json.loads(model.to_json()), indent=4)
@@ -110,7 +110,7 @@ in a single configuration file. We will assume the following directory structure
         |   +-- train/
         |   +-- test/
         |   +-- valid/
-    |   +-- model_resnet_imagenet.h5
+    |   +-- model_resnet50_imagenet.h5
     |   +-- layers.json
 
 To run training, we will use the following configuration file
@@ -124,7 +124,7 @@ To run training, we will use the following configuration file
         "outfile": "out_classifier.txt",
         "layers": "./layers.json",
         "checkpoints": {
-            "load": "./model_resnet_imagenet.h5",
+            "load": "./model_resnet50_imagenet.h5",
             "save": "model_checkpoints_save/",
             "interval": 2
         },
@@ -198,7 +198,9 @@ Running inference on a pre-trained model
 
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
 This model can be used to run stand-alone inference on a given set of birds images.
-For example, the below script will copy one random image from each bird species (to a total of 400 imges) into a new ``test_samples/`` directory:
+For example, the below script (
+`test_sample.py <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/test_sample.py>`__)
+will copy one random image from each bird species (to a total of 400 imges) into a new ``test_samples/`` directory:
 
 .. code:: python
 
