@@ -11,7 +11,10 @@ Welcome to RocketML Deep Neural Networks documentation!
    :caption: Contents:
 
    deep_neural_networks.rst
-  
+   configuration.rst
+   applications.rst
+   transfer_learning.rst
+   reference.rst  
 
 Indices and tables
 ==================
