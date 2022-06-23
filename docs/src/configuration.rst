@@ -132,7 +132,7 @@ The following LR schedulers are currently supported in :code:`rmldnn`:
 
 - **Multi-step LR**: Decays the learning rate :math:`\gamma` once the number of epoch reaches one of the milestones.
 
-    :code:`{ "type": "MultiStep", "gamma": 0.1, "milestones": [2,5,20,50], }`
+    :code:`{ "type": "MultiStep", "gamma": 0.1, "milestones": [2,5,20,50] }`
 
 - **Exponential LR**: Decays the learning rate by :math:`\gamma` at the end of every single epoch.
 
