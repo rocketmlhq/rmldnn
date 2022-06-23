@@ -1,0 +1,255 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Applications &#8212; RocketML 1.0.0 (RocketML Confidential) documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0 (RocketML Confidential)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transfer Learning" href="transfer_learning.html" />
+    <link rel="prev" title="Deep Neural Networks" href="deep_neural_networks.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="applications">
+<h1>Applications<a class="headerlink" href="#applications" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="image-classification">
+<h2>Image classification<a class="headerlink" href="#image-classification" title="Permalink to this headline">¶</a></h2>
+<p>In order to train a network for image classification purposes, one must use an <strong>image</strong> data loader, whose configuration
+would look something like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;input_type&quot;</span>: <span class="s2">&quot;images&quot;</span>,
+    <span class="s2">&quot;target_type&quot;</span>: <span class="s2">&quot;labels&quot;</span>,
+    <span class="s2">&quot;input_path&quot;</span>: <span class="s2">&quot;/path/to/training_data/&quot;</span>,
+    <span class="s2">&quot;test_input_path&quot;</span>: <span class="s2">&quot;/path/to/evaluation_data/&quot;</span>,
+    <span class="s2">&quot;batch_size&quot;</span>: <span class="m">128</span>,
+    <span class="s2">&quot;test_batch_size&quot;</span>: <span class="m">200</span>,
+    <span class="s2">&quot;preload&quot;</span>: true,
+    <span class="s2">&quot;input_grayscale&quot;</span>: false,
+    <span class="s2">&quot;target_grayscale&quot;</span>: true,
+    <span class="s2">&quot;transforms&quot;</span>: <span class="o">[</span>
+        <span class="o">{</span> <span class="s2">&quot;resize&quot;</span>: <span class="o">[</span><span class="m">28</span>, <span class="m">28</span><span class="o">]</span> <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The parameters <code class="code docutils literal"><span class="pre">input_grayscale</span></code> and <code class="code docutils literal"><span class="pre">target_grayscale</span></code> are specific to the image data loader, and
+control whether input and target images should be converted to single-channel grayscale (default is <em>false</em>).
+If the same behavior is desired for both inputs and targets,
+the single parameter <code class="code docutils literal"><span class="pre">grayscale</span></code> can be used instead for simplicity.</p>
+<p>Specifying <code class="code docutils literal"><span class="pre">target_type:</span> <span class="pre">labels</span></code> triggers the generation of class labels based on directory names.
+This requires each image file to be inside a directory whose name uniquely identifies that image’s class.
+(If that is not convenient, one can instead use the parameters <strong>training_tag/testing_tag</strong> to indicate a directory
+anywhere in the path underneath which the class name can be found.)</p>
+<p>The <code class="code docutils literal"><span class="pre">labels</span></code> data loader generates targets which are 1D tensors containing a class index (label) in the
+range <img class="math" src="_images/math/582627475467c6d96840a3e9eef5a39bfbdb90c7.png" alt="[0, C]"/> for each input image in the mini-batch, where <img class="math" src="_images/math/afce44aa7c55836ca9345404c22fc7b599d2ed84.png" alt="C"/> is the number of classes. This requires
+the loss function to be like the <cite>NLL</cite>, which expects a target with such shape.</p>
+</div>
+<div class="section" id="image-segmentation">
+<h2>Image segmentation<a class="headerlink" href="#image-segmentation" title="Permalink to this headline">¶</a></h2>
+<p>Image segmentation works similarly to classification, except that a <cite>target image</cite> (mask) must be provided instead of
+a label for each training example. While the label is a number that is deduced automatically from the input images’
+directory names, the target images have to be provided explicitly by means of the <strong>target_path</strong>
+and <strong>test_target_path</strong> parameters of the data loader. These specify the directories where the training and evaluation
+target images (masks) are located, respectively.
+Also, since the input and target types are the same in this case (i.e., images), one can simply specify <code class="code docutils literal"><span class="pre">type:</span> <span class="pre">images</span></code>,
+instead of passing both <code class="code docutils literal"><span class="pre">input_type</span></code> and <code class="code docutils literal"><span class="pre">target_type</span></code>.
+The remaining parameters in the <strong>data</strong> section are the same as for image classification:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;images&quot;</span>,
+    <span class="s2">&quot;input_path&quot;</span>:       <span class="s2">&quot;/path/to/training_images/&quot;</span>,
+    <span class="s2">&quot;target_path&quot;</span>:      <span class="s2">&quot;/path/to/training_masks/&quot;</span>,
+    <span class="s2">&quot;test_input_path&quot;</span>:  <span class="s2">&quot;/path/to/evaluation_images/&quot;</span>,
+    <span class="s2">&quot;test_target_path&quot;</span>: <span class="s2">&quot;/path/to/evaluation_masks/&quot;</span>
+    ...
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The target images must be of the same size and depth as the output of the network, and a loss function that
+expects its input and target to be of the same shape (e.g., <cite>MSE</cite>, <cite>BCE</cite>, etc) must be used.</p>
+</div>
+<div class="section" id="pde-solvers">
+<h2>PDE solvers<a class="headerlink" href="#pde-solvers" title="Permalink to this headline">¶</a></h2>
+<p>These applications can solve partial differential equations by using the PDE function itself, as well as boundary and initial
+conditions, as constraints that are enforced by the loss function. It currently supports:</p>
+<ol class="arabic simple">
+<li>the 1+1D Burgers’ equation (one spatial dimension plus time) with boundary conditions <img class="math" src="_images/math/0a03b3884f3d1eee0781440990adbddfbd02e03e.png" alt="u(x,0)=b(x)"/> and <img class="math" src="_images/math/906ba81817d619d86a37b765f87da898f42f693e.png" alt="u(0,t)=0"/></li>
+<li>the 2D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/9a5cc5bab59d944129d6c75bf0975085648cd9e1.png" alt="u(0,y)=1"/>, <img class="math" src="_images/math/90d93f1903728131273bb6bef96bc8863511f08b.png" alt="u(1,y)=0"/>
+and <img class="math" src="_images/math/816691fba2a2705e69dd85d0618248516f29f45b.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</li>
+<li>the 3D stochastic Poisson equation with boundary conditions <img class="math" src="_images/math/e5db2b2608ce30eccce92d54813f9144bbfc0c55.png" alt="u(0,y,z)=1"/>, <img class="math" src="_images/math/92f0b2a0235a35ab7d77ba3e9d1904cde9db4315.png" alt="u(1,y,z)=0"/>
+and <img class="math" src="_images/math/816691fba2a2705e69dd85d0618248516f29f45b.png" alt="\partial u / \partial \hat n = 0"/> on other boundaries</li>
+</ol>
+<p><strong>Burgers’ PDE solver</strong></p>
+<p>The Burgers’ equation in one spatial dimension can be written as</p>
+<div class="math">
+<p><img src="_images/math/6f3c2d3aadbca5e72ae104952efc1019154ad976.png" alt="\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} = \nu \frac{\partial^2 u}{\partial x^2},"/></p>
+</div><p>where <img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> is the diffusion coefficient. When <img class="math" src="_images/math/24c69650e2e972160b617b12c0326eb83694b726.png" alt="\nu = 0"/>, the Burgers’ equation is said to be <cite>inviscid</cite>.</p>
+<p>The training examples for the network are sets of boundary condition functions <img class="math" src="_images/math/2bc79bf20d1935420e91ec032e810c6dcdc579c1.png" alt="b(x)"/> with the form</p>
+<div class="math">
+<p><img src="_images/math/aae13c8f967652542b06c3a49b67e5bceffda4e2.png" alt="b(x) = \frac{1}{2} \left( 1 - \cos(2 \pi c x / d) \right),"/></p>
+</div><p>as well as linear supperpositions of these raised-cosine functions,
+where <img class="math" src="_images/math/b9d10b54744d07746b97f53c55eb98046fd76c8c.png" alt="d"/> is the domain size in the <cite>x</cite>-dimension, and the frequency <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> is sampled from the
+interval <img class="math" src="_images/math/2a3040fb249c53d9128e9734ef9009c3dc86a0ef.png" alt="[c_{min}, c_{max}]"/> using one of the supported distributions (see <code class="code docutils literal"><span class="pre">bc_type</span></code> parameter below).</p>
+<p>The data loader in this case is, therefore, a PDE boundary condition generator, which accepts the following configuration:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;type&quot;</span>: <span class="s2">&quot;pde&quot;</span>,
+    <span class="s2">&quot;domain_size&quot;</span>: <span class="m">128</span>,
+    <span class="s2">&quot;num_examples&quot;</span>: <span class="m">64</span>,
+    <span class="s2">&quot;batch_size&quot;</span>: <span class="m">16</span>,
+    <span class="s2">&quot;num_test_examples&quot;</span>: <span class="m">8</span>,
+    <span class="s2">&quot;test_batch_size&quot;</span>: <span class="m">4</span>,
+    <span class="s2">&quot;bc_frequency&quot;</span>: <span class="o">[</span><span class="m">3</span>, <span class="m">6</span><span class="o">]</span>,
+    <span class="s2">&quot;bc_type&quot;</span>: <span class="s2">&quot;random_uniform&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The following parameters can be set:</p>
+<ul>
+<li><p class="first"><strong>domain_size</strong> (required): The size of the domain in <img class="math" src="_images/math/a59f68a4202623bb859a7093f0316bf466e6f75d.png" alt="x"/> (the number of time steps is determined by the network).</p>
+</li>
+<li><p class="first"><strong>num_examples</strong>: The total number of training examples (i.e., initial conditions). If omitted, the training step is skipped.</p>
+</li>
+<li><p class="first"><strong>batch_size</strong>: The number of examples per mini-batch during training (defaults to 64).</p>
+</li>
+<li><p class="first"><strong>num_test_examples</strong>: The total number of evaluation examples. If omitted, the evaluation step is skipped.</p>
+</li>
+<li><p class="first"><strong>test_batch_size</strong>: The number of examples per mini-batch during evaluation (defaults to 64).</p>
+</li>
+<li><p class="first"><strong>bc_frequency</strong>: A range <img class="math" src="_images/math/73047dee1f1c22af997061df225c786b174fd5ff.png" alt="\mathcal{R} = [c_{min}, c_{max}]"/> for the initial condition frequencies <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/>.</p>
+</li>
+<li><p class="first"><strong>bc_type</strong>: The method for how to sample the frequencies from <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>. Can have the following values:</p>
+<ul>
+<li><p class="first"><strong>random_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> randomly from <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>
+with a uniform probability distribution <img class="math" src="_images/math/5e65d328c2bfb7c08cb1f0d1a04963c424a9b5e4.png" alt="P(i) = 1 / (c_{max} - c_{min})"/>.</p>
+</li>
+<li><p class="first"><strong>fixed_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> sequentialy from evenly spaced points in <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>, i.e.,</p>
+<div class="math">
+<p><img src="_images/math/1fe145fe2d728fce3722d67052869c3df5fff60f.png" alt="c_i = c_{min} + i \frac{c_{max} - c_{min}}{\textrm{num-examples} - 1}."/></p>
+</div><p>where <img class="math" src="_images/math/2ce06425ced8128644dde6a56483170c03460a35.png" alt="i \in [0, \textrm{num-examples} - 1]"/>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>The loss function configuration depends on the specific equation being solved.
+For Burgers’ PDE, one must set the parameter <cite>function</cite> as <code class="code docutils literal"><span class="pre">Burgers_PDE</span></code>,
+and the following additional parameters are supported:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;function&quot;</span>: <span class="s2">&quot;Burgers_PDE&quot;</span>,
+    <span class="s2">&quot;diffusion_coeff&quot;</span>: <span class="m">0</span>.01,
+    <span class="s2">&quot;boundary_factor&quot;</span>: <span class="m">64</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>diffusion_coeff</strong>: The value of <img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> (defaults to zero, i.e., inviscid Burgers)</li>
+<li><strong>boundary_factor</strong>: A multiplier for the boundary + initial condition terms relative to the PDE term.
+Experiments have shown that a value of 64 works well (defaults to 1).</li>
+</ul>
+<p><strong>2D/3D Poisson PDE solver</strong></p>
+<p>The Poisson equation is defined as</p>
+<div class="math">
+<p><img src="_images/math/0e4f00fa94eb31902badf99249292d2909f9bbd0.png" alt="-\nabla\cdot (\nu(x,y) \nabla u) = f,"/></p>
+</div><p>where <img class="math" src="_images/math/b8ede2f1bd65d109994aaa4fef0ff61bbf1639ed.png" alt="\nu(x,y)"/> is the <cite>diffusivity</cite> function. The forcing function <img class="math" src="_images/math/875eb40014526135383caa89fd500ae40a835f56.png" alt="f"/> is assumed to be zero.
+The loss <cite>function</cite> must be set to <code class="code docutils literal"><span class="pre">Poisson2D_PDE</span></code> or <code class="code docutils literal"><span class="pre">Poisson3D_PDE</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;loss&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;function&quot;</span>: <span class="s2">&quot;Poisson2D_PDE&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>To run <code class="code docutils literal"><span class="pre">rmldnn</span></code> with any of the PDE solver loss functions, add the parameter <code class="code docutils literal"><span class="pre">--app=pde</span></code> to the command line:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>rmldnn --app<span class="o">=</span>pde --config<span class="o">=</span>&lt;json_config_file&gt;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Applications</a><ul>
+<li><a class="reference internal" href="#image-classification">Image classification</a></li>
+<li><a class="reference internal" href="#image-segmentation">Image segmentation</a></li>
+<li><a class="reference internal" href="#pde-solvers">PDE solvers</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="deep_neural_networks.html" title="previous chapter">Deep Neural Networks</a></li>
+      <li>Next: <a href="transfer_learning.html" title="next chapter">Transfer Learning</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/applications.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, RocketML.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/applications.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
