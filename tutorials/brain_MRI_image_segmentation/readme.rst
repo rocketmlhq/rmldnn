@@ -21,7 +21,7 @@ The dataset
 We will use the `Brain MRI segmentation <https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation>`__
 dataset, which contains brain MR images together with manual FLAIR abnormality segmentation masks, as shown below..  
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/cat_sample.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/sample.png?raw=true
   :width: 650
   
 
