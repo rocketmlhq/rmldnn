@@ -248,8 +248,8 @@ we will experiment with subsets of the original training dataset, and assess how
 .. code:: bash
 
   "outfile": "out_inpaint_classifier_80pct.txt"
-"input_path":      "./natural_images/training_80pct/",
-"test_input_path": "./natural_images/testing",
+  "input_path":      "./natural_images/training_80pct/",
+  "test_input_path": "./natural_images/testing",
 
 We now run the classifier training again for 20%, 40%, 60%, and 80% of the original data. The plot below shows the resulting accuracies for each data subset used:
 
