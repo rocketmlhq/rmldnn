@@ -245,8 +245,9 @@ To make predictions, fully-supervised machine learning techniques require labele
 To demonstrate how self-supervised methods can be used with fewer labels, 
 we will experiment with subsets of the original training dataset, and assess how the smaller datasets affect our accuracy and by how much. After a new directory containing, for example, 80% of the original dataset is created, one can point to it on the config file by doing:
 
-.. code:: bash 
-"outfile": "out_inpaint_classifier_80pct.txt"
+.. code:: bash
+
+  "outfile": "out_inpaint_classifier_80pct.txt"
 "input_path":      "./natural_images/training_80pct/",
 "test_input_path": "./natural_images/testing",
 
