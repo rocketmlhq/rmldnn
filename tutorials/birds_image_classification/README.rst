@@ -200,7 +200,7 @@ The above run writes out the model trained up to the 6th epoch as ``model_checkp
 This model can be used to run stand-alone inference on a given set of birds images.
 For example, the below script (
 `test_sample.py <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/test_sample.py>`__)
-will copy one random image from each bird species (to a total of 400 imges) into a new ``test_samples/`` directory:
+will copy one random image from each bird species (to a total of 400 images) into a new ``test_samples/`` directory:
 
 .. code:: python
 
