@@ -235,3 +235,27 @@ computed as the fraction of correctly labeled samples
 .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/accuracy_classification.png
   :width: 500
   :align: center
+  
+Training with smaller labeled dataset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+To make predictions, fully-supervised machine learning techniques require labeled training datasets. Manually labeling training data can be costly and time-consuming, especially when the dataset is too large. Self-supervised methods reduce the need for data labeling by allowing models to label, categorize, and analyze data on their own.
+
+To demonstrate how self-supervised methods can be used with fewer labels, 
+we will experiment with subsets of the original training dataset, and assess how the smaller datasets affect our accuracy and by how much. After a new directory containing, for example, 80% of the original dataset is created, one can point to it on the config file by doing:
+
+.. code:: bash
+
+  "outfile": "out_inpaint_classifier_80pct.txt"
+  "input_path":      "./natural_images/training_80pct/",
+  "test_input_path": "./natural_images/testing",
+
+We now run the classifier training again for 20%, 40%, 60%, and 80% of the original data. The plot below shows the resulting accuracies for each data subset used:
+
+.. image:: https://github.com/RhythmBindal/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/Accuracy%20as%20percentage%20of%20training%20data.png
+  :width: 500
+  :align: center
+
+By training with only 40% of the original labels, we observe only a very slight decline in accuracy from the target value of 92% obtained at 100% labels to 87% at 40% labels. Thus this enables training with fewer labels without significantly compromising accuracy.
+
