@@ -25,10 +25,10 @@ saved during :math:`D_1` training:
 
 Two main use cases can occur depending on the type of network:
 
-**1. Purelly convolutional networks**
+**1. Purely convolutional networks**
 
 In this case, the layers of the network are agnostic to the training sample sizes (as long as the tensors
-have the same rank) and, therefore, do not need to be changed when transfering learning.
+have the same rank) and, therefore, do not need to be changed when transferring learning.
 The only adjustment needed in the network file is the input size, usually defined in 
 the first layer (e.g., InputLayer):
 
@@ -55,7 +55,7 @@ If the network contains layers whose configuration depends on the size of the tr
 (e.g., Dense), then the parameters for those layers cannot be transferred from a model trained 
 on a dataset with different size samples. In this case, those layers have to be renamed in the
 network file and retrained with the new dataset. When loading the model, :code:`rmldnn` will warn
-about layers whose parameters cannot be transfered:
+about layers whose parameters cannot be transferred:
 
 .. code-block:: bash
 
@@ -70,7 +70,7 @@ about layers whose parameters cannot be transfered:
 One can leverage transfer learning to emulate the multigrid method for solving PDEs by training
 models of increasing resolution which are initialized from lower resolution ones. If the network
 is fully convolutional, a model trained at a certain resolution (data size) can be completely 
-re-utilized when going to higher resolution (i.e., all layer parameters transfered). And even if
+re-utilized when going to higher resolution (i.e., all layer parameters transferred). And even if
 the network changes at different resolutions, at least part of the model can perhaps be re-utilized.
 
 For example, in order to train a UNet whose depth increases with resolution, one could simply add

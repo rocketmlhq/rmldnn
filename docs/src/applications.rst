@@ -90,7 +90,7 @@ The training examples for the network are sets of boundary condition functions :
 .. math::
     b(x) = \frac{1}{2} \left( 1 - \cos(2 \pi c x / d) \right),
 
-as well as linear supperpositions of these raised-cosine functions,
+as well as linear superpositions of these raised-cosine functions,
 where :math:`d` is the domain size in the `x`-dimension, and the frequency :math:`c` is sampled from the 
 interval :math:`[c_{min}, c_{max}]` using one of the supported distributions (see :code:`bc_type` parameter below).
 
@@ -121,7 +121,7 @@ The following parameters can be set:
 
   * **random_uniform**: Selects :math:`c` randomly from :math:`\mathcal{R}` 
     with a uniform probability distribution :math:`P(i) = 1 / (c_{max} - c_{min})`.
-  * **fixed_uniform**: Selects :math:`c` sequentialy from evenly spaced points in :math:`\mathcal{R}`, i.e.,
+  * **fixed_uniform**: Selects :math:`c` sequentially from evenly spaced points in :math:`\mathcal{R}`, i.e.,
 
     .. math:: c_i = c_{min} + i \frac{c_{max} - c_{min}}{\textrm{num-examples} - 1}.
 

@@ -245,7 +245,7 @@ custom implementations:
 
 - **nll**: Log-Likelihood (NLL) loss function. Useful to train a classification problem with :math:`C` classes. Accepts an optional
   list of weights to be applied to each class.
-- **bce**: Binary cross entroy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.
+- **bce**: Binary cross entropy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.
 - **mse**: Mean squared error (squared L2 norm) loss function.
 - **Dice**: Computes the Dice coefficient (a.k.a. F1-score) between output and target.
 - **Jaccard**: Computes the Jaccard score (a.k.a. Intersection-over-Union, or IoU) between output and target.
@@ -279,7 +279,7 @@ The following data types are currently supported in RocketML:
 - **mnist**: Loads data from the MNIST handwritten digits database in binary format.
 - **images**: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.
 - **labels**: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).
-- **numpy**: Loads data from NumPy arrays in either :code:`.npy` format (one sample per file) or :code:`.npz` format (multipler samples per file).
+- **numpy**: Loads data from NumPy arrays in either :code:`.npy` format (one sample per file) or :code:`.npz` format (multiple samples per file).
   Also supports the data slicing capability described below.
 - **pde**: Generates initial conditions to be used with a DNN-based partial differential equation solver.
 
@@ -288,9 +288,9 @@ The following parameters apply to all data loader types, and are critical to con
 - **input_type**: Input data type.
 - **target_type**: Target data type.
 - **type**: If input and target types are the same, this parameter can be used for simplicity.
-- **input_path**: Path to directory with training input samples. If not defined, training step is skipped.
+- **input_path**: Path to directory with training input samples. If not defined, the training step is skipped.
 - **target_path**: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)
-- **test_input_path**: Path to directory with test (evaluation) input samples. If not defined, evaluation step is skipped.
+- **test_input_path**: Path to directory with test (evaluation) input samples. If not defined, the evaluation step is skipped.
 - **test_target_path**: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).
 - **batch_size**: Number of training samples per mini-batch (default is 64).
 - **test_batch_size**: Number of test (evaluation) samples per mini-batch (default is 64).
@@ -362,7 +362,7 @@ depicted in the figure below:
 
 **HDF5 output writing**
 
-The predictions obtained by running inferences on the slices can be assembled back into a multi-dimensional array and saved to disk
+The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
 as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
 In order to enable HDF5 writing, set the following:
 
@@ -385,7 +385,7 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 **Restrictions:**
 
 - The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).
-- The shape of the output tensor produced by the network must be equal to the input shape plus en extra channel dimension.
+- The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.
 - Only 2D slices can be transposed.
 
 Transforms sub-section
