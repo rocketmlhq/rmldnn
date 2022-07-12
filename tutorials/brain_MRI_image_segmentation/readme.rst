@@ -60,6 +60,8 @@ Training the model
 ~~~~~~~~~~~~~~~~~~
 
 To train the ResUnet model on our dataset, we will use Adam optimizer with learning rate of 0.0001 along with Exponential learning rate scheduler with gamma of 0.95. To learn more about types of lr scheduler `click here <https://rocketmlhq.github.io/rmldnn/configuration.html#lr-scheduler-sub-section>`__.
+
+
 However, instead of using a categorical cross-entropy loss function, we will take advantage of `rmldnn`'s implementation
 of the Dice loss, which is defined as the complement of the Dice coefficient computed between prediction and target.
 First introduced in the context of medical image segmentation
@@ -71,40 +73,44 @@ The `rmldnn` configuration file used for training is shown below:
 .. code:: bash
 
     {
-        "neural_network": {
-            "outfile": "out_dnn_pets_segmentation.txt",
-            "num_epochs": 30,
-            "layers": "./network_xception2D.json",
-            "checkpoints": {
-                "save": "model_pets_segmentation/",
-                "interval": 5
-            },
-            "data": {
-                "type": "images",
-                "input_path":       "./oxford_pets/training/inputs/",
-                "target_path":      "./oxford_pets/training/masks/",
-                "test_input_path":  "./oxford_pets/testing/inputs/",
-                "test_target_path": "./oxford_pets/testing/masks/",
-                "batch_size": 64,
-                "test_batch_size": 128,
-                "preload": true,
-                "target_grayscale": true,
-                "target_is_mask": true,
-                "transforms": [
-                    { "resize": [160, 160] },
-                    { "normalize": { "mean": 0.0, "std": 0.003921568 } }
-                ]
-            },
-            "optimizer": {
-                "type": "rmsprop",
-                "learning_rate": 1e-3
-            },
-            "loss": {
-                "function": "Dice",
-                "source": "softmax"
+    "neural_network": {
+        "outfile": "out_segmentation_resunet.txt",
+        "num_epochs": 50,
+        "layers": "./layers_resunet.json",
+        "checkpoints": {
+            "save": "model_MRI_segmentation_resunet/",
+            "interval": 10
+        },
+        "data": {
+            "type": "images",
+            "input_path":       "./data/train_image/",
+            "target_path":      "./data/train_mask/",
+            "test_input_path":  "./data/test_image/",
+            "test_target_path": "./data/test_mask/",
+            "batch_size": 32,
+            "test_batch_size": 64,
+            "preload": true,
+            "target_grayscale": true,
+            "target_is_mask": true,
+            "transforms": [
+                { "resize": [256, 256] }
+            ]
+        },
+        "optimizer": {
+            "type": "adam",
+            "learning_rate": 0.0001,
+            "lr_scheduler": {
+            "type": "Exponential",
+            "gamma": 0.95,
+            "verbose": true
             }
+        },
+        "loss": {
+            "function": "Dice",
+            "source": "sigmoid"
         }
     }
+}
 
 A few points to notice in the configuration:
 
@@ -113,10 +119,8 @@ A few points to notice in the configuration:
    expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
- - Since `rmldnn` automatically scales pixel values by 255, a factor of 1/255 = 0.00392 is applied to 
-   recover the original values. The last two bullets guarantee that target pixel values remain unchanged.
 
-We will run training for 30 epochs on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
+We will run training for 50 epochs on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
