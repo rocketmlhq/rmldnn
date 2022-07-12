@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Transfer Learning" href="transfer_learning.html" />
-    <link rel="prev" title="Deep Neural Networks" href="deep_neural_networks.html" />
+    <link rel="prev" title="Configuration" href="configuration.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -115,7 +115,7 @@ and <img class="math" src="_images/math/816691fba2a2705e69dd85d0618248516f29f45b
 <p>The training examples for the network are sets of boundary condition functions <img class="math" src="_images/math/2bc79bf20d1935420e91ec032e810c6dcdc579c1.png" alt="b(x)"/> with the form</p>
 <div class="math">
 <p><img src="_images/math/aae13c8f967652542b06c3a49b67e5bceffda4e2.png" alt="b(x) = \frac{1}{2} \left( 1 - \cos(2 \pi c x / d) \right),"/></p>
-</div><p>as well as linear supperpositions of these raised-cosine functions,
+</div><p>as well as linear superpositions of these raised-cosine functions,
 where <img class="math" src="_images/math/b9d10b54744d07746b97f53c55eb98046fd76c8c.png" alt="d"/> is the domain size in the <cite>x</cite>-dimension, and the frequency <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> is sampled from the
 interval <img class="math" src="_images/math/2a3040fb249c53d9128e9734ef9009c3dc86a0ef.png" alt="[c_{min}, c_{max}]"/> using one of the supported distributions (see <code class="code docutils literal"><span class="pre">bc_type</span></code> parameter below).</p>
 <p>The data loader in this case is, therefore, a PDE boundary condition generator, which accepts the following configuration:</p>
@@ -150,7 +150,7 @@ interval <img class="math" src="_images/math/2a3040fb249c53d9128e9734ef9009c3dc8
 <li><p class="first"><strong>random_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> randomly from <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>
 with a uniform probability distribution <img class="math" src="_images/math/5e65d328c2bfb7c08cb1f0d1a04963c424a9b5e4.png" alt="P(i) = 1 / (c_{max} - c_{min})"/>.</p>
 </li>
-<li><p class="first"><strong>fixed_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> sequentialy from evenly spaced points in <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>, i.e.,</p>
+<li><p class="first"><strong>fixed_uniform</strong>: Selects <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c492c.png" alt="c"/> sequentially from evenly spaced points in <img class="math" src="_images/math/d9a403639ae642d6bf38cd82b743c0128d13cf4f.png" alt="\mathcal{R}"/>, i.e.,</p>
 <div class="math">
 <p><img src="_images/math/1fe145fe2d728fce3722d67052869c3df5fff60f.png" alt="c_i = c_{min} + i \frac{c_{max} - c_{min}}{\textrm{num-examples} - 1}."/></p>
 </div><p>where <img class="math" src="_images/math/2ce06425ced8128644dde6a56483170c03460a35.png" alt="i \in [0, \textrm{num-examples} - 1]"/>.</p>
@@ -210,7 +210,7 @@ The loss <cite>function</cite> must be set to <code class="code docutils literal
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="deep_neural_networks.html" title="previous chapter">Deep Neural Networks</a></li>
+      <li>Previous: <a href="configuration.html" title="previous chapter">Configuration</a></li>
       <li>Next: <a href="transfer_learning.html" title="next chapter">Transfer Learning</a></li>
   </ul></li>
 </ul>

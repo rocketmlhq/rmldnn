@@ -276,7 +276,7 @@ custom implementations:</p>
 <ul class="simple">
 <li><strong>nll</strong>: Log-Likelihood (NLL) loss function. Useful to train a classification problem with <img class="math" src="_images/math/afce44aa7c55836ca9345404c22fc7b599d2ed84.png" alt="C"/> classes. Accepts an optional
 list of weights to be applied to each class.</li>
-<li><strong>bce</strong>: Binary cross entroy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.</li>
+<li><strong>bce</strong>: Binary cross entropy loss function. Useful for measuring the reconstruction error in, for example, auto-encoders.</li>
 <li><strong>mse</strong>: Mean squared error (squared L2 norm) loss function.</li>
 <li><strong>Dice</strong>: Computes the Dice coefficient (a.k.a. F1-score) between output and target.</li>
 <li><strong>Jaccard</strong>: Computes the Jaccard score (a.k.a. Intersection-over-Union, or IoU) between output and target.</li>
@@ -307,7 +307,7 @@ how many samples will be used for training and evaluation, etc.</p>
 <li><strong>mnist</strong>: Loads data from the MNIST handwritten digits database in binary format.</li>
 <li><strong>images</strong>: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.</li>
 <li><strong>labels</strong>: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).</li>
-<li><strong>numpy</strong>: Loads data from NumPy arrays in either <code class="code docutils literal"><span class="pre">.npy</span></code> format (one sample per file) or <code class="code docutils literal"><span class="pre">.npz</span></code> format (multipler samples per file).
+<li><strong>numpy</strong>: Loads data from NumPy arrays in either <code class="code docutils literal"><span class="pre">.npy</span></code> format (one sample per file) or <code class="code docutils literal"><span class="pre">.npz</span></code> format (multiple samples per file).
 Also supports the data slicing capability described below.</li>
 <li><strong>pde</strong>: Generates initial conditions to be used with a DNN-based partial differential equation solver.</li>
 </ul>
@@ -316,9 +316,9 @@ Also supports the data slicing capability described below.</li>
 <li><strong>input_type</strong>: Input data type.</li>
 <li><strong>target_type</strong>: Target data type.</li>
 <li><strong>type</strong>: If input and target types are the same, this parameter can be used for simplicity.</li>
-<li><strong>input_path</strong>: Path to directory with training input samples. If not defined, training step is skipped.</li>
+<li><strong>input_path</strong>: Path to directory with training input samples. If not defined, the training step is skipped.</li>
 <li><strong>target_path</strong>: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)</li>
-<li><strong>test_input_path</strong>: Path to directory with test (evaluation) input samples. If not defined, evaluation step is skipped.</li>
+<li><strong>test_input_path</strong>: Path to directory with test (evaluation) input samples. If not defined, the evaluation step is skipped.</li>
 <li><strong>test_target_path</strong>: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).</li>
 <li><strong>batch_size</strong>: Number of training samples per mini-batch (default is 64).</li>
 <li><strong>test_batch_size</strong>: Number of test (evaluation) samples per mini-batch (default is 64).</li>
@@ -381,7 +381,7 @@ leftovers are padded up to <cite>sizes</cite> and added to the sample list).</li
 depicted in the figure below:</p>
 <a class="reference internal image-reference" href="_images/slicer_padding.png"><img alt="slicer_padding.png" src="_images/slicer_padding.png" style="width: 600px;" /></a>
 <p><strong>HDF5 output writing</strong></p>
-<p>The predictions obtained by running inferences on the slices can be assembled back into a multi-dimensional array and saved to disk
+<p>The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
 as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
 In order to enable HDF5 writing, set the following:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
@@ -398,7 +398,7 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 <p><strong>Restrictions:</strong></p>
 <ul class="simple">
 <li>The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
-<li>The shape of the output tensor produced by the network must be equal to the input shape plus en extra channel dimension.</li>
+<li>The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.</li>
 <li>Only 2D slices can be transposed.</li>
 </ul>
 </div>

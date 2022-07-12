@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reference" href="reference.html" />
-    <link rel="prev" title="Deep Neural Networks" href="deep_neural_networks.html" />
+    <link rel="prev" title="Applications" href="applications.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -60,9 +60,9 @@ saved during <img class="math" src="_images/math/636c5daa08b9b147fb87ae06c68ae7d
 </pre></div>
 </div>
 <p>Two main use cases can occur depending on the type of network:</p>
-<p><strong>1. Purelly convolutional networks</strong></p>
+<p><strong>1. Purely convolutional networks</strong></p>
 <p>In this case, the layers of the network are agnostic to the training sample sizes (as long as the tensors
-have the same rank) and, therefore, do not need to be changed when transfering learning.
+have the same rank) and, therefore, do not need to be changed when transferring learning.
 The only adjustment needed in the network file is the input size, usually defined in
 the first layer (e.g., InputLayer):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">{</span>
@@ -86,7 +86,7 @@ the first layer (e.g., InputLayer):</p>
 (e.g., Dense), then the parameters for those layers cannot be transferred from a model trained
 on a dataset with different size samples. In this case, those layers have to be renamed in the
 network file and retrained with the new dataset. When loading the model, <code class="code docutils literal"><span class="pre">rmldnn</span></code> will warn
-about layers whose parameters cannot be transfered:</p>
+about layers whose parameters cannot be transferred:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>Loading model checkpoint from file: ./checkpoints_D1/model_checkpoint_100.pt
    Skipping layer dense_128_1: not found in model
    Skipping parameter dense_128_1.weight: not found in model
@@ -98,7 +98,7 @@ about layers whose parameters cannot be transfered:</p>
 <p>One can leverage transfer learning to emulate the multigrid method for solving PDEs by training
 models of increasing resolution which are initialized from lower resolution ones. If the network
 is fully convolutional, a model trained at a certain resolution (data size) can be completely
-re-utilized when going to higher resolution (i.e., all layer parameters transfered). And even if
+re-utilized when going to higher resolution (i.e., all layer parameters transferred). And even if
 the network changes at different resolutions, at least part of the model can perhaps be re-utilized.</p>
 <p>For example, in order to train a UNet whose depth increases with resolution, one could simply add
 extra layers to the top part of the “U” and keep the bottom layers unchanged (see figure).
@@ -116,7 +116,7 @@ network (bottom part of the “U”) will be initialized from the model trained 
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="deep_neural_networks.html" title="previous chapter">Deep Neural Networks</a></li>
+      <li>Previous: <a href="applications.html" title="previous chapter">Applications</a></li>
       <li>Next: <a href="reference.html" title="next chapter">Reference</a></li>
   </ul></li>
 </ul>
