@@ -50,23 +50,16 @@ for convenience.
 The model
 ~~~~~~~~~
 
-We will use an Xception-style neural network, which was originally proposed in 
-`this <https://arxiv.org/abs/1610.02357>`__ paper. The main idea is to replace the convolution
-modules of the popular Inception network with `depthwise separable convolutions`, which results in
-fewer trainable parameters. This architecture was shown to outperform Inception on 
-classification tasks. The Xception neural network is depicted below, and the Keras-style network
-description is provided in the file
-`network_xception2D.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/network_xception2D.json>`__.
-A graph view of the neural network is provided 
-`here <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/graph_xception2D.pdf>`__.
+We will use UNET style neural network backed by RESNET50 for this purpose. The architecture has two paths. The contraction path, also known as the encoder, is the first path and it is used to record the context of the image. The encoder is simply a conventional stack of max pooling and convolutional layers. The second path, also known as the decoder, is a symmetric expanding path that enables exact localisation using transposed convolutions. Because it only has Convolutional layers and no Dense layers, it is an end-to-end fully convolutional network (FCN), allowing it to process images of any size.
+The network's basic foundation looks like:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/xception.png
-  :width: 1000
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
+  :width: 600
 
 Training the model
 ~~~~~~~~~~~~~~~~~~
 
-To train the Xception model on the pets dataset, we will use the RMSprop optimizer, as done in the Keras tutorial.
+To train the ResUnet model on our dataset, we will use Adam optimizer with learning rate of 0.0001 along with Exponential learning rate scheduler with gamma of 0.95. To learn more about types of lr scheduler `click here <https://rocketmlhq.github.io/rmldnn/configuration.html#lr-scheduler-sub-section>`__.
 However, instead of using a categorical cross-entropy loss function, we will take advantage of `rmldnn`'s implementation
 of the Dice loss, which is defined as the complement of the Dice coefficient computed between prediction and target.
 First introduced in the context of medical image segmentation
