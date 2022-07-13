@@ -72,45 +72,47 @@ The `rmldnn` configuration file used for training is shown below:
 
 .. code:: bash
 
-    {
+  {
     "neural_network": {
-        "outfile": "out_segmentation_resunet.txt",
-        "num_epochs": 50,
-        "layers": "./layers_resunet.json",
-        "checkpoints": {
-            "save": "model_MRI_segmentation_resunet/",
-            "interval": 10
-        },
+          "outfile": "out_segmentation_resunet.txt",
+          "num_epochs": 10,
+          "layers": "./layers_resunet.json",
+          "checkpoints": {
+              "load": "./model_resunet.h5",
+              "save": "model_MRI_segmentation_resunet/",
+              "interval": 10
+          },
         "data": {
-            "type": "images",
-            "input_path":       "./data/train_image/",
-            "target_path":      "./data/train_mask/",
-            "test_input_path":  "./data/test_image/",
-            "test_target_path": "./data/test_mask/",
-            "batch_size": 32,
-            "test_batch_size": 64,
-            "preload": true,
-            "target_grayscale": true,
-            "target_is_mask": true,
-            "transforms": [
-                { "resize": [256, 256] }
-            ]
-        },
+              "type": "images",
+              "input_path":       "./data/train_image/",
+              "target_path":      "./data/train_mask/",
+              "test_input_path":  "./data/test_image/",
+              "test_target_path": "./data/test_mask/",
+              "batch_size": 32,
+              "test_batch_size": 64,
+              "preload": true,
+              "target_grayscale": true,
+              "target_is_mask": true,
+              "transforms": [
+                  { "resize": [256, 256] }
+              ]
+          },
         "optimizer": {
-            "type": "adam",
-            "learning_rate": 0.0001,
-            "lr_scheduler": {
-            "type": "Exponential",
-            "gamma": 0.95,
-            "verbose": true
-            }
-        },
+              "type": "adam",
+              "learning_rate": 0.0001,
+              "lr_scheduler": {
+              "type": "Exponential",
+              "gamma": 0.95,
+              "verbose": true
+              }
+          },
         "loss": {
-            "function": "Dice",
-            "source": "sigmoid"
-        }
-    }
-}
+              "function": "Dice",
+              "source": "sigmoid"
+          }
+      }
+  }
+
 
 A few points to notice in the configuration:
 
@@ -119,18 +121,19 @@ A few points to notice in the configuration:
    expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
+ - Since we are performing transfer learning so we have to load pre-trained resnet model.
 
-We will run training for 50 epochs on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
+We will run training for 50 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
 .. code:: bash
 
-  $ singularity exec --nv ./rmldnn_image.sif \
-    mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
-    rmldnn --config= ./config_pets_segmentation.json
+  $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+    rmldnn --config=config_train.json
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/training_header.png
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/train_ss.png?raw=true
   :width: 600
   :align: center
 
