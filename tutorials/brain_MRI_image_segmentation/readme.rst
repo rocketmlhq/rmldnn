@@ -123,7 +123,7 @@ A few points to notice in the configuration:
    when resizing the image.
  - Since we are performing transfer learning so we have to load pre-trained resnet model.
 
-We will run training for 50 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
+We will run training for 10 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
@@ -137,49 +137,46 @@ From the command line, one should do:
   :width: 600
   :align: center
 
-It takes about 10 minutes to train for 30 epochs on 4 GPUs. 
-We can monitor the evolution of the training loss, which is reported in the log file
-``out_dnn_pets_segmentation_train.txt``. Although the loss has fallen substantially by the 30th epoch, it hasn't 
-yet fully reached a stationary value, and training by a few more epochs would have probably further improved
-the model somewhat.
+It takes about 8 minutes to train for 10 epochs on 4 GPUs. 
+We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/training_loss.png
-  :width: 600
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/epoch_loss_plot.png?raw=true
+  :width: 400
   :align: center
-
-The test accuracy, reported in the file ``out_dnn_pets_segmentation_test.txt``, shows that we have reached
-an accuracy of ~80% on the test dataset (as measured by the Dice coefficient averaged across all classes).
-
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/test_accuracy.png
-  :width: 600
+  
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/epoch_acc_plot.png?raw=true
+  :width: 400
   :align: center
+  
+The test accuracy, reported in the file ``out_segmentation_resunet_test.txt``, shows that we have reached
+an accuracy of ~87% on the test dataset (as measured by the Dice coefficient averaged across all classes).
+
 
 Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's now use the model saved after the 30th epoch to run inference on a few samples and visualize the results.
+Let's now use the model saved after the 10th epoch to run inference on a few samples and visualize the results.
 We copy test images under ``./samples/`` and use the following configuration file to run inference:
 
 .. code:: bash
 
-    {
-        "neural_network": {
-            "debug": true,
-            "layers": "./network_xception2D.json",
-            "checkpoints": {
-                "load": "./model_pets_segmentation/model_checkpoint_30.pt"
-            },
-            "data": {
-                "type": "images",
-                "test_input_path":  "./samples/",
-                "test_batch_size": 16,
-                "transforms": [
-                    { "resize": [160, 160] },
-                    { "normalize": { "std": 0.003921568 } }
-                ]
-            }
-        }
-    }
+  {
+    "neural_network": {
+        "debug": true,
+        "layers": "./layers_resunet.json",
+        "checkpoints": {
+            "load": "./model_MRI_segmentation_resunet/model_checkpoint_10.pt"
+        },
+        "data": {
+            "type": "images",
+            "test_input_path":  "./data/test_image/",
+            "test_batch_size": 16,
+            "transforms": [
+                { "resize": [256, 256] }
+              ]
+          }
+      }
+  }
 
 The setting ``debug = true`` instructs `rmldnn` to save the predictions as ``numpy`` files under ``./debug/``.
 
@@ -187,7 +184,7 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_pets_inference.json
+    $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_inference.json
 
 Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
 with `matplotlib`. As expected, the predictions are arrays with 3 channels per pixel (containing the probabilities
