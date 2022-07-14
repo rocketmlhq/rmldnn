@@ -184,11 +184,10 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_inference.json
+    $ docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
 Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
-with `matplotlib`. As expected, the predictions are arrays with 3 channels per pixel (containing the probabilities
-of each class for that pixel), so we need to compute the ``argmax`` along the channel dimension:
+with `matplotlib`.
 
 .. code:: bash
 
@@ -196,8 +195,7 @@ of each class for that pixel), so we need to compute the ``argmax`` along the ch
     import matplotlib.pyplot as plt
 
     pred = np.load('./debug/output_1_0.npy')
-    pred = pred.transpose(1,2,0).argmax(2)
-    plt.imshow(pred, interpolation='nearest', cmap='gray')
+    plt.imshow(pred[0,:,:],cmap="gray")
     plt.show()
 
 Doing this for a few samples, we obtain the segmentation predictions below.
@@ -213,46 +211,30 @@ Results are pretty good for a model trained for only 10 minutes!
 |input_3|            |inference_3|        |truth_3|
 -------------------- -------------------- --------------------
 |input_4|            |inference_4|        |truth_4|
--------------------- -------------------- --------------------
-|input_5|            |inference_5|        |truth_5|
--------------------- -------------------- --------------------
-|input_6|            |inference_6|        |truth_6|
 ==================== ==================== ====================
 
-.. |input_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_1.png
+.. |input_1|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_1.png?raw=true
     :width: 300
-.. |input_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_2.png
+.. |input_2|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_2.png?raw=true
     :width: 300
-.. |input_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_3.png
+.. |input_3|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_3.png?raw=true
     :width: 300
-.. |input_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_4.png
+.. |input_4|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_4.png?raw=true
     :width: 300
-.. |input_5|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_5.png
+.. |inference_1|  image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_1.png?raw=true
     :width: 300
-.. |input_6|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_6.png
+.. |inference_2|  image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_2.png?raw=true
     :width: 300
-.. |inference_1|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_1.png
+.. |inference_3|  image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_3.png?raw=true
     :width: 300
-.. |inference_2|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_2.png
+.. |inference_4|  image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_4.png?raw=true
     :width: 300
-.. |inference_3|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_3.png
+.. |truth_1|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_1.png?raw=true
     :width: 300
-.. |inference_4|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_4.png
+.. |truth_2|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_2.png?raw=true
     :width: 300
-.. |inference_5|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_5.png
+.. |truth_3|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_3.png?raw=true
     :width: 300
-.. |inference_6|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_6.png
-    :width: 300
-.. |truth_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_1.png
-    :width: 300
-.. |truth_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_2.png
-    :width: 300
-.. |truth_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_3.png
-    :width: 300
-.. |truth_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_4.png
-    :width: 300
-.. |truth_5|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_5.png
-    :width: 300
-.. |truth_6|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_6.png
+.. |truth_4|      image::  https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_4.png?raw=true
     :width: 300
    
