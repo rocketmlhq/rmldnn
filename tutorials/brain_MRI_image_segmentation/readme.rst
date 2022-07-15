@@ -19,7 +19,7 @@ The dataset
 ~~~~~~~~~~~
 
 We will use the `Brain MRI segmentation <https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation>`__
-dataset, which contains brain MR images together with manual FLAIR abnormality segmentation masks, as shown below..  
+dataset, which contains brain MRI images together with manual FLAIR abnormality segmentation masks, as shown below..  
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/sample.png?raw=true
   :width: 650
@@ -170,7 +170,7 @@ We copy test images under ``./samples/`` and use the following configuration fil
         },
         "data": {
             "type": "images",
-            "test_input_path":  "./data/test_image/",
+            "test_input_path":  "./data/sample/",
             "test_batch_size": 16,
             "transforms": [
                 { "resize": [256, 256] }
@@ -185,7 +185,8 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    $ docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm rocketml/rmldnn:latest rmldnn --config=config_test.json 
+    $ docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
 Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
 with `matplotlib`.
