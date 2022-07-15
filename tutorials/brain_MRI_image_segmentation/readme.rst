@@ -36,12 +36,13 @@ We need to:
 .. code:: bash
 
     +-- brain_MRI_image_segmentation/
-    |   +-- training/
-        |   +-- inputs/
-        |   +-- masks/
-    |   +-- testing/
-        |   +-- inputs/
-        |   +-- masks/
+    |   +-- data/
+        |   +-- train_image/
+        |   +-- train_mask/
+        |   +-- test_image/
+        |   +-- test_mask/
+        |   +-- sample/
+        |   +-- sample_true/
 
 The pre-processed dataset can be downloaded directly from 
 `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/oxford_pets.tar.gz>`__
