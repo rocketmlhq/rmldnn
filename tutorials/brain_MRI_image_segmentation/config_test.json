@@ -1,0 +1,17 @@
+{
+    "neural_network": {
+        "debug": true,
+        "layers": "./layers_resunet.json",
+        "checkpoints": {
+            "load": "./model_MRI_segmentation_resunet/model_checkpoint_10.pt"
+        },
+        "data": {
+            "type": "images",
+            "test_input_path":  "./data/sample/",
+            "test_batch_size": 16,
+            "transforms": [
+                { "resize": [256, 256] }
+            ]
+        }
+    }
+}
