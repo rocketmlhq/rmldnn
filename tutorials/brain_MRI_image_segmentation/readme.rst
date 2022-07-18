@@ -45,7 +45,7 @@ We need to:
         |   +-- sample_true/
 
 The pre-processed dataset can be downloaded directly from 
-`here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/oxford_pets.tar.gz>`__
+`here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__
 for convenience.
 
 The model
