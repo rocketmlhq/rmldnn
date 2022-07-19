@@ -56,7 +56,8 @@ The network's basic foundation looks like:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
   :width: 600
-  :height: 600
+  :height: 700
+  :align: center
  
 You can get model from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__.
 
