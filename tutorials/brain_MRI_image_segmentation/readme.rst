@@ -160,7 +160,7 @@ Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's now use the model saved after the 20th epoch to run inference on a few samples and visualize the results.
-We have made a copy of about 6 test images under ``./data/sample``, which you can use to run inference on. Use following configuration file to run inference:
+We have made a copy of about 4 test images under ``./data/sample``, which you can use to run inference on. Use following configuration file to run inference:
 
 .. code:: bash
 
