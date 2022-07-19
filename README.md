@@ -213,6 +213,8 @@ real-world deep-learning problems in the areas of:
 - Botelho, S., Das, V., Vanzo, D., Devarakota, P., Rao, V. and Adavani, S., 2021, November. **3D seismic facies classification on CPU and GPU HPC clusters**, *SPE/AAPG/SEG Asia Pacific Unconventional Resources Technology Conference* ([paper](https://onepetro.org/URTECAP/proceedings/21APUR/1-21APUR/D012S001R026/472261))
 
 - Mukherjee, S., Lelièvre, P., Farquharson, C. and Adavani, S., 2021, September. **Three-dimensional inversion of geophysical field data on an unstructured mesh using deep learning neural networks, applied to magnetic data**, *First International Meeting for Applied Geoscience & Energy* (pp. 1465-1469). Society of Exploration Geophysicists. ([paper](https://library.seg.org/doi/abs/10.1190/segam2021-3583565.1))
+                                               
+- Mukherjee, Souvik, Ronald S. Bell, William N. Barkhouse, Santi Adavani, Peter G. Lelièvre, and Colin G. Farquharson. **High-resolution imaging of subsurface infrastructure using deep learning artificial intelligence on drone magnetometry.** The Leading Edge 41, no. 7 (2022): 462-471. ([paper](https://library.seg.org/doi/abs/10.1190/tle41070462.1))                                              
 
 # Talks
 
