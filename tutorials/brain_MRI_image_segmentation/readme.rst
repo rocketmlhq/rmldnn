@@ -56,6 +56,8 @@ The network's basic foundation looks like:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
   :width: 600
+ 
+You can get model from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__.
 
 Training the model
 ~~~~~~~~~~~~~~~~~~
@@ -75,12 +77,12 @@ The `rmldnn` configuration file used for training is shown below:
 
   {
     "neural_network": {
-          "outfile": "out_segmentation_resunet.txt",
-          "num_epochs": 10,
+          "outfile": "out_segmentation.txt",
+          "num_epochs": 20,
           "layers": "./layers_resunet.json",
           "checkpoints": {
-              "load": "./model_resunet.h5",
-              "save": "model_MRI_segmentation_resunet/",
+              "load": "./model_resunet_imagenet.h5",
+              "save": "model_MRI_segmentation/",
               "interval": 10
           },
         "data": {
@@ -124,21 +126,20 @@ A few points to notice in the configuration:
    when resizing the image.
  - Since we are performing transfer learning so we have to load pre-trained resnet model.
 
-We will run training for 10 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
+We will run training for 20 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
 From the command line, one should do:
 
 .. code:: bash
 
-  $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
-    rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
-    rmldnn --config=config_train.json
+  $ sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest rmldnn --config=config_train.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/train_ss.png?raw=true
   :width: 600
   :align: center
 
-It takes about 8 minutes to train for 10 epochs on 4 GPUs. 
+It takes about 4 minutes to train for 20 epochs on 4 GPUs. 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/epoch_loss_plot.png?raw=true
@@ -156,8 +157,8 @@ an accuracy of ~87% on the test dataset (as measured by the Dice coefficient ave
 Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's now use the model saved after the 10th epoch to run inference on a few samples and visualize the results.
-We copy test images under ``./samples/`` and use the following configuration file to run inference:
+Let's now use the model saved after the 20th epoch to run inference on a few samples and visualize the results.
+We have made a copy of about 6 test images under ``./data/sample``, which you can use to run inference on. Use following configuration file to run inference:
 
 .. code:: bash
 
@@ -166,7 +167,7 @@ We copy test images under ``./samples/`` and use the following configuration fil
         "debug": true,
         "layers": "./layers_resunet.json",
         "checkpoints": {
-            "load": "./model_MRI_segmentation_resunet/model_checkpoint_10.pt"
+            "load": "./model_MRI_segmentation/model_checkpoint_20.pt"
         },
         "data": {
             "type": "images",
