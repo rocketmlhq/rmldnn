@@ -3,7 +3,7 @@
         "debug": true,
         "layers": "./layers_resunet.json",
         "checkpoints": {
-            "load": "./model_MRI_segmentation_resunet/model_checkpoint_10.pt"
+            "load": "./model_MRI_segmentation/model_checkpoint_20.pt"
         },
         "data": {
             "type": "images",
