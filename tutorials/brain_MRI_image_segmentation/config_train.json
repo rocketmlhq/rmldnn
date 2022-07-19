@@ -1,14 +1,14 @@
 {
-    "neural_network": {
-        "outfile": "out_segmentation_resunet.txt",
-        "num_epochs": 10,
+  "neural_network": {
+        "outfile": "out_segmentation.txt",
+        "num_epochs": 20,
         "layers": "./layers_resunet.json",
         "checkpoints": {
-            "load": "./model_resunet.h5",
-            "save": "model_MRI_segmentation_resunet/",
+            "load": "./model_resunet_imagenet.h5",
+            "save": "model_MRI_segmentation/",
             "interval": 10
         },
-        "data": {
+      "data": {
             "type": "images",
             "input_path":       "./data/train_image/",
             "target_path":      "./data/train_mask/",
@@ -23,7 +23,7 @@
                 { "resize": [256, 256] }
             ]
         },
-        "optimizer": {
+      "optimizer": {
             "type": "adam",
             "learning_rate": 0.0001,
             "lr_scheduler": {
@@ -32,7 +32,7 @@
             "verbose": true
             }
         },
-        "loss": {
+      "loss": {
             "function": "Dice",
             "source": "sigmoid"
         }
