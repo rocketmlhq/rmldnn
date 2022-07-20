@@ -191,7 +191,7 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    $ sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
 Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
