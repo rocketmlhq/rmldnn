@@ -155,7 +155,7 @@ We can monitor the run by plotting quantities like the training loss and the tes
   :width: 400
   :align: center
   
-The test accuracy, reported in the file ``out_segmentation.txt``, shows that we have reached
+The test accuracy, reported in the file ``out_segmentation_test.txt``, shows that we have reached
 an accuracy of ~87% on the test dataset (as measured by the Dice coefficient averaged across all classes).
 
 
