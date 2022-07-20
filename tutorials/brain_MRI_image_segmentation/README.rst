@@ -108,9 +108,9 @@ The `rmldnn` configuration file used for training is shown below:
               "type": "adam",
               "learning_rate": 0.0001,
               "lr_scheduler": {
-                "type": "Exponential",
-                "gamma": 0.95,
-                "verbose": true
+                  "type": "Exponential",
+                  "gamma": 0.95,
+                  "verbose": true
               }
           },
         "loss": {
