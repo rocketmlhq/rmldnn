@@ -25,7 +25,7 @@ dataset, which contains brain MRI images together with manual FLAIR abnormality 
   :width: 650
   
 
-The data needs to be pre-processed before training. This is done in the Keras tutorial through code, but
+The data needs to be pre-processed before training. This is done in Keras through code, but
 we do it here as an outside step in order to save time when running multiple training experiments. 
 We need to:
 
@@ -106,9 +106,9 @@ The `rmldnn` configuration file used for training is shown below:
               "type": "adam",
               "learning_rate": 0.0001,
               "lr_scheduler": {
-              "type": "Exponential",
-              "gamma": 0.95,
-              "verbose": true
+                "type": "Exponential",
+                "gamma": 0.95,
+                "verbose": true
               }
           },
         "loss": {
@@ -134,8 +134,9 @@ From the command line, one should do:
 
 .. code:: bash
 
-  $ sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
-    rocketml/rmldnn:latest rmldnn --config=config_train.json
+   sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+    rmldnn --config=config_train.json
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/train_ss.png?raw=true
   :width: 600
@@ -152,7 +153,7 @@ We can monitor the run by plotting quantities like the training loss and the tes
   :width: 400
   :align: center
   
-The test accuracy, reported in the file ``out_segmentation_resunet_test.txt``, shows that we have reached
+The test accuracy, reported in the file ``out_segmentation.txt``, shows that we have reached
 an accuracy of ~87% on the test dataset (as measured by the Dice coefficient averaged across all classes).
 
 
@@ -199,7 +200,7 @@ with `matplotlib`.
     import numpy as np
     import matplotlib.pyplot as plt
 
-    pred = np.load('./debug/output_1_0.npy')
+    pred = np.load('./debug/output_1_0.npy').round()
     plt.imshow(pred[0,:,:],cmap="gray")
     plt.show()
 
