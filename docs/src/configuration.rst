@@ -9,6 +9,7 @@ The json file must contain one single object named :code:`neural_network`, insid
         "neural_network": {
             "outfile": "log_file.txt",
             "num_epochs": 100,
+            "debug": false,
             "data": {
                 ...
             },
@@ -29,8 +30,7 @@ a few basic parameters:
 
 - **outfile**: Base name for the output files produced by the run (with loss values, accuracies, etc). If not provided, no output files are created.
 - **num_epochs**: How many total epochs to run for (default: 1).
-- **debug**: Whether to enable debug output. The specific behavior (i.e., what debug data exactly is created) depends on the application. 
-  For instance, if `debug = true`, the image segmentation application will write out images produced during inference.
+- **debug**: Whether to write out a graph description of the neural network in `.dot` format (default is `false`).
 - **debug_interval**: How often to write out debug info (in terms of number of epochs).
 
 Optimizer section
@@ -292,6 +292,7 @@ The following parameters apply to all data loader types, and are critical to con
 - **target_path**: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)
 - **test_input_path**: Path to directory with test (evaluation) input samples. If not defined, the evaluation step is skipped.
 - **test_target_path**: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).
+- **test_output_path**: Directory where inference results will be saved. Each output sample is stored as an HDF5 dataset inside this directory. If not defined, inferences are not saved.
 - **batch_size**: Number of training samples per mini-batch (default is 64).
 - **test_batch_size**: Number of test (evaluation) samples per mini-batch (default is 64).
 - **preload**: Whether samples will be read up-front from disk and loaded from memory during training/eval (default is *false*).
@@ -360,11 +361,11 @@ depicted in the figure below:
   :width: 600
   :alt: slicer_padding.png
 
-**HDF5 output writing**
+**HDF5 slice assembly**
 
 The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
 as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
-In order to enable HDF5 writing, set the following:
+In order to enable HDF5 slice assembly, set the following:
 
 .. code-block:: bash
 

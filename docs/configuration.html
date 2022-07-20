@@ -46,6 +46,7 @@
     <span class="s2">&quot;neural_network&quot;</span>: <span class="o">{</span>
         <span class="s2">&quot;outfile&quot;</span>: <span class="s2">&quot;log_file.txt&quot;</span>,
         <span class="s2">&quot;num_epochs&quot;</span>: <span class="m">100</span>,
+        <span class="s2">&quot;debug&quot;</span>: false,
         <span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
             ...
         <span class="o">}</span>,
@@ -67,8 +68,7 @@ a few basic parameters:</p>
 <ul class="simple">
 <li><strong>outfile</strong>: Base name for the output files produced by the run (with loss values, accuracies, etc). If not provided, no output files are created.</li>
 <li><strong>num_epochs</strong>: How many total epochs to run for (default: 1).</li>
-<li><strong>debug</strong>: Whether to enable debug output. The specific behavior (i.e., what debug data exactly is created) depends on the application.
-For instance, if <cite>debug = true</cite>, the image segmentation application will write out images produced during inference.</li>
+<li><strong>debug</strong>: Whether to write out a graph description of the neural network in <cite>.dot</cite> format (default is <cite>false</cite>).</li>
 <li><strong>debug_interval</strong>: How often to write out debug info (in terms of number of epochs).</li>
 </ul>
 <div class="section" id="optimizer-section">
@@ -320,6 +320,7 @@ Also supports the data slicing capability described below.</li>
 <li><strong>target_path</strong>: Path to directory with training target samples. Required only for certain applications (e.g., segmentation)</li>
 <li><strong>test_input_path</strong>: Path to directory with test (evaluation) input samples. If not defined, the evaluation step is skipped.</li>
 <li><strong>test_target_path</strong>: Path to directory with test target samples. If omitted, inference runs without targets (loss is not computed).</li>
+<li><strong>test_output_path</strong>: Directory where inference results will be saved. Each output sample is stored as an HDF5 dataset inside this directory. If not defined, inferences are not saved.</li>
 <li><strong>batch_size</strong>: Number of training samples per mini-batch (default is 64).</li>
 <li><strong>test_batch_size</strong>: Number of test (evaluation) samples per mini-batch (default is 64).</li>
 <li><strong>preload</strong>: Whether samples will be read up-front from disk and loaded from memory during training/eval (default is <em>false</em>).</li>
@@ -380,10 +381,10 @@ leftovers are padded up to <cite>sizes</cite> and added to the sample list).</li
 <p>The inference process, including the addition and removal of padding (as well as optional slice transposition), is
 depicted in the figure below:</p>
 <a class="reference internal image-reference" href="_images/slicer_padding.png"><img alt="slicer_padding.png" src="_images/slicer_padding.png" style="width: 600px;" /></a>
-<p><strong>HDF5 output writing</strong></p>
+<p><strong>HDF5 slice assembly</strong></p>
 <p>The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
 as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
-In order to enable HDF5 writing, set the following:</p>
+In order to enable HDF5 slice assembly, set the following:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;hdf5_outfile&quot;</span>: <span class="s2">&quot;prediction.h5&quot;</span>
