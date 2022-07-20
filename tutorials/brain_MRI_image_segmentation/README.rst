@@ -58,7 +58,9 @@ The network's basic foundation looks like:
   :width: 600
   :height: 700
   :align: center
- 
+  
+Fully convolutional neural network RESUNET was created with the goal of achieving great performance with a minimal number of parameters. Over the current UNET design, it is an advancement. RESUNET benefits from the Deep Residual Learning as well as the UNET design. Similar to a U-Net, the RESUNET is made up of an encoding network, a decoding network, and a bridge connecting the two. The U-Net employs two 3 x 3 convolutions, with a ReLU activation function coming after each. In the case of RESUNET, a pre-activated residual block takes the place of these layers. Our RESUNET network is pretrained using ImageNet dataset, which is dataset consisting of hundreds and thousands of images.
+
 You can get model from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__.
 
 Training the model
