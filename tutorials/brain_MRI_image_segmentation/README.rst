@@ -108,10 +108,10 @@ The `rmldnn` configuration file used for training is shown below:
               "type": "adam",
               "learning_rate": 0.0001,
               "lr_scheduler": {
-                "type": "Exponential",
-                "gamma": 0.95,
-                "verbose": true
-              }
+                  "type": "Exponential",
+                  "gamma": 0.95,
+                  "verbose": true
+                }
           },
         "loss": {
               "function": "Dice",
@@ -128,7 +128,7 @@ A few points to notice in the configuration:
    expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
- - Since we are performing transfer learning so we have to load pre-trained resnet model.
+ - Since we are performing transfer learning,we will load pre-trained resnet model.
 
 We will run training for 20 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
