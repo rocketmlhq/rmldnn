@@ -128,7 +128,7 @@ A few points to notice in the configuration:
    expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
- - Since we are performing transfer learning,we will load a pre-trained ResUnet model.
+ - Since we are performing transfer learning, we will load a pre-trained ResUnet model.
 
 We will run training for 20 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
