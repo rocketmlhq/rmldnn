@@ -1,7 +1,5 @@
 {
     "neural_network": {
-        "debug": true,
-        "outfile": "./mnist_predictions.txt",
         "layers": "./mnist_keras_net.json",
         "checkpoints": {
             "load": "./mnist_model/model_checkpoint_20.pt"
@@ -9,6 +7,7 @@
         "data": {
             "input_type": "images",
             "test_input_path": "./mnist_digits/",
+            "test_output_path": "./mnist_predictions/",
             "grayscale": true
         }
     }
