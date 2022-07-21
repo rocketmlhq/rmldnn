@@ -4,7 +4,7 @@ Brain MRI image segmentation
 Introduction
 ~~~~~~~~~~~~
 
-Image segmentation is a technique that divides a digital image into several groups known as "image segments",which helps to 
+Image segmentation is a technique that divides a digital image into several groups known as "image segments", which helps to 
 identify regions of interest within that image. On digital images, this is usually done by assigning pixels
 of different colors to each segment, where each color (pixel value) corresponds to some category of interest. 
 
