@@ -1,5 +1,5 @@
 {
-  "neural_network": {
+    "neural_network": {
         "outfile": "out_segmentation.txt",
         "num_epochs": 20,
         "layers": "./layers_resunet.json",
@@ -21,20 +21,20 @@
             "target_is_mask": true,
             "transforms": [
                 { "resize": [256, 256] }
-             ]
-         },
+            ]
+        },
         "optimizer": {
-             "type": "adam",
-             "learning_rate": 0.0001,
-             "lr_scheduler": {
-                 "type": "Exponential",
-                 "gamma": 0.95,
-                 "verbose": true
-              }
-         },
+            "type": "adam",
+            "learning_rate": 0.0001,
+            "lr_scheduler": {
+                "type": "Exponential",
+                "gamma": 0.95,
+                "verbose": true
+            }
+        },
         "loss": {
             "function": "Dice",
             "source": "sigmoid"
-         }
-     }
-}
+        }
+    }
+} 
