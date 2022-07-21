@@ -22,7 +22,7 @@
               "transforms": [
                   { "resize": [256, 256] }
               ]
-          },
+         },
         "optimizer": {
               "type": "adam",
               "learning_rate": 0.0001,
@@ -30,11 +30,11 @@
                     "type": "Exponential",
                     "gamma": 0.95,
                     "verbose": true
-                }
-            },
+              }
+         },
         "loss": {
               "function": "Dice",
               "source": "sigmoid"
-            }
-      }
+         }
+     }
 }
