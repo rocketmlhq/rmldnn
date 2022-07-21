@@ -9,7 +9,7 @@ identify regions of interest within that image. On digital images, this is usual
 of different colors to each segment, where each color (pixel value) corresponds to some category of interest. 
 
 Although several image segmentation techniques have been developed over the years (e.g, thresholding, 
-histogram-based bundling, k-means clustering, etc), deep-learning has been shown to achieve the best accuracy
+histogram-based bundling, k-means clustering, etc), deep-learning has shown to achieve the best accuracy
 on a variety of image segmentation problems.
 
 In this tutorial, we will show how to use `rmldnn` to efficiently train an image segmentation model using
@@ -44,15 +44,13 @@ We need to:
         |   +-- sample/
         |   +-- sample_true/
 
-The pre-processed dataset can be downloaded directly from 
-`here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__
-for convenience.
+For your convenience, we have already pre-processed the dataset which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__
 
 The model
 ~~~~~~~~~
 
 We will use UNET style neural network backed by RESNET50 for this purpose. The architecture has two paths. The contraction path, also known as the encoder, is the first path and it is used to record the context of the image. The encoder is simply a conventional stack of max pooling and convolutional layers. The second path, also known as the decoder, is a symmetric expanding path that enables exact localisation using transposed convolutions. Because it only has Convolutional layers and no Dense layers, it is an end-to-end fully convolutional network (FCN), allowing it to process images of any size.
-The network's basic foundation looks like:
+Below image shows architecture of RESUNET:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
   :width: 600
