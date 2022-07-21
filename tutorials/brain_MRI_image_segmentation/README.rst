@@ -166,18 +166,18 @@ We have made a copy of about 4 test images under ``./data/sample``, which you ca
 .. code:: bash
 
   {
-    "neural_network": {
-        "debug": true,
-        "layers": "./layers_resunet.json",
-        "checkpoints": {
-            "load": "./model_MRI_segmentation/model_checkpoint_20.pt"
-        },
-        "data": {
-            "type": "images",
-            "test_input_path":  "./data/sample/",
-            "test_batch_size": 16,
-            "transforms": [
-                { "resize": [256, 256] }
+      "neural_network": {
+          "debug": true,
+          "layers": "./layers_resunet.json",
+          "checkpoints": {
+              "load": "./model_MRI_segmentation/model_checkpoint_20.pt"
+          },
+          "data": {
+              "type": "images",
+              "test_input_path":  "./data/sample/",
+              "test_batch_size": 16,
+              "transforms": [
+                  { "resize": [256, 256] }
               ]
           }
       }
