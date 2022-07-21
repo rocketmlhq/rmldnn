@@ -80,45 +80,45 @@ The `rmldnn` configuration file used for training is shown below:
 .. code:: bash
 
   {
-    "neural_network": {
-        "outfile": "out_segmentation.txt",
-        "num_epochs": 20,
-        "layers": "./layers_resunet.json",
-        "checkpoints": {
-            "load": "./model_resunet_imagenet.h5",
-            "save": "model_MRI_segmentation/",
-            "interval": 10
-        },
-        "data": {
-            "type": "images",
-            "input_path":       "./data/train_image/",
-            "target_path":      "./data/train_mask/",
-            "test_input_path":  "./data/test_image/",
-            "test_target_path": "./data/test_mask/",
-            "batch_size": 32,
-            "test_batch_size": 64,
-            "preload": true,
-            "target_grayscale": true,
-            "target_is_mask": true,
-            "transforms": [
-                { "resize": [256, 256] }
-            ]
-        },
-        "optimizer": {
-            "type": "adam",
-            "learning_rate": 0.0001,
-            "lr_scheduler": {
-                "type": "Exponential",
-                "gamma": 0.95,
-                "verbose": true
-            }
-        },
-        "loss": {
-            "function": "Dice",
-            "source": "sigmoid"
-        }
-    }
-} 
+      "neural_network": {
+          "outfile": "out_segmentation.txt",
+          "num_epochs": 20,
+          "layers": "./layers_resunet.json",
+          "checkpoints": {
+              "load": "./model_resunet_imagenet.h5",
+              "save": "model_MRI_segmentation/",
+              "interval": 10
+          },
+          "data": {
+              "type": "images",
+              "input_path":       "./data/train_image/",
+              "target_path":      "./data/train_mask/",
+              "test_input_path":  "./data/test_image/",
+              "test_target_path": "./data/test_mask/",
+              "batch_size": 32,
+              "test_batch_size": 64,
+              "preload": true,
+              "target_grayscale": true,
+              "target_is_mask": true,
+              "transforms": [
+                  { "resize": [256, 256] }
+              ]
+          },
+          "optimizer": {
+              "type": "adam",
+              "learning_rate": 0.0001,
+              "lr_scheduler": {
+                  "type": "Exponential",
+                  "gamma": 0.95,
+                  "verbose": true
+              }
+          },
+          "loss": {
+              "function": "Dice",
+              "source": "sigmoid"
+          }
+      }
+  } 
 
 
 A few points to notice in the configuration:
