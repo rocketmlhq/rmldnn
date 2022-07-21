@@ -8,33 +8,33 @@
             "save": "model_MRI_segmentation/",
             "interval": 10
         },
-      "data": {
-            "type": "images",
-            "input_path":       "./data/train_image/",
-            "target_path":      "./data/train_mask/",
-            "test_input_path":  "./data/test_image/",
-            "test_target_path": "./data/test_mask/",
-            "batch_size": 32,
-            "test_batch_size": 64,
-            "preload": true,
-            "target_grayscale": true,
-            "target_is_mask": true,
-            "transforms": [
-                { "resize": [256, 256] }
-            ]
-        },
-      "optimizer": {
-            "type": "adam",
-            "learning_rate": 0.0001,
-            "lr_scheduler": {
-                "type": "Exponential",
-                "gamma": 0.95,
-                "verbose": true
+        "data": {
+              "type": "images",
+              "input_path":       "./data/train_image/",
+              "target_path":      "./data/train_mask/",
+              "test_input_path":  "./data/test_image/",
+              "test_target_path": "./data/test_mask/",
+              "batch_size": 32,
+              "test_batch_size": 64,
+              "preload": true,
+              "target_grayscale": true,
+              "target_is_mask": true,
+              "transforms": [
+                  { "resize": [256, 256] }
+              ]
+          },
+        "optimizer": {
+              "type": "adam",
+              "learning_rate": 0.0001,
+              "lr_scheduler": {
+                    "type": "Exponential",
+                    "gamma": 0.95,
+                    "verbose": true
+                }
+            },
+        "loss": {
+              "function": "Dice",
+              "source": "sigmoid"
             }
-        },
-      "loss": {
-            "function": "Dice",
-            "source": "sigmoid"
-        }
-    }
+      }
 }
