@@ -19,11 +19,11 @@ The dataset
 ~~~~~~~~~~~
 
 We will use the `Brain MRI segmentation <https://www.kaggle.com/datasets/mateuszbuda/lgg-mri-segmentation>`__
-dataset, which contains brain MRI images together with manual FLAIR abnormality segmentation masks, as shown below..  
+dataset, which contains pairs of brain MRI images (inputs) and their corresponding manual FLAIR abnormality
+segmentation masks (targets). An example of image and mask pair is shown below:
 
 .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/sample.png?raw=true
   :width: 650
-  
 
 The data needs to be pre-processed before training. This is done in Keras through code, but
 we do it here as an outside step in order to save time when running multiple training experiments. 
@@ -41,39 +41,43 @@ We need to:
         |   +-- train_mask/
         |   +-- test_image/
         |   +-- test_mask/
-        |   +-- sample/
-        |   +-- sample_true/
 
-For your convenience, we have already pre-processed the dataset which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__
+For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__.
 
 The model
 ~~~~~~~~~
 
-We will use UNET style neural network backed by RESNET50 for this purpose. The architecture has two paths. The contraction path, also known as the encoder, is the first path and it is used to record the context of the image. The encoder is simply a conventional stack of max pooling and convolutional layers. The second path, also known as the decoder, is a symmetric expanding path that enables exact localisation using transposed convolutions. Because it only has Convolutional layers and no Dense layers, it is an end-to-end fully convolutional network (FCN), allowing it to process images of any size.
-Below image shows architecture of RESUNET:
+We will use the RESUNET architecture for this task, which is an encoder-decoder network designed as an improvement over the standard UNET 
+(`original paper <https://arxiv.org/pdf/1711.10684.pdf>`__).
+The UNET architecture has two paths. The first is the contraction path, also known as the encoder, which is used to record the context of the image. The encoder is simply a conventional stack of max pooling and convolutional layers. The second path, also known as the decoder, is a symmetric expanding path that enables exact localisation using transposed convolutions. Because the network only has Convolutional layers and no Dense layers, it is an end-to-end fully convolutional network (FCN), allowing it to process images of any size.
+The image below shows the typical architecture of a 2D UNET:
+ 
+ .. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
+  :width: 600
+  :align: center
+  
+The fully convolutional neural network RESUNET was created with the goal of achieving greater performance with a minimal number of parameters. RESUNET benefits from the Deep Residual Learning as well as the UNET design. Similar to a UNET, the RESUNET is made up of an encoding network, a decoding network, and a bridge connecting the two. The UNET employs two 3 x 3 convolutions, with a ReLU activation function coming after each. In the case of RESUNET, a pre-activated residual block takes the place of these layers. The diagram below shows the architecture of RESUNET:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
+.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/resunet.png?raw=true
   :width: 600
   :height: 700
   :align: center
-  
-Fully convolutional neural network RESUNET was created with the goal of achieving great performance with a minimal number of parameters. Over the current UNET design, it is an advancement. RESUNET benefits from the Deep Residual Learning as well as the UNET design. Similar to a U-Net, the RESUNET is made up of an encoding network, a decoding network, and a bridge connecting the two. The U-Net employs two 3 x 3 convolutions, with a ReLU activation function coming after each. In the case of RESUNET, a pre-activated residual block takes the place of these layers. Our RESUNET network is pretrained using ImageNet dataset, which is dataset consisting of hundreds and thousands of images.
 
-You can get the model from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__.
+Our RESUNET network is pre-trained with the ImageNet dataset, a popular dataset consisting of millions of images. 
+The pre-trained model can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__.
 
 Training the model
 ~~~~~~~~~~~~~~~~~~
 
-To train the ResUnet model on our dataset, we will use Adam optimizer with learning rate of 0.0001 along with Exponential learning rate scheduler with gamma of 0.95. To learn more about types of lr scheduler `click here <https://rocketmlhq.github.io/rmldnn/configuration.html#lr-scheduler-sub-section>`__.
+To train the ResUnet model on our dataset, we will use an Adam optimizer with a learning rate of 0.0001 along with an exponential learning-rate scheduler with gamma = 0.95. To learn more about LR schedulers, please check out the `documentation <https://rocketmlhq.github.io/rmldnn/configuration.html#lr-scheduler-sub-section>`__.
 
-
-However, instead of using a categorical cross-entropy loss function, we will take advantage of `rmldnn`'s implementation
+Instead of using a categorical cross-entropy loss function, we will take advantage of `rmldnn`'s implementation
 of the Dice loss, which is defined as the complement of the Dice coefficient computed between prediction and target.
 First introduced in the context of medical image segmentation
 (`paper <https://arxiv.org/abs/1606.04797>`__),
 the Dice loss has been shown to perform very well for segmentation tasks in general.
 
-The `rmldnn` configuration file used for training is shown below:
+The `rmldnn` configuration file used for training (``config_train.json``) is shown below:
 
 .. code:: bash
 
@@ -118,7 +122,6 @@ The `rmldnn` configuration file used for training is shown below:
       }
   } 
 
-
 A few points to notice in the configuration:
 
  - Since the targets are grayscale images (single-channel), the parameter ``target_grayscale`` is set to `true`,
@@ -126,7 +129,8 @@ A few points to notice in the configuration:
    expected by the Dice loss function.
  - The variable ``target_is_mask`` is set to `true` so that target pixels are not linearly interpolated 
    when resizing the image.
- - Since we are performing transfer learning, we will load a pre-trained ResUnet model.
+ - Since we are performing transfer learning, we use the parameter ``checkpoints::load``
+   to load a pre-trained ResUnet model.
 
 We will run training for 20 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
 (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
@@ -154,14 +158,15 @@ We can monitor the run by plotting quantities like the training loss and the tes
   :align: center
   
 The test accuracy, reported in the file ``out_segmentation_test.txt``, shows that we have reached
-an accuracy of ~87% on the test dataset (as measured by the Dice coefficient averaged across all classes).
+an accuracy of ~88% on the test dataset (as measured by the Dice coefficient averaged across all classes).
 
 
 Running inference on a pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's now use the model saved after the 20th epoch to run inference on a few samples and visualize the results.
-We have made a copy of about 4 test images under ``./data/sample``, which you can use to run inference on. Use following configuration file to run inference:
+We have already copied 4 test images under ``./data/sample/``, which we can use to run inference on.
+The following configuration file (``config_test.json``) will be used to run inference:
 
 .. code:: bash
 
@@ -205,7 +210,7 @@ with `matplotlib`.
     plt.show()
 
 Doing this for a few samples, we obtain the segmentation predictions below.
-Results are pretty good for a model trained for only 10 minutes! 
+Results are pretty good for a model trained for less than 5 minutes! 
 
 ==================== ==================== ====================
 **Inputs**           **Predictions**      **Ground-truths**
