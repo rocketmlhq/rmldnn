@@ -18,7 +18,7 @@ present in the types of images it is trained on.
 The weights from the encoder portion of this model are then transferred to a 
 classifier model, which is further trained on a labeled dataset. The entire scheme is depicted below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/inpainting.png
+.. image:: ./figures/inpainting.png
   :width: 750
   :align: center
 
@@ -36,7 +36,7 @@ from various sources. The classes include airplane, car, cat, dog, flower, fruit
 It can be downloaded from
 `here <https://www.kaggle.com/datasets/prasunroy/natural-images>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/kaggle.png
+.. image:: ./figures/kaggle.png
   :width: 750
 
 We will partition the data by allocating ~10% of the images from each class as test samples. 
@@ -71,9 +71,9 @@ For the feature extraction phase, we will train a neural network composed of the
 Resnet-50 network (until the ``bn5c_branch2c`` layer), followed by 5 transposed convolution layers which act as 
 up-sampling steps to bring the tensor size back to the original input size, as shown in the figure below.
 This neural network is described in the file
-`network_resnet50_feature_extract.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/network_resnet50_feature_extract.json>`__.
+`network_resnet50_feature_extract.json <./network_resnet50_feature_extract.json>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/resnet50_feature_extract.png
+.. image:: ./figures/resnet50_feature_extract.png
   :width: 750
 
 To implement the inpainting strategy, random patches must be cut out of the input images and used as targets. 
@@ -89,12 +89,12 @@ with 100 random (possibly overlapping) patches of size 10 x 10:
         { "random_patches": { "number": 100, "size": 10 } }
     ]
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/random_patches.png
+.. image:: ./figures/random_patches.png
   :width: 500
   :align: center
 
 The following config file
-(`config_inpaint_feature_extraction.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/config_inpaint_feature_extraction.json>`__)
+(`config_inpaint_feature_extraction.json <./config_inpaint_feature_extraction.json>`__)
 will be used to configure the feature extraction run:
 
 .. code:: bash
@@ -143,7 +143,7 @@ From the command line, one should do:
 and can monitor the progress by looking at the time decay of the loss value,
 which is reported in the log file ``out_inpaint_feature_extraction_train.txt``:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/loss_feat_extract.png
+.. image:: ./figures/loss_feat_extract.png
   :width: 500
   :align: center
 
@@ -155,9 +155,9 @@ The first step is to put together the classifier neural network, which we constr
 taking the encoder-only portion of Resnet-50 (up until the ``bn5c_branch2c`` layer),
 and add a Dense layer with a softmax activation function at the end. This network is 
 depicted below and described in the file
-`network_resnet50_classifier.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/network_resnet50_classifier.json>`__.
+`network_resnet50_classifier.json <./network_resnet50_classifier.json>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/resnet50_classifier.png
+.. image:: ./figures/resnet50_classifier.png
   :width: 500
   :align: center
 
@@ -169,7 +169,7 @@ would be further trained. The more unfrozen layers we have, the better the final
 the longer it will take to train the classifier. The Dense layer must be trained from scratch, of course.
 
 The following file,
-`config_inpaint_classifier.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/config_inpaint_classifier.json>`__,
+`config_inpaint_classifier.json <./config_inpaint_classifier.json>`__,
 will be used to train the classifier:
 
 .. code:: bash
@@ -216,7 +216,7 @@ Notice how `rmldnn` warns about not finding the weights and biases for the Dense
 the model checkpoint from the feature extraction run. This is expected, since this layer is
 new in the classifier network, and precisely what we want to train.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/run_classifier.png
+.. image:: ./figures/run_classifier.png
   :width: 800
   :align: center
 
@@ -224,7 +224,7 @@ We monitor the NLL loss value for the classification run
 (reported in ``out_inpaint_classifier_train.txt``)
 and make sure it achieves a steady state before 100 epochs:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/loss_classification.png
+.. image:: ./figures/loss_classification.png
   :width: 500
   :align: center
 
@@ -232,7 +232,7 @@ Finally, we look at the accuracy for the test data classification,
 computed as the fraction of correctly labeled samples
 (reported in ``out_inpaint_classifier_test.txt``):
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/accuracy_classification.png
+.. image:: ./figures/accuracy_classification.png
   :width: 500
   :align: center
   
@@ -252,7 +252,7 @@ we will experiment with subsets of the original training dataset, and assess how
 
 We now run the classifier as before, training it again for 20%, 40%, 60%, and 80% of the original data. The plot below shows the resulting accuracies for each data subset used:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/Accuracy%20as%20percentage%20of%20training%20data.png
+.. image:: ./figures/accuracy_vs_pct_training_data.png
   :width: 500
   :align: center
 
