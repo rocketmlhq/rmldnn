@@ -252,7 +252,7 @@ we will experiment with subsets of the original training dataset, and assess how
 
 We now run the classifier as before, training it again for 20%, 40%, 60%, and 80% of the original data. The plot below shows the resulting accuracies for each data subset used:
 
-.. image:: https://github.com/RhythmBindal/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/Accuracy%20as%20percentage%20of%20training%20data.png
+.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/self_supervised_inpainting/figures/Accuracy%20as%20percentage%20of%20training%20data.png
   :width: 500
   :align: center
 
