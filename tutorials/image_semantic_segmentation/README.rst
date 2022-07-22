@@ -24,7 +24,7 @@ dataset, which contains 37 categories of cats and dogs with roughly 200 images p
 Each image has a corresponding trimap mask file with ground-truth segmentation: pixel value 0 for background, 
 1 for the contour and 2 for the animal, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/cat_sample.png
+.. image:: ./figures/cat_sample.png
   :width: 650
   
 
@@ -60,11 +60,11 @@ modules of the popular Inception network with `depthwise separable convolutions`
 fewer trainable parameters. This architecture was shown to outperform Inception on 
 classification tasks. The Xception neural network is depicted below, and the Keras-style network
 description is provided in the file
-`network_xception2D.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/network_xception2D.json>`__.
+`network_xception2D.json <./network_xception2D.json>`__.
 A graph view of the neural network is provided 
-`here <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/graph_xception2D.pdf>`__.
+`here <./graph_xception2D.pdf>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/xception.png
+.. image:: ./figures/xception.png
   :width: 1000
 
 Training the model
@@ -137,7 +137,7 @@ From the command line, one should do:
     mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config= ./config_pets_segmentation.json
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/training_header.png
+.. image:: ./figures/training_header.png
   :width: 600
   :align: center
 
@@ -147,14 +147,14 @@ We can monitor the evolution of the training loss, which is reported in the log 
 yet fully reached a stationary value, and training by a few more epochs would have probably further improved
 the model somewhat.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/training_loss.png
+.. image:: ./figures/training_loss.png
   :width: 600
   :align: center
 
 The test accuracy, reported in the file ``out_dnn_pets_segmentation_test.txt``, shows that we have reached
 an accuracy of ~80% on the test dataset (as measured by the Dice coefficient averaged across all classes).
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/test_accuracy.png
+.. image:: ./figures/test_accuracy.png
   :width: 600
   :align: center
 
@@ -226,40 +226,40 @@ Results are pretty good for a model trained for only 10 minutes!
 |input_6|            |inference_6|        |truth_6|
 ==================== ==================== ====================
 
-.. |input_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_1.png
+.. |input_1|      image::  ./figures/input_1.png
     :width: 300
-.. |input_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_2.png
+.. |input_2|      image::  ./figures/input_2.png
     :width: 300
-.. |input_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_3.png
+.. |input_3|      image::  ./figures/input_3.png
     :width: 300
-.. |input_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_4.png
+.. |input_4|      image::  ./figures/input_4.png
     :width: 300
-.. |input_5|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_5.png
+.. |input_5|      image::  ./figures/input_5.png
     :width: 300
-.. |input_6|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/input_6.png
+.. |input_6|      image::  ./figures/input_6.png
     :width: 300
-.. |inference_1|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_1.png
+.. |inference_1|  image::  ./figures/inference_1.png
     :width: 300
-.. |inference_2|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_2.png
+.. |inference_2|  image::  ./figures/inference_2.png
     :width: 300
-.. |inference_3|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_3.png
+.. |inference_3|  image::  ./figures/inference_3.png
     :width: 300
-.. |inference_4|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_4.png
+.. |inference_4|  image::  ./figures/inference_4.png
     :width: 300
-.. |inference_5|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_5.png
+.. |inference_5|  image::  ./figures/inference_5.png
     :width: 300
-.. |inference_6|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/inference_6.png
+.. |inference_6|  image::  ./figures/inference_6.png
     :width: 300
-.. |truth_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_1.png
+.. |truth_1|      image::  ./figures/truth_1.png
     :width: 300
-.. |truth_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_2.png
+.. |truth_2|      image::  ./figures/truth_2.png
     :width: 300
-.. |truth_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_3.png
+.. |truth_3|      image::  ./figures/truth_3.png
     :width: 300
-.. |truth_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_4.png
+.. |truth_4|      image::  ./figures/truth_4.png
     :width: 300
-.. |truth_5|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_5.png
+.. |truth_5|      image::  ./figures/truth_5.png
     :width: 300
-.. |truth_6|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/image_semantic_segmentation/figures/truth_6.png
+.. |truth_6|      image::  ./figures/truth_6.png
     :width: 300
    
