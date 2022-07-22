@@ -22,7 +22,7 @@ We will use the `Brain MRI segmentation <https://www.kaggle.com/datasets/mateusz
 dataset, which contains pairs of brain MRI images (inputs) and their corresponding manual FLAIR abnormality
 segmentation masks (targets). An example of image and mask pair is shown below:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/sample.png?raw=true
+.. image:: ./figures/sample.png?raw=true
   :width: 650
 
 The data needs to be pre-processed before training. This is done in Keras through code, but
@@ -52,13 +52,13 @@ We will use the RESUNET architecture for this task, which is an encoder-decoder 
 The UNET architecture has two paths. The first is the contraction path, also known as the encoder, which is used to record the context of the image. The encoder is simply a conventional stack of max pooling and convolutional layers. The second path, also known as the decoder, is a symmetric expanding path that enables exact localisation using transposed convolutions. Because the network only has Convolutional layers and no Dense layers, it is an end-to-end fully convolutional network (FCN), allowing it to process images of any size.
 The image below shows the typical architecture of a 2D UNET:
  
- .. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/unet.png?raw=true
+ .. image:: ./figures/unet.png?raw=true
   :width: 600
   :align: center
   
 The fully convolutional neural network RESUNET was created with the goal of achieving greater performance with a minimal number of parameters. RESUNET benefits from the Deep Residual Learning as well as the UNET design. Similar to a UNET, the RESUNET is made up of an encoding network, a decoding network, and a bridge connecting the two. The UNET employs two 3 x 3 convolutions, with a ReLU activation function coming after each. In the case of RESUNET, a pre-activated residual block takes the place of these layers. The diagram below shows the architecture of RESUNET:
 
-.. image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/resunet.png?raw=true
+.. image::  ./figures/resunet.png?raw=true
   :width: 600
   :height: 700
   :align: center
@@ -142,18 +142,18 @@ From the command line, one should do:
     rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config=config_train.json
 
-.. image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/train_ss.png?raw=true
+.. image::  ./figures/train_ss.png?raw=true
   :width: 600
   :align: center
 
 It takes about 4 minutes to train for 20 epochs on 4 GPUs. 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/epoch_loss_plot.png?raw=true
+.. image:: ./figures/epoch_loss_plot.png?raw=true
   :width: 400
   :align: center
   
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/epoch_acc_plot.png?raw=true
+.. image:: ./figures/epoch_acc_plot.png?raw=true
   :width: 400
   :align: center
   
@@ -224,28 +224,28 @@ Results are pretty good for a model trained for less than 5 minutes!
 |input_4|            |inference_4|        |truth_4|
 ==================== ==================== ====================
 
-.. |input_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_1.png?raw=true
+.. |input_1|      image::  ./figures/input_1.png?raw=true
     :width: 300
-.. |input_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_2.png?raw=true
+.. |input_2|      image::  ./figures/input_2.png?raw=true
     :width: 300
-.. |input_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_3.png?raw=true
+.. |input_3|      image::  ./figures/input_3.png?raw=true
     :width: 300
-.. |input_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/input_4.png?raw=true
+.. |input_4|      image::  ./figures/input_4.png?raw=true
     :width: 300
-.. |inference_1|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_1.png?raw=true
+.. |inference_1|  image::  ./figures/pred_1.png?raw=true
     :width: 300
-.. |inference_2|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_2.png?raw=true
+.. |inference_2|  image::  ./figures/pred_2.png?raw=true
     :width: 300
-.. |inference_3|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_3.png?raw=true
+.. |inference_3|  image::  ./figures/pred_3.png?raw=true
     :width: 300
-.. |inference_4|  image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/pred_4.png?raw=true
+.. |inference_4|  image::  ./figures/pred_4.png?raw=true
     :width: 300
-.. |truth_1|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_1.png?raw=true
+.. |truth_1|      image::  ./figures/true_1.png?raw=true
     :width: 300
-.. |truth_2|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_2.png?raw=true
+.. |truth_2|      image::  ./figures/true_2.png?raw=true
     :width: 300
-.. |truth_3|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_3.png?raw=true
+.. |truth_3|      image::  ./figures/true_3.png?raw=true
     :width: 300
-.. |truth_4|      image::  https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/brain_MRI_image_segmentation/figures/true_4.png?raw=true
+.. |truth_4|      image::  ./figures/true_4.png?raw=true
     :width: 300
    
