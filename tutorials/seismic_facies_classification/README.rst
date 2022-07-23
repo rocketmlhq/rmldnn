@@ -27,7 +27,7 @@ We will use a modified version of a 3D seismic image from a public seismic datas
 `Parihaka` survey, named after the region off the coast of New Zealand where it was generated.
 Three orthogonal cuts of the data are shown in the figure below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/parihaka.png
+.. image:: ./figures/parihaka.png
   :width: 650
 
 The dataset consists of a 3D image (in numpy format) of size 782 x 590 x 1006 stored in (x, y, z) order.
@@ -42,7 +42,7 @@ The same operation was performed with label (target) data.
 The resulting files can be downloaded from
 `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/parihaka_4class.tar.gz>`__.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/data_split.png
+.. image:: ./figures/data_split.png
   :width: 400
   :align: center
 
@@ -57,7 +57,7 @@ pre-processing step, the data slicing feature in `rmldnn` allows splitting a lar
 (i.e., no disk I/O involved), for any d <= D <= 3. The resulting samples are then fed into the
 network for training and evaluation, as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/slicer.png
+.. image:: ./figures/slicer.png
   :width: 650
 
 The configuration of the slicer module is very simple, and is described in detail in the 
@@ -90,13 +90,13 @@ The model
 
 We will use a 3D Unet neural network as our model, as depicted in the figure below.
 The network description file is 
-`unet3d_seismic.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/unet3d_seismic.json>`__,
+`unet3d_seismic.json <./unet3d_seismic.json>`__,
 and the network graph is shown in 
-`here <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/unet3d_seismic.pdf>`__.
+`here <./unet3d_seismic.pdf>`__.
 The last layer outputs a tensor with 4 values per pixel, corresponding to the probabilities of
 that pixel belonging to each of the 4 classes of seismic facies.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/unet3d.png
+.. image:: ./figures/unet3d.png
   :width: 650
 
 Training the model
@@ -167,7 +167,7 @@ From the command line, one should do:
 Observe in the log how the slicer reports the creation of 4455 training samples and 405 test samples
 from the given input data:
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/log_training.png
+.. image:: ./figures/log_training.png
   :width: 650
 
 It takes about 2 hours to train for 20 epochs on 4 GPUs. 
@@ -175,7 +175,7 @@ We can monitor the evolution of the training loss, which is reported in the log 
 ``out_seismic3d_train.txt``. The loss seems to have reached a stationary value after 20 epochs,
 as shown below.
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/loss_training.png
+.. image:: ./figures/loss_training.png
   :width: 600
   :align: center
 
@@ -270,7 +270,7 @@ confusion matrix, comparing our prediction to an equally-shaped chunk from the t
     disp.plot()
     show()
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/conf_matrix.png
+.. image:: ./figures/conf_matrix.png
   :width: 600
   :align: center
 
@@ -306,7 +306,7 @@ along, say, the `y-z` plane:
     display_slices(pred[x, :, :].transpose(), target[x, :, :].transpose())
 
 
-.. image:: https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/seismic_facies_classification/figures/prediction.png
+.. image:: ./figures/prediction.png
   :width: 1200
   :align: center
 

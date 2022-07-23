@@ -8,7 +8,7 @@ This tutorial explains how to use **rmldnn** to perform transfer learning in ord
 
 *Transfer learning* is a machine learning method in which a model trained with a given dataset is reused as starting point for a different task. Here we have leveraged a pre-trained RESNET50 model, which was trained on more than a million images from the ImageNet dataset. RESNET50 is a CNN (Convolutional Neural Network) model which is about 50 layers deep. The image below shows the architecture of RESNET50:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/ResnetArch.png?raw=true
+.. image:: ./figures/ResnetArch.png?raw=true
     :width: 750
     :align: center
   
@@ -26,7 +26,7 @@ We will use the *Kaggle Birds 400* dataset, which contains 62K images of 400 spe
 
 **IMPORTANT:** There is an error in the training set from Kaggle: the directory "BLACK & YELLOW BROADBILL" contains an extra space that is not present in the validation or testing sets. Please rename this directory in the training set by removing the extra space before proceeding.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/birds_cover.jpg?raw=true
+.. image:: ./figures/birds_cover.jpg?raw=true
 
 
 We'll create a directory named ``data/`` and unzip the archive inside. You should have the following directory structure:
@@ -53,19 +53,19 @@ We'll create a directory named ``data/`` and unzip the archive inside. You shoul
 
 The images are multi-channel (colored) with size 224 X 224, similar to the ones in the figure below. 
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Birds_joined.png?raw=true
+.. image:: ./figures/Birds_joined.png?raw=true
 
 The neural network
 ~~~~~~~~~~~~~~~~~~
 
 Since we'll be doing transfer learning, we'll need to first get our base model, which in our case is RESNET50, and then add a single 400-unit dense layer at the end (with a log-softmax activation). After that, we'll need to save our prepared model as an HDF5 file and our network architecture as a .json file. The network is depicted below:
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/network_arch.png?raw=true
+.. image:: ./figures/network_arch.png?raw=true
     :height: 500
     :align: center
 
 For reference, the above steps (fetching and exporting the model) can be accomplished with the script below. However, for convenience, the .h5 is available from  `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet.h5>`__, and the network file
-`layers.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/layers.json>`__
+`layers.json <./layers.json>`__
 is provided with this tutorial.
 
 .. code:: python
@@ -114,7 +114,7 @@ in a single configuration file. We will assume the following directory structure
     |   +-- layers.json
 
 To run training, we will use the following configuration file
-(`config_train.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/config_train.json>`__):
+(`config_train.json <./config_train.json>`__):
 
 .. code:: json
 
@@ -174,7 +174,7 @@ The following command will run training in parallel by spawning 4 processes, eac
      rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
      rmldnn --config=config_train.json
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/train_SS.png?raw=true
+.. image:: ./figures/train_SS.png?raw=true
   :width: 800
 
 In addition to the information printed on the standard output, `rmldnn` also writes out two log files named after the
@@ -185,11 +185,11 @@ of correctly labeled data samples).
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/test_rpoch_loss.png?raw=true
+.. image:: ./figures/test_rpoch_loss.png?raw=true
   :width: 400
   :align: center
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/test_rpoch_accuracy.png?raw=true
+.. image:: ./figures/test_rpoch_accuracy.png?raw=true
   :width: 400
   :align: center
 
@@ -199,7 +199,7 @@ Running inference on a pre-trained model
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
 This model can be used to run stand-alone inference on a given set of birds images.
 For example, the below script (
-`test_sample.py <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/test_sample.py>`__)
+`test_sample.py <./test_sample.py>`__)
 will copy one random image from each bird species (to a total of 400 images) into a new ``test_samples/`` directory:
 
 .. code:: python
@@ -219,7 +219,7 @@ will copy one random image from each bird species (to a total of 400 images) int
         os.rename(dest + random_file, dest + directory + random_file)
 
 The following configuration file
-(`config_test.json <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/config_test.json>`__)
+(`config_test.json <./config_test.json>`__)
 can be used to run `rmldnn` inference:
 
 .. code:: bash
@@ -250,7 +250,7 @@ We will run inference in parallel using 4 processes (8 threads each) on a multi-
       rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
       rmldnn --config=config_test.json
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_SS.png?raw=true
+.. image:: ./figures/Test_SS.png?raw=true
   :width: 800
   :align: center
 
@@ -258,7 +258,7 @@ The output of classification is a directory named ``predictions/`` containing on
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
 those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
 the `argmax` of each array. This is done in the below script (available as 
-`print_predictions.py <https://github.com/rocketmlhq/rmldnn/blob/main/tutorials/birds_image_classification/print_predictions.py>`__),
+`print_predictions.py <./print_predictions.py>`__),
 which also computes the total accuracy:
 
 .. code:: python
@@ -281,7 +281,7 @@ Since our test dataset contains one image from each bird species in order, the a
 if all predictions are correct. In reality, we get an accuracy of about 95%, which is great for a classification problem 
 with 400 classes trained for only 6 epochs, showing the power of the transfer learning method.
 
-.. image:: https://github.com/yashjain-99/rmldnn/blob/main/tutorials/birds_image_classification/images/Test_inference_SS.png?raw=true
+.. image:: ./figures/Test_inference_SS.png?raw=true
   :width: 800
   :align: center
   
