@@ -168,7 +168,6 @@ We copy test images under ``./samples/`` and use the following configuration fil
 
     {
         "neural_network": {
-            "debug": true,
             "layers": "./network_xception2D.json",
             "checkpoints": {
                 "load": "./model_pets_segmentation/model_checkpoint_30.pt"
@@ -176,6 +175,7 @@ We copy test images under ``./samples/`` and use the following configuration fil
             "data": {
                 "type": "images",
                 "test_input_path":  "./samples/",
+                "test_output_path": "./predictions/",
                 "test_batch_size": 16,
                 "transforms": [
                     { "resize": [160, 160] },
@@ -185,7 +185,7 @@ We copy test images under ``./samples/`` and use the following configuration fil
         }
     }
 
-The setting ``debug = true`` instructs `rmldnn` to save the predictions as ``numpy`` files under ``./debug/``.
+The setting ``test_output_path`` instructs `rmldnn` to save the predictions into an HDF5 under the directory ``./predictions/``.
 
 We can run inference on the test images by doing:
 
@@ -193,17 +193,18 @@ We can run inference on the test images by doing:
 
     $ singularity exec --nv rmldnn_image.sif rmldnn --config= ./config_pets_inference.json
 
-Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
-with `matplotlib`. As expected, the predictions are arrays with 3 channels per pixel (containing the probabilities
-of each class for that pixel), so we need to compute the ``argmax`` along the channel dimension:
+Finally, we can visualize the prediction for a given sample (e.g., ``Abyssinian_142.jpg``) by reading the corresponding
+dataset from the HDF5 file and displaying the image with `matplotlib`. As expected, the predictions are arrays with
+3 channels per pixel (containing the probabilities of each class for that pixel),
+so we need to compute the ``argmax`` along the channel dimension:
 
 .. code:: bash
 
-    import numpy as np
+    import h5py as h5
     import matplotlib.pyplot as plt
 
-    pred = np.load('./debug/output_1_0.npy')
-    pred = pred.transpose(1,2,0).argmax(2)
+    file = h5.File('./predictions/output_1.h5', 'r')
+    pred = file['Abyssinian_142.jpg'][()].transpose(1,2,0).argmax(2)
     plt.imshow(pred, interpolation='nearest', cmap='gray')
     plt.show()
 

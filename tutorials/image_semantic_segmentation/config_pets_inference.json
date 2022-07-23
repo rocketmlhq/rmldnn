@@ -1,6 +1,5 @@
 {
     "neural_network": {
-        "debug": true,
         "layers": "./network_xception2D.json",
         "checkpoints": {
             "load": "./model_pets_segmentation/model_checkpoint_30.pt"
@@ -8,6 +7,7 @@
         "data": {
             "type": "images",
             "test_input_path":  "./samples/",
+            "test_output_path": "./predictions/",
             "test_batch_size": 16,
             "transforms": [
                 { "resize": [160, 160] },
