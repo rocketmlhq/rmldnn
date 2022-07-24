@@ -398,9 +398,10 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 <a class="reference internal image-reference" href="_images/slicer_flow.png"><img alt="slicer_flow.png" src="_images/slicer_flow.png" style="width: 600px;" /></a>
 <p><strong>Restrictions:</strong></p>
 <ul class="simple">
-<li>The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
+<li>The input must be one single array (coming from a single numpy file).</li>
+<li>The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
 <li>The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.</li>
-<li>Only 2D slices can be transposed.</li>
+<li>The <code class="docutils literal"><span class="pre">transpose</span></code> option can only be used with 2D slices.</li>
 </ul>
 </div>
 <div class="section" id="transforms-sub-section">
