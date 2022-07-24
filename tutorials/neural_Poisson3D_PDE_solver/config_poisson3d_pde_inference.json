@@ -1,7 +1,5 @@
 {
     "neural_network": {
-        "debug": true,
-        "outfile": "prediction",
         "layers": "./unet3d_poisson.json",
         "checkpoints": {
             "load": "./model_poisson3d/model_checkpoint_20.pt"
@@ -9,7 +7,8 @@
         "data": {
             "type": "numpy",
             "test_input_path":  "./data/nu.npy",
-            "test_target_path": "./data/nu.npy"
+            "test_target_path": "./data/nu.npy",
+            "test_output_path": "./prediction/"
         },
         "loss": {
             "function": "Poisson3D_PDE"
