@@ -385,9 +385,10 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 
 **Restrictions:**
 
-- The input numpy array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).
+- The input must be one single array (coming from a single numpy file).
+- The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).
 - The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.
-- Only 2D slices can be transposed.
+- The ``transpose`` option can only be used with 2D slices.
 
 Transforms sub-section
 ^^^^^^^^^^^^^^^^^^^^^^
