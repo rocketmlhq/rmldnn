@@ -1,5 +1,5 @@
-Image semantic segmentation
-===========================
+Pets image semantic segmentation
+================================
 
 Introduction
 ~~~~~~~~~~~~
