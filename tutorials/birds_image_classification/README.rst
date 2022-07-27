@@ -226,8 +226,6 @@ can be used to run `rmldnn` inference:
 
     {
     "neural_network": {
-        "debug": true,
-        "outfile": "./predictions.txt",
         "layers": "./layers.json",
         "checkpoints": {
             "load": "./model_checkpoints_save/model_checkpoint_6.pt"
@@ -235,6 +233,7 @@ can be used to run `rmldnn` inference:
         "data": {
             "input_type": "images",
             "test_input_path": "./test_samples/",
+            "test_output_path": "./predictions/",
             "transforms": [
                 { "resize": [224, 224] }
             ]
@@ -254,9 +253,9 @@ We will run inference in parallel using 4 processes (8 threads each) on a multi-
   :width: 800
   :align: center
 
-The output of classification is a directory named ``predictions/`` containing one numpy file for each input sample.
+The output of classification is a HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample.
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
-those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
+those dataset will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
 the `argmax` of each array. This is done in the below script (available as 
 `print_predictions.py <./print_predictions.py>`__),
 which also computes the total accuracy:
@@ -264,17 +263,17 @@ which also computes the total accuracy:
 .. code:: python
 
     import numpy as np
-    import os
-
+    import h5py as h5
     right = 0
     size  = 400
-
-    for i in range(size):
-        x = np.argmax(np.load('./predictions/output_1_' + str(i) +'.npy'))
-        print(x, end=' ')
+    pred = h5.File('/predictions/output_1.h5', 'r')
+    i=0
+    for dataset in pred:
+        print(np.argmax(pred[dataset][()]), end=' ')
+        x=np.argmax(pred[dataset][()])
         if (x == i):
             right += 1
-
+        i+=1
     print("\n\nAccuracy is " + str(100 * right / size) +'%')
 
 Since our test dataset contains one image from each bird species in order, the above script should print a sequence from 0 to 399, 
