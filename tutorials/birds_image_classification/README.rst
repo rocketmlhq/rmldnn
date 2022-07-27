@@ -225,18 +225,19 @@ can be used to run `rmldnn` inference:
 .. code:: bash
 
     {
-    "neural_network": {
-        "layers": "./layers.json",
-        "checkpoints": {
-            "load": "./model_checkpoints_save/model_checkpoint_6.pt"
-        },
-        "data": {
-            "input_type": "images",
-            "test_input_path": "./test_samples/",
-            "test_output_path": "./predictions/",
-            "transforms": [
-                { "resize": [224, 224] }
-            ]
+        "neural_network": {
+            "layers": "./layers.json",
+            "checkpoints": {
+                "load": "./model_checkpoints_save/model_checkpoint_6.pt"
+            },
+            "data": {
+                "input_type": "images",
+                "test_input_path": "./test_samples/",
+                "test_output_path": "./predictions/",
+                "transforms": [
+                    { "resize": [224, 224] }
+                ]
+            }
         }
     }
 
