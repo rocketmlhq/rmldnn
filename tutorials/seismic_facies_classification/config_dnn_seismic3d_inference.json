@@ -1,6 +1,5 @@
 {
     "neural_network": {
-        "debug": true,
         "checkpoints": {
             "load": "./model_seismic3d/model_checkpoint_20.pt"
         },
@@ -9,6 +8,7 @@
             "type": "numpy",
             "test_input_path":  "./parihaka/input3D_test.npy",
             "test_target_path": "./parihaka/target3D_test.npy",
+            "test_output_path": "./prediction/",
             "test_batch_size": 1,
             "slicers": [
                 {
