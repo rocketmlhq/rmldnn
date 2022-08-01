@@ -41,6 +41,8 @@ We need to:
         |   +-- train_mask/
         |   +-- test_image/
         |   +-- test_mask/
+        |   +-- sample/
+        |   +-- sample_true/
 
 For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__.
 
@@ -172,7 +174,6 @@ The following configuration file (``config_test.json``) will be used to run infe
 
   {
       "neural_network": {
-          "debug": true,
           "layers": "./layers_resunet.json",
           "checkpoints": {
               "load": "./model_MRI_segmentation/model_checkpoint_20.pt"
@@ -180,6 +181,7 @@ The following configuration file (``config_test.json``) will be used to run infe
           "data": {
               "type": "images",
               "test_input_path":  "./data/sample/",
+              "test_output_path": "./predictions/",
               "test_batch_size": 16,
               "transforms": [
                   { "resize": [256, 256] }
@@ -188,7 +190,8 @@ The following configuration file (``config_test.json``) will be used to run infe
       }
   }
 
-The setting ``debug = true`` instructs `rmldnn` to save the predictions as ``numpy`` files under ``./debug/``.
+The parameter ``test_output_path`` in the above config instructs `rmldnn` to save
+the predictions as an ``HDF5`` file under ``./predictions/``.
 
 We can run inference on the test images by doing:
 
@@ -197,16 +200,18 @@ We can run inference on the test images by doing:
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
-Finally, we can visualize the predictions, for example, by loading the `numpy` files and showing the images
-with `matplotlib`.
+Finally, we can visualize the predictions by loading each dataset in the `HDF5` file
+and showing the images with `matplotlib`:
 
 .. code:: bash
 
-    import numpy as np
-    import matplotlib.pyplot as plt
+  import numpy as np
+  import h5py as h5
+  import matplotlib.pyplot as plt
 
-    pred = np.load('./debug/output_1_0.npy').round()
-    plt.imshow(pred[0,:,:],cmap="gray")
+  pred = h5.File('predictions/output_1.h5', 'r')
+  for dataset in pred:
+    plt.imshow(pred[dataset][0,:,:].round(), cmap="gray")
     plt.show()
 
 Doing this for a few samples, we obtain the segmentation predictions below.

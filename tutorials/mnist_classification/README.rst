@@ -131,7 +131,7 @@ Running inference on a pre-trained model
 The above run writes out the model trained up to the 20th epoch as ``mnist_model/model_checkpoint_20.pt``.
 This model can be used to run stand-alone inference on a given set of MNIST digits.
 For example, assume we want to classify the following 10 random digits, which have been
-copied under ``mnist_digits/digit_*.jpg``:
+copied under ``mnist_digits/digit_{0..9}.jpg``:
 
 .. image:: ./figures/mnist_test_digits.png
   :width: 1000
@@ -145,8 +145,6 @@ can be used to run `rmldnn` inference:
 
     {
         "neural_network": {
-            "debug": true,
-            "outfile": "./mnist_predictions.txt",
             "layers": "./mnist_keras_net.json",
             "checkpoints": {
                 "load": "./mnist_model/model_checkpoint_20.pt"
@@ -154,6 +152,7 @@ can be used to run `rmldnn` inference:
             "data": {
                 "input_type": "images",
                 "test_input_path": "./mnist_digits/",
+                "test_output_path": "./mnist_predictions/",
                 "grayscale": true
             }
         }
@@ -169,18 +168,20 @@ We can run inference on a single CPU by doing:
   :width: 1000
   :align: center
 
-The output of classification is a directory named ``mnist_predictions/`` containing one small numpy file for each input sample.
+The output of classification is the HDF5 file ``mnist_predictions/output_1.h5``, which will contain one dataset for each input sample.
 Since the MNIST model predicts a probability for each sample to be of one out of 10 possible classes, 
-those numpy arrays will be of shape :math:`(10,)`. To obtain the actual predictions, one needs to compute
+those datasets will be of shape :math:`(10,)`. To obtain the actual predictions, one needs to compute
 the `argmax` for each array:
 
-.. code:: bash
+.. code:: python
 
     import numpy as np
-    import os
-    for file in sorted(os.listdir('./mnist_predictions/')):
-        print(np.argmax(np.load('./mnist_predictions/' + file)), end=' ')
-    
+    import h5py as h5
+
+    pred = h5.File('./mnist_predictions/output_1.h5', 'r')
+    for dataset in pred:
+        print(np.argmax(pred[dataset][()]), end=' ')
+
     >>> 3 5 1 9 4 7 2 0 6 8 
 
 For this test set, we achieved 100% prediction accuracy with a model trained for only 20 epochs!

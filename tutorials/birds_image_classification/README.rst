@@ -198,8 +198,8 @@ Running inference on a pre-trained model
 
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
 This model can be used to run stand-alone inference on a given set of birds images.
-For example, the below script (
-`test_sample.py <./test_sample.py>`__)
+For example, the below script
+(`test_sample.py <./test_sample.py>`__)
 will copy one random image from each bird species (to a total of 400 images) into a new ``test_samples/`` directory:
 
 .. code:: python
@@ -225,24 +225,24 @@ can be used to run `rmldnn` inference:
 .. code:: bash
 
     {
-    "neural_network": {
-        "debug": true,
-        "outfile": "./predictions.txt",
-        "layers": "./layers.json",
-        "checkpoints": {
-            "load": "./model_checkpoints_save/model_checkpoint_6.pt"
-        },
-        "data": {
-            "input_type": "images",
-            "test_input_path": "./test_samples/",
-            "transforms": [
-                { "resize": [224, 224] }
-            ]
+        "neural_network": {
+            "layers": "./layers.json",
+            "checkpoints": {
+                "load": "./model_checkpoints_save/model_checkpoint_6.pt"
+            },
+            "data": {
+                "input_type": "images",
+                "test_input_path": "./test_samples/",
+                "test_output_path": "./predictions/",
+                "transforms": [
+                    { "resize": [224, 224] }
+                ]
+            }
         }
     }
 
 
-We will run inference in parallel using 4 processes (8 threads each) on a multi-core CPU node:
+We will run inference in parallel using 4 processes (with 8 threads each) on a multi-core CPU node:
 
 .. code:: bash
 
@@ -254,9 +254,9 @@ We will run inference in parallel using 4 processes (8 threads each) on a multi-
   :width: 800
   :align: center
 
-The output of classification is a directory named ``predictions/`` containing one numpy file for each input sample.
+The output of classification is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample.
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
-those numpy arrays will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
+those datasets will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
 the `argmax` of each array. This is done in the below script (available as 
 `print_predictions.py <./print_predictions.py>`__),
 which also computes the total accuracy:
@@ -264,16 +264,18 @@ which also computes the total accuracy:
 .. code:: python
 
     import numpy as np
-    import os
-
+    import h5py as h5
+    i = 0
     right = 0
-    size  = 400
-
-    for i in range(size):
-        x = np.argmax(np.load('./predictions/output_1_' + str(i) +'.npy'))
+    size = 400
+    pred = h5.File('./predictions/output_1.h5', 'r')
+    
+    for dataset in pred:
+        x = np.argmax(pred[dataset][()])
         print(x, end=' ')
         if (x == i):
             right += 1
+        i += 1
 
     print("\n\nAccuracy is " + str(100 * right / size) +'%')
 
