@@ -190,7 +190,8 @@ The following configuration file (``config_test.json``) will be used to run infe
       }
   }
 
-Above config instructs `rmldnn` to save the predictions as ``HDF5`` file under ``./predictions/``.
+The parameter ``test_output_path`` in the above config instructs `rmldnn` to save
+the predictions as an ``HDF5`` file under ``./predictions/``.
 
 We can run inference on the test images by doing:
 
@@ -199,8 +200,8 @@ We can run inference on the test images by doing:
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
-Finally, we can visualize the predictions, for example, by loading the `HDF5` file and showing the images
-with `matplotlib`.
+Finally, we can visualize the predictions by loading each dataset in the `HDF5` file
+and showing the images with `matplotlib`:
 
 .. code:: bash
 
