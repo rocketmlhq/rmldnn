@@ -41,6 +41,8 @@ We need to:
         |   +-- train_mask/
         |   +-- test_image/
         |   +-- test_mask/
+        |   +-- sample/
+        |   +-- sample_true/
 
 For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__.
 
