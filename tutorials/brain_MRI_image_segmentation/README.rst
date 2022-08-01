@@ -208,7 +208,7 @@ with `matplotlib`.
   import h5py as h5
   import matplotlib.pyplot as plt
 
-  pred = h5.File('/content/output_1.h5', 'r')
+  pred = h5.File('predictions/output_1.h5', 'r')
   for dataset in pred:
     plt.imshow(pred[dataset][0,:,:].round(), cmap="gray")
     plt.show()
