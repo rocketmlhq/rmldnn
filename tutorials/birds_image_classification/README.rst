@@ -198,8 +198,8 @@ Running inference on a pre-trained model
 
 The above run writes out the model trained up to the 6th epoch as ``model_checkpoints_save/model_checkpoint_6.pt``.
 This model can be used to run stand-alone inference on a given set of birds images.
-For example, the below script (
-`test_sample.py <./test_sample.py>`__)
+For example, the below script
+(`test_sample.py <./test_sample.py>`__)
 will copy one random image from each bird species (to a total of 400 images) into a new ``test_samples/`` directory:
 
 .. code:: python
@@ -242,7 +242,7 @@ can be used to run `rmldnn` inference:
     }
 
 
-We will run inference in parallel using 4 processes (8 threads each) on a multi-core CPU node:
+We will run inference in parallel using 4 processes (with 8 threads each) on a multi-core CPU node:
 
 .. code:: bash
 
@@ -254,9 +254,9 @@ We will run inference in parallel using 4 processes (8 threads each) on a multi-
   :width: 800
   :align: center
 
-The output of classification is a HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample.
+The output of classification is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample.
 Since the model predicts a probability for each sample to be of one out of 400 possible classes, 
-those dataset will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
+those datasets will be of shape :math:`(400,)`. To obtain the actual predicted classes, one needs to take 
 the `argmax` of each array. This is done in the below script (available as 
 `print_predictions.py <./print_predictions.py>`__),
 which also computes the total accuracy:
@@ -266,15 +266,17 @@ which also computes the total accuracy:
     import numpy as np
     import h5py as h5
     right = 0
-    size  = 400
-    pred = h5.File('/predictions/output_1.h5', 'r')
-    i=0
+    size = 400
+    pred = h5.File('./predictions/output_1.h5', 'r')
+    i = 0
+
     for dataset in pred:
-        print(np.argmax(pred[dataset][()]), end=' ')
-        x=np.argmax(pred[dataset][()])
+        x = np.argmax(pred[dataset][()])
+        print(x, end=' ')
         if (x == i):
             right += 1
-        i+=1
+        i += 1
+
     print("\n\nAccuracy is " + str(100 * right / size) +'%')
 
 Since our test dataset contains one image from each bird species in order, the above script should print a sequence from 0 to 399, 
