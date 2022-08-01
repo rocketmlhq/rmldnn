@@ -265,11 +265,11 @@ which also computes the total accuracy:
 
     import numpy as np
     import h5py as h5
+    i = 0
     right = 0
     size = 400
     pred = h5.File('./predictions/output_1.h5', 'r')
-    i = 0
-
+    
     for dataset in pred:
         x = np.argmax(pred[dataset][()])
         print(x, end=' ')
