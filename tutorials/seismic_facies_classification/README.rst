@@ -202,7 +202,6 @@ The following configuration will be used:
 
     {
         "neural_network": {
-            "debug": true,
             "checkpoints": {
                 "load": "./model_seismic3d/model_checkpoint_20.pt"
             },
@@ -211,6 +210,7 @@ The following configuration will be used:
                 "type": "numpy",
                 "test_input_path":  "./parihaka/input3D_test.npy",
                 "test_target_path": "./parihaka/target3D_test.npy",
+                "test_output_path": "./prediction/",
                 "test_batch_size": 1,
                 "slicers": [
                     {
@@ -227,8 +227,8 @@ The following configuration will be used:
         }
     }
 
-The setting ``debug = true`` instructs `rmldnn` to save the prediction
-as a ``numpy`` file under ``./debug/``.
+The setting ``test_output_path = ./prediction/`` instructs `rmldnn` to save the prediction
+as an ``HDF5`` file under ``./prediction/``.
 
 We will run inference on a single multi-core CPU node, which has enough memory to
 handle a 64 x 576 x 992 input sample. We run the following command:
@@ -244,13 +244,14 @@ confusion matrix, comparing our prediction to an equally-shaped chunk from the t
 .. code:: python
 
     import numpy as np
+    import h5py as h5
     import sklearn.metrics
     from matplotlib.pyplot import show
 
-    pred_file = 'debug/output_1_0.npy'
+    pred_file = './prediction/output_1.h5'
     trgt_file = './parihaka/target3D_test.npy'
 
-    pred = np.load(pred_file).argmax(0)
+    pred = h5.File(pred_file, 'r')['0:64,0:576,0:992'][()].argmax(0)
     target = np.load(trgt_file)[:64, :576, :992]
     print(sklearn.metrics.classification_report(pred.flatten(), target.flatten()))
 
@@ -284,6 +285,7 @@ along, say, the `y-z` plane:
 .. code:: bash
 
     import numpy as np
+    import h5py as h5
     import matplotlib.pyplot as plt
     
     def display_slices(pred, target):
@@ -299,8 +301,8 @@ along, say, the `y-z` plane:
         fig.colorbar(im2, ax = ax[2], shrink=0.2)
         plt.show() 
     
-    pred = np.load('debug/output_1_0.npy').argmax(0)
-    target = np.load('parihaka/target3D_test.npy')[:64, :576, :992]
+    pred = h5.File('./prediction/output_1.h5', 'r')['0:64,0:576,0:992'][()].argmax(0)
+    target = np.load('./parihaka/target3D_test.npy')[:64, :576, :992]
     
     x = 32
     display_slices(pred[x, :, :].transpose(), target[x, :, :].transpose())
