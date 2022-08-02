@@ -1,0 +1,25 @@
+Satellite Image Clasification
+====================================================
+
+Introduction
+~~~~~~~~~~~~
+
+This tutorial explains how to use **rmldnn** to perform transfer learning on order to train a model for the classification os Sentinel-2 satellite images. 
+
+The Dataset
+
+We will use the Sentinel-2 satellite images covering 13 spectral bands and consisting out of 10 classes with in total 27,000 labeled and geo-referenced images. The classes include River, Highway, Forest, Industrial buildings and 6 other classifications of Satellite images. The dataset is split into the ratio of 94:5:1 for train, validation and test respectively. You can get this dataset from here (as a zip file).
+
+We'll create a directory named data/ and unzip the archive inside. You should have the following directory structure.
+
+
+The images are multi-channel (RGB) with size 64 X 64, similar to the ones in the figure below. 
+
+(images here)
+
+
+The Neural Network
+
+
+
+
