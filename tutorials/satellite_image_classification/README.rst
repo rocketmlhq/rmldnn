@@ -42,7 +42,7 @@ We'll create a directory named data/ and unzip the archive inside. You should ha
 	
 For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/satellite_images.tar.gz>`__ (as a zip file). The images are multi-channel (RGB) with size 64 X 64, similar to the ones in the figure below.
 	
-.. image:: ./figures/sample_images.jpg	
+.. image:: ./figures/AnnualCrop_2144.jpg	
 	
 The Neural Network
 ~~~~~~~~~~~
