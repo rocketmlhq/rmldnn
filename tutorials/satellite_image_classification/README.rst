@@ -73,7 +73,7 @@ rmldnn is a command-line tool that makes deep-learning models easy to build and 
     |   +-- model_resnet50_imagenet.h5
     |   +-- layers.json
     
-   To run training, we will use the following configuration file (`config_train.json <./config_train.json>`__):
+To run training, we will use the following configuration file (`config_train.json <./config_train.json>`__):
 
 .. code:: json
 
