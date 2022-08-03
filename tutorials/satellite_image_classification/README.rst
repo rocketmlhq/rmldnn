@@ -8,7 +8,7 @@ This tutorial explains how to use **rmldnn** to perform transfer learning in ord
 
 The illustration below shows an overview of the patch-based land use and land cover classiﬁcation process using satellite images. A satellite scans the Earth to acquire images of it. Patches extracted out of these images are used for classiﬁcation.The aim is to automatically provide labels describing the represented physical land type or how the land is used. For this purpose, an image patch is feed into a classiﬁer, in this illustration a neural network, and the classiﬁer outputs the class shownon the image patch.
 
-.. image:: ./figures/patch_extraction.jpg
+.. image:: ./figures/patch_extraction.png
 
 The resulting classiﬁcation system opens a gate towards a number of Earth observation applications for further advances. 
 	
@@ -54,9 +54,9 @@ In order to perform transfer learning, we'll need to get our base model, which w
 
 After that, we'll need to save our prepared model as an HDF5 file and our network architecture as a .json file. The network is depicted below:
 
-.. image:: ./figures/resnet50.jpg
+.. image:: ./figures/network_arch.png
 
-For convenience, the .h5 file is available `here < >` and the network file `layers.json < >` as well. 
+For convenience, the .h5 file is available `here < >` and the network file `layers.json <./layers.json>`__ as well. 
 
 Running Training
 ~~~~~~~~~~~
@@ -73,8 +73,7 @@ rmldnn is a command-line tool that makes deep-learning models easy to build and 
     |   +-- model_resnet50_imagenet.h5
     |   +-- layers.json
     
-   To run training, we will use the following configuration file
-(`config_train.json <./config_train.json>`__):
+   To run training, we will use the following configuration file (`config_train.json <./config_train.json>`__):
 
 .. code:: json
 
