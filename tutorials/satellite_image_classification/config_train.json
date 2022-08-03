@@ -1,0 +1,33 @@
+{
+    "neural_network": {
+        "num_epochs": 50,
+        "outfile": "out_classifier_bn_trainable_lr0.05_lrsch0.95.txt",
+        "layers": "./layers_bn_trainable.json",
+        "checkpoints": {
+            "load": "./model_resnet50_imagenet.h5"
+        },
+        "data": {
+            "input_type": "images",
+            "target_type": "labels",
+            "input_path":      "./data/train/",
+            "test_input_path": "./data/valid/",
+            "batch_size": 64,
+            "test_batch_size": 128,
+            "preload": true,
+            "transforms": [
+                { "resize": [64, 64] }
+            ]
+        },
+        "optimizer": {
+            "type": "Adam",
+            "learning_rate": 0.05,
+            "lr_scheduler": {
+                "type": "Exponential",
+                "gamma": 0.95
+                            }
+        },
+        "loss": {
+            "function": "NLL"
+        }
+    }
+}
