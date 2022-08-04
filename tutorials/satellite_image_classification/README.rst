@@ -56,7 +56,7 @@ After that, we'll need to save our prepared model as an HDF5 file and our networ
 
 .. image:: ./figures/network_arch.png
 
-For convenience, the .h5 file is available `here < >` and the network file `layers.json <./layers.json>`__ as well. 
+For convenience, the .h5 file is available `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet_10classes.h5>`__ and the network file `layers.json <./layers.json>`__ as well. 
 
 Running Training
 ~~~~~~~~~~~
@@ -113,7 +113,7 @@ To run training, we will use the following configuration file (`config_train.jso
         }
     }
     
-    A few points to notice in the configuration:
+A few points to notice in the configuration:
     
     - The number of epochs is set to 50, since test accuracy shows unstable patterns and save the model out at every 5 epochs.
     - The neural network description file is specified in ``layers``
