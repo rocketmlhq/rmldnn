@@ -134,7 +134,7 @@ rmldnn writes out two log files named after the ``outfile`` parameter in the con
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below:
 
-.. image:: ./figures/accuracy_graph.png
+.. image:: ./figures/loss_function.png
   :width: 400
   :align: center
 
