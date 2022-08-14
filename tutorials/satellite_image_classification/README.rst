@@ -161,7 +161,21 @@ We can monitor the run by plotting quantities like the training loss and the tes
 .. image:: ./figures/accuracy.png
   :width: 400
   :align: center
-    
+   
+Running inference on a pre-trained model
+~~~~~~~~~~~~
+
+The above writes out the model up to the 50th epoch as ``/model_checkpoint_50.pt``.
+This model can be used to run stand-alone inference on a given set of 1% test dataset of EuroSAT Satellite images which is 270 images.
+
+This simple configuration file
+(`config_test.json <./config_test.json>`__)
+can be used to run `rmldnn` inference:
+
+.. code:: bash
+
+
+
     
 
 
