@@ -204,6 +204,10 @@ Using the command line, the following command will run test in parallel on a 1-
     rocketml/rmldnn:latest mpirun -np 1 \
     rmldnn --config=config_test.json
 
+The output of the classfication is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample. Since the model predicts a probability for each sample to be of one out of 10 possible classes, those datasets will be of shape (10,). To obtain the actual predicted classes, one needs to take the argmax of each array. This is done in the below script (available as print_predictions.py), which also computes the total accuracy of our test:
+
+
+
 
 
 
