@@ -148,7 +148,7 @@ Using the command line, the following command will run training in parallel on 
 
     sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 \
-    rmldnn --config=config_rmldnn_test.json
+    rmldnn --config=config_train.json
     
 rmldnn writes out two log files named after the ``outfile`` parameter in the config file. The file ``out_classifier_train.txt`` reports the loss value and gradient norm as functions of both time (in secs) as well as the epoch/batch number. The file ``out_classifier_test.txt`` reports loss and accuracy for running inference on the test dataset. 
 
