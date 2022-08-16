@@ -175,8 +175,36 @@ can be used to run `rmldnn` inference:
 .. code:: bash
 
 
-
+    {
+    "neural_network": {
+        
     
+        "layers": "./layers_bn_trainable.json",
+        "checkpoints": {
+            "load": "./model_checkpoints_save_bn_trainable_lr0_05_lrsch0_95/model_checkpoint_50.pt"
+        },
+        "data": {
+            "input_type": "images",
+            
+	        "test_input_path": "./data/test/",
+            "test_output_path": "./predictions_bn_trainable_lr0_05_lrsch0_95/",
+            "transforms": [
+                { "resize": [64, 64] }
+            ]
+        }
+        
+    }
+}
+
+Using the command line, the following command will run test in parallel on a 1-GPU system:
+
+.. code:: bash
+
+    sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    rocketml/rmldnn:latest mpirun -np 1 \
+    rmldnn --config=config_test.json
+
+
 
 
 
