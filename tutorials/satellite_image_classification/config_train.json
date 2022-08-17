@@ -1,13 +1,15 @@
 {
     "neural_network": {
         "num_epochs": 50,
-        "outfile": "out_classifier_bn_trainable_lr0.05_lrsch0.95.txt",
-        "layers": "./layers_bn_trainable.json",
+        "outfile": "out_satellite_classifier.txt",
+        "layers": "./network.json",
         "checkpoints": {
-            "load": "./model_resnet50_imagenet.h5"
+            "load": "./model_resnet50_imagenet_10classes.h5",
+            "save": "./model_checkpoints/",
+            "interval": 5
         },
         "data": {
-            "input_type": "images",
+            "input_type":  "images",
             "target_type": "labels",
             "input_path":      "./data/train/",
             "test_input_path": "./data/valid/",
@@ -24,7 +26,7 @@
             "lr_scheduler": {
                 "type": "Exponential",
                 "gamma": 0.95
-                            }
+            }
         },
         "loss": {
             "function": "NLL"
