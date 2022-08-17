@@ -133,6 +133,8 @@ The following command can be used to run training on a single-GPU system:
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 rmldnn --config=config_train.json
 
+.. image:: ./figures/training_log.png
+
 **rmldnn** writes out two log files named after the ``outfile`` parameter in the config file. The file ``out_satellite_classifier_train.txt`` reports the loss value and gradient norm as functions of both time (in secs) and epoch/batch number. The file ``out_satellite_classifier_test.txt`` reports loss and accuracy for running inference on the validation set. 
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below. It takes
