@@ -1,0 +1,20 @@
+{
+    "neural_network": {
+        
+    
+        "layers": "./layers_bn_trainable.json",
+        "checkpoints": {
+            "load": "./model_checkpoints_save_bn_trainable_lr0_05_lrsch0_95/model_checkpoint_50.pt"
+        },
+        "data": {
+            "input_type": "images",
+            
+	        "test_input_path": "./data/test/",
+            "test_output_path": "./predictions_bn_trainable_lr0_05_lrsch0_95/",
+            "transforms": [
+                { "resize": [64, 64] }
+            ]
+        }
+        
+    }
+}
