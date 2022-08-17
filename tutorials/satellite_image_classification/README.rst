@@ -1,10 +1,10 @@
-Satellite Image Clasification	
-====================================================
+Satellite Image Classification	
+==============================
 
 Introduction
 ~~~~~~~~~~~~
 
-This tutorial explains how to use **rmldnn** to perform transfer learning in order to train a model for the classification of Sentinel-2 satellite images. In this experiment, we will use a ResNet-50 CNN model pretrained on the ImageNet dataset, which contains more than a million images and hundreds of classes.
+This tutorial explains how to use **rmldnn** to perform transfer learning in order to train a model for the classification of Sentinel-2 satellite images. In this experiment, we will use a ResNet-50 CNN model pre-trained on the ImageNet dataset, which contains more than a million images and hundreds of classes.
 
 The figure below shows an overview of the patch-based land use and land cover classiﬁcation process using satellite images. A satellite scans the Earth to acquire images. Patches extracted out of these images are used for classiﬁcation. The aim is to automatically provide labels describing the represented physical land type or how the land is used. For this purpose, an image patch is fed into a classiﬁer, in this example a neural network, and the classiﬁer predicts a class label for each image.
 
@@ -15,7 +15,7 @@ The resulting classiﬁcation system opens a gate towards a number of Earth obse
 The Dataset
 ~~~~~~~~~~~
 
-We will use the Sentinel-2 dataset, which contains satellite images covering 13 spectral bands and consisting of 10 classes, with a total of 27,000 labelled and geo-referenced images. The 10 classes are: river, highway, forest, industrial buildings, annual crop, permanent crop, vegetation, pasture, lake and residential.
+We will use the Sentinel-2 dataset, which contains satellite images covering 13 spectral bands and consisting of 10 classes, with a total of 27,000 labelled and geo-referenced images (`paper <https://arxiv.org/pdf/1709.00029.pdf>`__). The 10 classes are: river, highway, forest, industrial buildings, annual crop, permanent crop, vegetation, pasture, lake and residential.
 
 We have created a directory named ``data/`` where we split the dataset into train, validation and test sets with a 94:5:1 ratio, producing the following directory structure:
 
@@ -44,14 +44,10 @@ For convenience, we have made this pre-processed dataset available from download
   :width: 800
   :align: center
 
-References:
-
-https://arxiv.org/pdf/1709.00029.pdf
-
 The Neural Network
 ~~~~~~~~~~~~~~~~~~
 
-In order to perform transfer learning, we'll start off with a ResNet-50 model as base, with a few modifications:
+In order to perform transfer learning, we'll start off with a pre-trained ResNet-50 model as base, with a few modifications:
 
  1. A single 10-unit dense classifier layer was added at the end (with a log-softmax activation)
  2. All **Convolutional** and **Dense** layers were frozen (i.e., marked with ``trainable = false``)
@@ -61,7 +57,7 @@ The network architecture is depicted in the figure below:
 
 .. image:: ./figures/network_arch.png
 
-For convenience, the network description file `network.json <./network.json>`__ is provided here, while the model parameter file can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet_10classes.h5>`__ as an HDF5 (.h5) file.
+The network description file `network.json <./network.json>`__ containing the above modifications is provided in this repo, while the model parameter file can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resnet50_imagenet_10classes.h5>`__ as an HDF5 file (``.h5``).
 
 Running Training
 ~~~~~~~~~~~~~~~~
@@ -120,24 +116,24 @@ To run training, we will use the following configuration file (`config_train.jso
         }
     }
     
-A few points to notice in the configuration:
+A few points to notice about the configuration:
     
     - The number of epochs is set to 50 to allow for the validation accuracy to stabilize.
     - We will save a model checkpoint under ``./model_checkpoints/`` at every 5 epochs.
     - The neural network description file is specified in ``layers``
-    - We use the Adam first-order optimizer with a learning-rate of 0.05 and an exponential learning-rate scheduler that dampens the LR by a factor or 0.95 after each epoch.
+    - We use the Adam first-order optimizer with a learning-rate of 0.05 and an exponential learning-rate scheduler that dampens the LR by a factor of 0.95 after each epoch.
     - The loss function used will be NLL (Negative Log-Likelihood)
     - We will use a batch size of 64 for training and 128 for testing
     
 We will run training using a Docker image with `rmldnn` (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image). 
-The following command can be used to run training on a 1-GPU system:
+The following command can be used to run training on a single-GPU system:
 
 .. code:: bash
 
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 rmldnn --config=config_train.json
 
-**rmldnn** writes out two log files named after the ``outfile`` parameter in the config file. The file ``out_satellite_classifier_train.txt`` reports the loss value and gradient norm as functions of both time (in secs) and epoch/batch number. The file ``out_satellite_classifier_test.txt`` reports loss and accuracy for running inference on the validation dataset. 
+**rmldnn** writes out two log files named after the ``outfile`` parameter in the config file. The file ``out_satellite_classifier_train.txt`` reports the loss value and gradient norm as functions of both time (in secs) and epoch/batch number. The file ``out_satellite_classifier_test.txt`` reports loss and accuracy for running inference on the validation set. 
 
 We can monitor the run by plotting quantities like the training loss and the test accuracy, as shown below. It takes
 about 10 minutes to train until 50 epochs on an NVIDIA Tesla-A100X GPU.
@@ -183,7 +179,7 @@ We can use the following command to run inference on a 1-GPU system:
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 rmldnn --config=config_test.json
 
-The output of the classfication is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample. Since the model predicts a probability for each sample to be of one out of 10 possible classes, those datasets will be of shape (10,). To obtain the actual predicted classes and calculate the accuracy, one needs to take the argmax of each array and count the number of correct predictions. This is done in the below script (available as `compute_accuracy.py <./compute_accuracy.py>`__):
+The output of the classification is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample. Since the model predicts a probability for each sample to be of one out of 10 possible classes, those datasets will be of shape ``(10,)``. To obtain the actual predicted classes and calculate the accuracy, one needs to take the *argmax* of each array and count the number of correct predictions. This is done in the below script (available as `compute_accuracy.py <./compute_accuracy.py>`__):
 
 .. code:: python
 
@@ -215,10 +211,10 @@ The output of the classfication is an HDF5 file named ``predictions/output_1.h5`
     
     print(f"Accuracy: {100 * right / total:.1f}%")
 
-By executing the script, we obtain an accuracy of 95.6% on the test dataset, which is consistent with the 97% accuracy we obtained on the validation set:
+By executing the script, we obtain an accuracy of 96.3% on the test dataset, which is consistent with the 97% accuracy we obtained on the validation set during training:
 
 .. code:: bash
 
     python ./compute_accuracy.py
-    Accuracy: 95.6%
+    Accuracy: 96.3%
 
