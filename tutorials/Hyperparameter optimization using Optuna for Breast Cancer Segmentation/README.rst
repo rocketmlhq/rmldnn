@@ -29,7 +29,7 @@ Features:
  - Good visualizations
  - Distributed optimization
  
-click `here <https://optuna.org/>`__ to know more about optuna.
+Click `here <https://optuna.org/>`__ to know more about optuna.
 
 What is Typer?
 ~~~~~~~~~~~~~~
