@@ -42,6 +42,8 @@ Features:
  - Short: Minimize code duplication. Multiple features from each parameter declaration. Fewer bugs.
  - Start simple: The simplest example adds only 2 lines of code to your app: 1 import, 1 function call.
  - Grow large: Grow in complexity as much as you want, create arbitrarily complex trees of commands and groups of subcommands, with options and arguments.
+ 
+Click `here <https://typer.tiangolo.com/>`__ to know more about typer.
 
 The Dataset
 ~~~~~~~~~~~
