@@ -85,3 +85,9 @@ Perform the following steps:
  #. Eleventh argument is used when you want to use Learning rate scheduler while training. This is an optiional argument and can be skipped. In our case we will be adding **--lr-scheduler** to our command. This will later prompt us with start and end value of learning rate scheduler as well as gamma value for the same. The values that we will be entering are 1e-4, 1e-1 and 0.95 respectively. Note: As of now we have only allowed Exponential learning rate scheduler which is also set as default value for the same.
  #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet.h5, do make sure this file is in same location as the script or else enter the complete path for that file.
  
+Adding up all these leads to following final command
+
+.. code:: bash
+
+    Python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_RESUNET.json --lr-scheduler --transfer-learning 
+    
