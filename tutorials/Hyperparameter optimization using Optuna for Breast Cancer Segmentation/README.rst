@@ -65,3 +65,21 @@ When saving the dataset kindly make sure that you maintain following directory s
 The model
 ~~~~~~~~~
 
+Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on _`Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
+
+Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Perform the following steps:
+ #. Download the python scripts provided here and save it in the same directory as your data folder.
+ #. Now open the terminal and navigate to your directory, after that type in **Python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
+ #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
+ #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
+ #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. User could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so adding in **-docker** to our command.
+ #. Fifth argument is used when you want to use gpu's for to speed up training process. To do so add in --gpu or just skip it if you don't want to add in gpu. Since we will be using a gpu system so will be adding **--gpu** to our command.
+ #. Sixth argument is used when you have multiple cores available in your system and you want to utilize them. To do so just in --multi-core to your command and then later while running it will prompt you to enter in number of cores you want to use. Since we will be training on single core GPU system so we will be skipping this part here.
+ #. Seventh argument is required and asks you to enter optimizers you want to test your model with. To enter optimizers make sure they are comma seperated. In our case we are going to go for adam, rmsprop, sgd so we will be adding **--optimizers adam,rmsprop,sgd** or -o adam,rmsprop,sgd to our command.
+ #. Eight argument is required and asks you to enter loss functions you want to test your model with. To enter loss functions make sure they are comma seperated. This argument is also required and can not be skipped. In our case we are going to go for bce,dice so we will be adding **--loss bce,dice** or -l bce,dice.
+ #. Ninth argument ask you to enter any learning rate of your choice. This is an optional argument with default learning rate of 0.001 but you can add in any value that you desire for example --learning-rate 0.0001 or -lr 0.0001. In our case we will be skipping this option.
+ #. Tenth argument asks you enter file name which contains model architecture, this also an optional argument with default value of layers.json.  
+ 
