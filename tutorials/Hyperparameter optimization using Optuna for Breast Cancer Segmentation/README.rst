@@ -160,26 +160,38 @@ Results are pretty good for a model trained for less than 5 minutes!
 
 .. |input_1|      image::  ./figures/input_1.png?raw=true
     :width: 300
+    :height: 300
 .. |input_2|      image::  ./figures/input_2.png?raw=true
     :width: 300
+    :height: 300
 .. |input_3|      image::  ./figures/input_3.png?raw=true
     :width: 300
+    :height: 300
 .. |input_4|      image::  ./figures/input_4.png?raw=true
     :width: 300
+    :height: 300
 .. |inference_1|  image::  ./figures/pred_1.png?raw=true
     :width: 300
+    :height: 300
 .. |inference_2|  image::  ./figures/pred_2.png?raw=true
     :width: 300
+    :height: 300
 .. |inference_3|  image::  ./figures/pred_3.png?raw=true
     :width: 300
+    :height: 300
 .. |inference_4|  image::  ./figures/pred_4.png?raw=true
     :width: 300
+    :height: 300
 .. |truth_1|      image::  ./figures/truth_1.png?raw=true
     :width: 300
+    :height: 300
 .. |truth_2|      image::  ./figures/truth_2.png?raw=true
     :width: 300
+    :height: 300
 .. |truth_3|      image::  ./figures/truth_3.png?raw=true
     :width: 300
+    :height: 300
 .. |truth_4|      image::  ./figures/truth_4.png?raw=true
     :width: 300
+    :height: 300
    
