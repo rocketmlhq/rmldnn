@@ -174,12 +174,12 @@ Results are pretty good for a model trained for less than 5 minutes!
     :width: 300
 .. |inference_4|  image::  ./figures/pred_4.png?raw=true
     :width: 300
-.. |truth_1|      image::  ./figures/true_1.png?raw=true
+.. |truth_1|      image::  ./figures/truth_1.png?raw=true
     :width: 300
-.. |truth_2|      image::  ./figures/true_2.png?raw=true
+.. |truth_2|      image::  ./figures/truth_2.png?raw=true
     :width: 300
-.. |truth_3|      image::  ./figures/true_3.png?raw=true
+.. |truth_3|      image::  ./figures/truth_3.png?raw=true
     :width: 300
-.. |truth_4|      image::  ./figures/true_4.png?raw=true
+.. |truth_4|      image::  ./figures/truth_4.png?raw=true
     :width: 300
    
