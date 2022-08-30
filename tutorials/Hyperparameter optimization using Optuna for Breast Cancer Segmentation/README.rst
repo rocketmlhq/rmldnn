@@ -65,7 +65,7 @@ When saving the dataset kindly make sure that you maintain following directory s
 The model
 ~~~~~~~~~
 
-Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on _`Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
+Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on `Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
 
 Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,5 +89,97 @@ Adding up all these leads to following final command
 
 .. code:: bash
 
-    Python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_RESUNET.json --lr-scheduler --transfer-learning 
+    Python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
     
+On succesfully running above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each epoch along with other parameters. As well as it will save best performing model inside a folder named Best_Model. This model can then later be used for running infernce. 
+
+Running inference on pre-trained model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For running inference using best performing model we will need following configuration file(`config_test.json <>`__):
+
+.. code:: bash
+
+  {
+      "neural_network": {
+          "layers": "./layers_resunet.json",
+          "checkpoints": {
+              "load": "./Best_Model/model_checkpoint_50.pt"
+          },
+          "data": {
+              "type": "images",
+              "test_input_path":  "./data/sample/",
+              "test_output_path": "./predictions/",
+              "test_batch_size": 16,
+              "transforms": [
+                  { "resize": [256, 256] }
+              ]
+          }
+      }
+  }
+
+``Note: Kindly change model file name as what is there inside Best_Model directory.``
+
+This will save the predictions as an ``HDF5`` file under ``./predictions/``.
+
+We can run inference on the test images by doing:
+
+.. code:: bash
+
+    sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+      rocketml/rmldnn:latest rmldnn --config=config_test.json 
+     
+Finally, we can visualize the predictions by loading each dataset in the `HDF5` file
+and showing the images with `matplotlib`:
+
+.. code:: bash
+
+  import numpy as np
+  import h5py as h5
+  import matplotlib.pyplot as plt
+
+  pred = h5.File('predictions/output_1.h5', 'r')
+  for dataset in pred:
+    plt.imshow(pred[dataset][0,:,:].round(), cmap="gray")
+    plt.show()
+   
+Doing this for a few samples, we obtain the segmentation predictions below.
+Results are pretty good for a model trained for less than 5 minutes! 
+
+==================== ==================== ====================
+**Inputs**           **Predictions**      **Ground-truths**
+-------------------- -------------------- --------------------
+|input_1|            |inference_1|        |truth_1|
+-------------------- -------------------- --------------------
+|input_2|            |inference_2|        |truth_2|
+-------------------- -------------------- --------------------
+|input_3|            |inference_3|        |truth_3|
+-------------------- -------------------- --------------------
+|input_4|            |inference_4|        |truth_4|
+==================== ==================== ====================
+
+.. |input_1|      image::  ./figures/input_1.png?raw=true
+    :width: 300
+.. |input_2|      image::  ./figures/input_2.png?raw=true
+    :width: 300
+.. |input_3|      image::  ./figures/input_3.png?raw=true
+    :width: 300
+.. |input_4|      image::  ./figures/input_4.png?raw=true
+    :width: 300
+.. |inference_1|  image::  ./figures/pred_1.png?raw=true
+    :width: 300
+.. |inference_2|  image::  ./figures/pred_2.png?raw=true
+    :width: 300
+.. |inference_3|  image::  ./figures/pred_3.png?raw=true
+    :width: 300
+.. |inference_4|  image::  ./figures/pred_4.png?raw=true
+    :width: 300
+.. |truth_1|      image::  ./figures/true_1.png?raw=true
+    :width: 300
+.. |truth_2|      image::  ./figures/true_2.png?raw=true
+    :width: 300
+.. |truth_3|      image::  ./figures/true_3.png?raw=true
+    :width: 300
+.. |truth_4|      image::  ./figures/true_4.png?raw=true
+    :width: 300
+   
