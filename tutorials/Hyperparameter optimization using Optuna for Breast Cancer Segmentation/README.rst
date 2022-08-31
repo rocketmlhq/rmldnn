@@ -75,15 +75,15 @@ Perform the following steps:
  #. Now open the terminal and navigate to your directory, after that type in **Python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
  #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
- #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. User could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so adding in **-docker** to our command.
- #. Fifth argument is used when you want to use gpu's for to speed up training process. To do so add in --gpu or just skip it if you don't want to add in gpu. Since we will be using a gpu system so will be adding **--gpu** to our command.
- #. Sixth argument is used when you have multiple cores available in your system and you want to utilize them. To do so just in --multi-core to your command and then later while running it will prompt you to enter in number of cores you want to use. Since we will be training on single core GPU system so we will be skipping this part here.
- #. Seventh argument is required and asks you to enter optimizers you want to test your model with. To enter optimizers make sure they are comma seperated. In our case we are going to go for adam, rmsprop, sgd so we will be adding **--optimizers adam,rmsprop,sgd** or -o adam,rmsprop,sgd to our command.
- #. Eight argument is required and asks you to enter loss functions you want to test your model with. To enter loss functions make sure they are comma seperated. This argument is also required and can not be skipped. In our case we are going to go for bce,dice so we will be adding **--loss bce,dice** or -l bce,dice.
+ #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. You could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so will be adding in **-docker** to our command.
+ #. Fifth argument is used when you want to use gpu's to speed up training process. To do so add in --gpu or just skip it if you don't want to use. Since we will be using a gpu system so will be adding **--gpu** to our command.
+ #. Sixth argument is used when you have multiple cores available in your system and want to utilize them. To do so just add in --multi-core to your command and then later while running, it will prompt you to enter in number of cores you want to use. Since we will be training on single core GPU system so we will be skipping this part here.
+ #. Seventh argument is required and asks you to enter optimizers you want to test your model with. To enter optimizers make sure they are comma seperated. In our case we are going to go for adam, rmsprop and sgd so we will be adding **--optimizers adam,rmsprop,sgd** or -o adam,rmsprop,sgd to our command.
+ #. Eight argument is required and asks you to enter loss functions you want to test your model with. To enter loss functions make sure they are comma seperated. This argument is also required and can not be skipped. In our case we are going to go for bce and dice so we will be adding **--loss bce,dice** or -l bce,dice.
  #. Ninth argument ask you to enter any learning rate of your choice. This is an optional argument with default learning rate of 0.001 but you can add in any value that you desire for example --learning-rate 0.0001 or -lr 0.0001. In our case we will be skipping this option.
- #. Tenth argument asks you enter file name which contains model architecture, this also an optional argument with default value of layers.json. In our case we will be adding **--layers layers_RESUNET.json** to our command.
+ #. Tenth argument asks you enter file name which contains model architecture, this also an optional argument with default value of layers.json. In our case we will be adding **--layers layers_resunet.json** to our command.
  #. Eleventh argument is used when you want to use Learning rate scheduler while training. This is an optiional argument and can be skipped. In our case we will be adding **--lr-scheduler** to our command. This will later prompt us with start and end value of learning rate scheduler as well as gamma value for the same. The values that we will be entering are 1e-4, 1e-1 and 0.95 respectively. Note: As of now we have only allowed Exponential learning rate scheduler which is also set as default value for the same.
- #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet.h5, do make sure this file is in same location as the script or else enter the complete path for that file.
+ #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet.h5, do make sure this file is in the same location as the script or else enter the complete path for that file.
  
 Adding up all these leads to following final command
 
@@ -91,7 +91,7 @@ Adding up all these leads to following final command
 
     Python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
     
-On succesfully running above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each epoch along with other parameters. As well as it will save best performing model inside a folder named Best_Model. This model can then later be used for running infernce. 
+On succesfully running, above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each trial along with other parameters. As well as it will save best performing model inside a folder named best_model. This model can then later be used for running infernce. 
 
 Running inference on pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +104,7 @@ For running inference using best performing model we will need following configu
       "neural_network": {
           "layers": "./layers_resunet.json",
           "checkpoints": {
-              "load": "./Best_Model/model_checkpoint_50.pt"
+              "load": "./best_model/model_checkpoint_50.pt"
           },
           "data": {
               "type": "images",
@@ -118,7 +118,7 @@ For running inference using best performing model we will need following configu
       }
   }
 
-``Note: Kindly change model file name as what is there inside Best_Model directory.``
+``Note: Kindly change model file name as what is there inside best_model directory.``
 
 This will save the predictions as an ``HDF5`` file under ``./predictions/``.
 
@@ -144,7 +144,6 @@ and showing the images with `matplotlib`:
     plt.show()
    
 Doing this for a few samples, we obtain the segmentation predictions below.
-Results are pretty good for a model trained for less than 5 minutes! 
 
 ==================== ==================== ====================
 **Inputs**           **Predictions**      **Ground-truths**
