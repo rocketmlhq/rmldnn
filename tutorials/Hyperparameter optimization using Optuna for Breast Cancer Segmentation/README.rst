@@ -72,7 +72,7 @@ Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 
 Perform the following steps:
  #. Download the python scripts provided here and save it in the same directory as your data folder.
- #. Run below mentioned commands to install required libraries
+ #. Run below mentioned command to install required libraries
  
  .. code:: bash
     
