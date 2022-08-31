@@ -66,19 +66,19 @@ The model
 ~~~~~~~~~
 
 Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on `Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
-The pre-trained model can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__..
+The pre-trained model can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__
 
 Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Perform the following steps:
- #. Download the python scripts provided here and save it in the same directory as your data folder.
+ #. Download the python scripts provided here( `RML_typer.py <https://raw.githubusercontent.com/yashjain-99/rmldnn/main/tutorials/Hyperparameter%20optimization%20using%20Optuna%20for%20Breast%20Cancer%20Segmentation/RML_typer.py>`__ , `RML_optuna.py <https://raw.githubusercontent.com/yashjain-99/rmldnn/main/tutorials/Hyperparameter%20optimization%20using%20Optuna%20for%20Breast%20Cancer%20Segmentation/RML_optuna.py>`__ ) and save it in the same directory as your data folder.
  #. Run below mentioned command to install required libraries
- 
- .. code:: bash
-    
-    pip install shutil typer optuna
-    
+
+     .. code:: bash
+
+        pip install shutil typer optuna tabulate
+
  #. Now open the terminal and navigate to your directory, after that type in **Python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
  #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
@@ -103,7 +103,7 @@ On succesfully running, above command will start the process for given number of
 Running inference on pre-trained model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For running inference using best performing model we will need following configuration file(`config_test.json <>`__):
+For running inference using best performing model we will need following configuration file( `config_test.json <https://raw.githubusercontent.com/yashjain-99/rmldnn/main/tutorials/Hyperparameter%20optimization%20using%20Optuna%20for%20Breast%20Cancer%20Segmentation/config_test.json>`__ ):
 
 .. code:: bash
 
