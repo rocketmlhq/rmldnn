@@ -66,6 +66,7 @@ The model
 ~~~~~~~~~
 
 Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on `Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
+The pre-trained model can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__..
 
 Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,7 +90,7 @@ Perform the following steps:
  #. Ninth argument ask you to enter any learning rate of your choice. This is an optional argument with default learning rate of 0.001 but you can add in any value that you desire for example --learning-rate 0.0001 or -lr 0.0001. In our case we will be skipping this option.
  #. Tenth argument asks you enter file name which contains model architecture, this also an optional argument with default value of layers.json. In our case we will be adding **--layers layers_resunet.json** to our command.
  #. Eleventh argument is used when you want to use Learning rate scheduler while training. This is an optiional argument and can be skipped. In our case we will be adding **--lr-scheduler** to our command. This will later prompt us with start and end value of learning rate scheduler as well as gamma value for the same. The values that we will be entering are 1e-4, 1e-1 and 0.95 respectively. Note: As of now we have only allowed Exponential learning rate scheduler which is also set as default value for the same.
- #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet.h5, do make sure this file is in the same location as the script or else enter the complete path for that file.
+ #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet_imagenet.h5, do make sure this file is in the same location as the script or else enter the complete path for that file.
  
 Adding up all these leads to following final command
 
