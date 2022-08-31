@@ -6,7 +6,6 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
     import shutil
 
     l = []
-    os.system("pip install optuna")
     prev_acc = [0]
 
     def create_optimizer(trial):
