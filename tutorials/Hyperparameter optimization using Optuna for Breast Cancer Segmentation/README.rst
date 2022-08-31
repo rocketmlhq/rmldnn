@@ -72,6 +72,12 @@ Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 
 Perform the following steps:
  #. Download the python scripts provided here and save it in the same directory as your data folder.
+ #. Run below mentioned commands to install required libraries
+ 
+ .. code:: bash
+    
+    pip install shutil typer optuna
+    
  #. Now open the terminal and navigate to your directory, after that type in **Python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
  #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
