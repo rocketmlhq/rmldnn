@@ -96,7 +96,7 @@ Adding up all these leads to following final command
 
 .. code:: bash
 
-    Python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
+    python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
     
 On succesfully running, above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each trial along with other parameters. As well as it will save best performing model inside a folder named best_model. This model can then later be used for running infernce. 
 
