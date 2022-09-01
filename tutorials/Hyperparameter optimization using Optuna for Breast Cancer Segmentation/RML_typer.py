@@ -1,6 +1,6 @@
 import typer
 from tabulate import tabulate
-import RML_Optuna
+import RML_optuna
 
 app = typer.Typer(help="CLI based on RMLDNN for automating hyper parameter optimization")
 
