@@ -1,12 +1,12 @@
 {
     "neural_network": {
-        "layers": "./layers_old.json",
+        "layers": "./layers_resunet.json",
         "checkpoints": {
-            "load": "./Best_Model/model_checkpoint_50.pt"
+            "load": "./best_model/model_checkpoint_50.pt"
         },
         "data": {
             "type": "images",
-            "test_input_path":  "./data/test/inputs",
+            "test_input_path":  "./data/sample",
             "test_output_path": "./predictions/",
             "test_batch_size": 16,
             "transforms": [
