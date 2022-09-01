@@ -77,7 +77,7 @@ Perform the following steps:
 
      .. code:: bash
 
-        pip install shutil typer optuna tabulate
+        pip install typer optuna tabulate
 
  #. Now open the terminal and navigate to your directory, after that type in **Python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
