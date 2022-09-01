@@ -48,7 +48,7 @@ Click `here <https://typer.tiangolo.com/>`__ to know more about typer.
 The Dataset
 ~~~~~~~~~~~
 
-To explain the working of our script we have choosen `Breast Ultrasound Images Dataset <https://www.kaggle.com/datasets/aryashah2k/breast-ultrasound-images-dataset>`__ to perform Breast Cancer Segmentation on ultrasound images. This kaggle dataset consists of 780 images with an average image size of 500*500 pixels collected from around 600 female patients. For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/brain_MRI.tar.gz>`__. 
+To explain the working of our script we have choosen `Breast Ultrasound Images Dataset <https://www.kaggle.com/datasets/aryashah2k/breast-ultrasound-images-dataset>`__ to perform Breast Cancer Segmentation on ultrasound images. This kaggle dataset consists of 780 images with an average image size of 500*500 pixels collected from around 600 female patients. For convenience, we have already pre-processed the dataset, which can be downloaded directly from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/breast_cancer.tar.gz>`__. 
 When saving the dataset kindly make sure that you maintain following directory structure:
 
 .. code:: bash
