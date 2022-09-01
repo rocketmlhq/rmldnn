@@ -31,7 +31,7 @@ def rml_typer(
         index = command.find('-u')
         if not multi_core:
             if gpu:
-                command = command[:index] + " --gpus=all " + command[index:]
+                command = command[:index] + "--gpus=all " + command[index:]
         else:
             command = command + " mpirun -np {0}".format(n_procs)
             command = command[:index] + " --cap-add=SYS_PTRACE " + command[index:]
