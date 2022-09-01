@@ -82,7 +82,7 @@ Perform the following steps:
  #. Now open the terminal and navigate to your directory, after that type in **python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
  #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
- #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. You could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so will be adding in **-docker** to our command.
+ #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. You could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so will be adding in **--docker-image rocketml/rmldnn:latest** to our command.
  #. Fifth argument is used when you want to use gpu's to speed up training process. To do so add in --gpu or just skip it if you don't want to use. Since we will be using a gpu system so will be adding **--gpu** to our command.
  #. Sixth argument is used when you have multiple cores available in your system and want to utilize them. To do so just add in --multi-core to your command and then later while running, it will prompt you to enter in number of cores you want to use. Since we will be training on single core GPU system so we will be skipping this part here.
  #. Seventh argument is required and asks you to enter optimizers you want to test your model with. To enter optimizers make sure they are comma seperated. In our case we are going to go for adam, rmsprop and sgd so we will be adding **--optimizers adam,rmsprop,sgd** or -o adam,rmsprop,sgd to our command.
@@ -96,7 +96,7 @@ Adding up all these leads to following final command
 
 .. code:: bash
 
-    python RML_typer.py --num-trials 50 --num-epochs 50 -docker --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
+    python RML_typer.py --num-trials 50 --num-epochs 50 --docker-image rocketml/rmldnn:latest --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
     
 On succesfully running, above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each trial along with other parameters. As well as it will save best performing model inside a folder named best_model. This model can then later be used for running infernce. 
 
