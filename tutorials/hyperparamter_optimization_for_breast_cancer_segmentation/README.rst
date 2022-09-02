@@ -51,21 +51,21 @@ When saving the dataset kindly make sure that you maintain following directory s
 The model
 ~~~~~~~~~
 
-Model that we will be using is an UNET styled network trained on RESNET. To know more about this model and it's working kindly refer to our tutorial on `Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
+For this task, we'll use the RESUNET architecture, an encoder-decoder network created as an improvement to the UNET standard. To know more about this model and it's working kindly refer to our tutorial on `Brain MRI Segmentation <https://github.com/yashjain-99/rmldnn/tree/main/tutorials/brain_MRI_image_segmentation>`__.
 The pre-trained model can be downloaded from `here <https://rmldnnstorage.blob.core.windows.net/rmldnn-models/model_resunet_imagenet.h5>`__
 
 Steps to Automate the task of Hyper-Parameter optimization using RMLDNN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Perform the following steps:
- #. Download the python scripts provided here( `RML_typer.py <https://raw.githubusercontent.com/yashjain-99/rmldnn/main/tutorials/Hyperparameter%20optimization%20using%20Optuna%20for%20Breast%20Cancer%20Segmentation/RML_typer.py>`__ , `RML_optuna.py <https://raw.githubusercontent.com/yashjain-99/rmldnn/main/tutorials/Hyperparameter%20optimization%20using%20Optuna%20for%20Breast%20Cancer%20Segmentation/RML_optuna.py>`__ ) and save it in the same directory as your data folder.
+ #. Download the python scripts provided here( `rml_optimization.py <./rml_optimization.py>`__ , `rml_optuna.py <./rml_optuna.py>`__ ) and save it in the same directory as your data folder.
  #. Run below mentioned command to install required libraries
 
      .. code:: bash
 
         pip install typer optuna tabulate
 
- #. Now open the terminal and navigate to your directory, after that type in **python RML_typer.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for Breast Cancer segmentation on the go with that.
+ #. Now open the terminal and navigate to your directory, after that type in **python rml_optimization.py --help** which will print out available options. Below Lines will describe each option available in detail and we will also construct the command for breast cancer segmentation on the go with that.
  #. First argument that it requires is number of trials you want for optuna to run for. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 trials so we will be adding **--num-trials 50** or also you could use -nt 50.
  #. Second argument that it requires is number of epochs you want for optuna to run for per trial. This argument is required and cannot be skipped. You can add in numrical values here. In our case we are going to go for 50 epochs so we will be adding **--num-epochs 50** or also you could use -ne 50.
  #. Third and fourth arguments are optional which allows you to choose between docker or singularity container to run RMLDNN. You could choose any and provide in respective image required for that container. For default it is set to docker with rocketml/rmldnn:latest image. In our case we will going with default docker container so will be adding in **--docker-image rocketml/rmldnn:latest** to our command.
@@ -76,13 +76,14 @@ Perform the following steps:
  #. Ninth argument ask you to enter any learning rate of your choice. This is an optional argument with default learning rate of 0.001 but you can add in any value that you desire for example --learning-rate 0.0001 or -lr 0.0001. In our case we will be skipping this option.
  #. Tenth argument asks you enter file name which contains model architecture, this also an optional argument with default value of layers.json. In our case we will be adding **--layers layers_resunet.json** to our command.
  #. Eleventh argument is used when you want to use Learning rate scheduler while training. This is an optiional argument and can be skipped. In our case we will be adding **--lr-scheduler** to our command. This will later prompt us with start and end value of learning rate scheduler as well as gamma value for the same. The values that we will be entering are 1e-4, 1e-1 and 0.95 respectively. Note: As of now we have only allowed Exponential learning rate scheduler which is also set as default value for the same.
- #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet_imagenet.h5, do make sure this file is in the same location as the script or else enter the complete path for that file.
+ #. Twelfth argument is used when you want to implement transfer learning while training. This is an optiional argument and can be skipped. In our case we will be adding **--transfer-learning** to our command. This will later prompt us to enter file name for the same which in our case will be model_resunet_imagenet.h5, about which is described above in Model section, do make sure this file is in the same location as the script or else enter the complete path for that file.
+  
  
 Adding up all these leads to following final command
 
 .. code:: bash
 
-    python RML_typer.py --num-trials 50 --num-epochs 50 --docker-image rocketml/rmldnn:latest --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
+    python rml_optimization.py --num-trials 50 --num-epochs 50 --docker-image rocketml/rmldnn:latest --gpu --optimizers adam,rmsprop,sgd --loss bce,dice --layers layers_resunet.json --lr-scheduler --transfer-learning 
     
 On succesfully running, above command will start the process for given number of trials. On finishing the last trial it will save a log file with record of accuracies found in each trial along with other parameters. As well as it will save best performing model inside a folder named best_model. This model can then later be used for running infernce. 
 
