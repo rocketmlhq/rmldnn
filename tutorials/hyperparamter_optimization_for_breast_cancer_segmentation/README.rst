@@ -131,7 +131,33 @@ We can run inference on the test images by doing:
 
     sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest rmldnn --config=config_test.json 
+      
+Run below script to check accuracy of our best model:
+
+.. code:: bash
+
+    import h5py as h5
+    from sklearn.metrics import accuracy_score
+    import cv2
+    
+    pred = h5.File('./predictions/output_1.h5', 'r')
+    scores=[]
+    for dataset in pred:
+        temp_list=dataset.split('.')
+        target_file='_mask.'.join(temp_list)
+        predicted_img=pred[dataset][0,:,:].round()
+        target_dir='./data/test/targets/'+target_file
+        true_img=cv2.imread(target_dir, cv2.IMREAD_GRAYSCALE)
+        true_img = cv2.resize(true_img, (256 , 256))
+        score=accuracy_score(true_img.flatten(),predicted_img.flatten())
+        scores.append(score)
+    s=sum(scores)/len(scores)
+    print("Accuracy is "+str(s*100)+"%")
      
+This gives us accuracy of about 90% which is expected.
+
+.. image:: ./figures/acc_SS.png?raw=true
+
 Finally, we can visualize the predictions by loading each dataset in the `HDF5` file
 and showing the images with `matplotlib`:
 
