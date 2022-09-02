@@ -91,7 +91,7 @@ Along with that it will also show on screen accuracy after each trial with their
 In our case we managed to get accueacy of 90% with parameters set to ``{ optimizer: adam, learning_rate: 0.0009968879419374203, loss: bce }``.
 
 .. image:: ./figures/final_SS.png?raw=true
-  :width: 550
+
   
 ``Note: Maximum accuracy may vary depending on number of trials you run for and other factors.``
 
