@@ -1,6 +1,6 @@
 import typer
 from tabulate import tabulate
-import RML_optuna
+import rml_optuna
 
 app = typer.Typer(help="CLI based on RMLDNN for automating hyper parameter optimization")
 
@@ -96,7 +96,7 @@ def rml_typer(
 
     headers = ["Parameter", "value"]
     print(tabulate([(k,v) for k, v in dic_values.items()], headers=headers, tablefmt='grid'))
-    RML_optuna.main_optuna(command,num_epochs,num_trials,optimizers,loss,layers,lr_scheduler,transfer_learning,lr_range_start,lr_range_end,lr_scheduler_type,lr_scheduler_gamma,tl_file)
+    rml_optuna.main_optuna(command,num_epochs,num_trials,optimizers,loss,layers,lr_scheduler,transfer_learning,lr_range_start,lr_range_end,lr_scheduler_type,lr_scheduler_gamma,tl_file)
 
 if __name__ == "__main__":
 
