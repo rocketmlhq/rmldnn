@@ -31,20 +31,6 @@ Features:
  
 Click `here <https://optuna.org/>`__ to know more about optuna.
 
-What is Typer?
-~~~~~~~~~~~~~~
-
-Typer is a library for building Command Line Interface (CLI) applications based on Python’s type hints. It is created by Sebastián Ramírez, the author of FastAPI. 
-
-Features:
- - Intuitive to write: Great editor support. Completion everywhere. Less time debugging. Designed to be easy to use and learn. Less time reading docs.
- - Easy to use: It's easy to use for the final users. Automatic help, and automatic completion for all shells.
- - Short: Minimize code duplication. Multiple features from each parameter declaration. Fewer bugs.
- - Start simple: The simplest example adds only 2 lines of code to your app: 1 import, 1 function call.
- - Grow large: Grow in complexity as much as you want, create arbitrarily complex trees of commands and groups of subcommands, with options and arguments.
- 
-Click `here <https://typer.tiangolo.com/>`__ to know more about typer.
-
 The Dataset
 ~~~~~~~~~~~
 
