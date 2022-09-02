@@ -92,6 +92,8 @@ In our case we managed to get accueacy of 90% with parameters set to ``{ optimiz
 
 .. image:: ./figures/final_SS.png?raw=true
   :width: 550
+  
+``Note: Maximum accuracy may vary depending on number of trials you run for and other factors.``
 
 
 Running inference on pre-trained model
@@ -109,7 +111,7 @@ For running inference using best performing model we will need following configu
           },
           "data": {
               "type": "images",
-              "test_input_path":  "./data/sample/",
+              "test_input_path":  "./data/test/inputs",
               "test_output_path": "./predictions/",
               "test_batch_size": 16,
               "transforms": [
@@ -144,7 +146,7 @@ and showing the images with `matplotlib`:
     plt.imshow(pred[dataset][0,:,:].round(), cmap="gray")
     plt.show()
    
-Doing this for a few samples, we obtain the segmentation predictions below.
+Doing this for a few samples, we obtain the segmentation predictions below. To obtain below sample output we ran inference for just sample inputs which are provided inside ``./data/sample/``, kindly update the config file as required, changing ``"test_input_path":  "./data/test/inputs"`` to ``"test_input_path":  "./data/sample"``,  to achieve below output.  
 
 ==================== ==================== ====================
 **Inputs**           **Predictions**      **Ground-truths**
