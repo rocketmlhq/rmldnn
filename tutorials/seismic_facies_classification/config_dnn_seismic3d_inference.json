@@ -5,14 +5,14 @@
         },
         "layers": "./unet3d_seismic.json",
         "data": {
-            "type": "numpy",
-            "test_input_path":  "./parihaka/input3D_test.npy",
-            "test_target_path": "./parihaka/target3D_test.npy",
-            "test_output_path": "./prediction/",
+            "type": "hdf5",
+            "test_input_path":  "./parihaka/input3D_test.h5",
+            "test_target_path": "./parihaka/target3D_test.h5",
+            "hdf5_outfile": "./prediction.h5",
             "test_batch_size": 1,
             "slicers": [
                 {
-                    "name":  "test_sample",
+                    "name":  "pred",
                     "sizes": [64, 576, 992],
                     "discard_remainders": true
                 }

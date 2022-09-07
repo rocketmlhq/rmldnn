@@ -30,7 +30,7 @@ Three orthogonal cuts of the data are shown in the figure below.
 .. image:: ./figures/parihaka.png
   :width: 650
 
-The dataset consists of a 3D image (in numpy format) of size 782 x 590 x 1006 stored in (x, y, z) order.
+The dataset consists of a 3D image of size 782 x 590 x 1006 stored in (x, y, z) order.
 Labels corresponding to the training data are integers from 0 to 3, arranged as an array of the same shape
 (the original Parihaka dataset contains 6 labels but, for the purpose of this tutorial,
 we combined 3 low-population classes together and created a 4-class dataset that will train faster).
@@ -39,21 +39,31 @@ We have partitioned the data into training and test sets by splitting the block 
 as depicted below, thus obtaining a training block of size 704 x 590 x 1006
 and a test block of size 78 x 590 x 1006.
 The same operation was performed with label (target) data.
-The resulting files can be downloaded from
-`here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/parihaka_4class.tar.gz>`__.
 
 .. image:: ./figures/data_split.png
   :width: 400
   :align: center
 
- 
+The resulting datasets were saved as HDF5 files, and can be downloaded from
+`here <https://rmldnnstorage.blob.core.windows.net/rmldnn-datasets/parihaka_4class_hdf5.tar.gz>`__
+as a ``.tar.gz`` archive. After expanding the archive, one should obtain the following directory structure:
+
+.. code:: bash
+
+    +-- seismic_facies_classification/
+    |   +-- parihaka/
+        |   +-- input3D_test.h5
+        |   +-- input3D_train.h5
+        |   +-- target3D_test.h5
+        |   +-- target3D_train.h5
+
 Data slicing
 ~~~~~~~~~~~~
 
 We need to split the data into smaller blocks that can be used as training samples, i.e., 
 assembled into mini-batches and forwarded through the neural network. Although this can be done as an external
 pre-processing step, the data slicing feature in `rmldnn` allows splitting a large
-`D`-dimensional numpy input file into multiple `d`-dimensional small blocks **inline** 
+`D`-dimensional input dataset into multiple `d`-dimensional small blocks **inline** 
 (i.e., no disk I/O involved), for any d <= D <= 3. The resulting samples are then fed into the
 network for training and evaluation, as shown below.
 
@@ -116,11 +126,11 @@ To train the Unet-3D model on the seismic dataset, we will use the following con
             "layers": "./unet3d_seismic.json",
             "num_epochs": 20,
             "data": {
-                "type": "numpy",
-                "input_path":       "./parihaka/input3D_train.npy",
-                "target_path":      "./parihaka/target3D_train.npy",
-                "test_input_path":  "./parihaka/input3D_test.npy",
-                "test_target_path": "./parihaka/target3D_test.npy",
+                "type": "hdf5",
+                "input_path":       "./parihaka/input3D_train.h5",
+                "target_path":      "./parihaka/target3D_train.h5",
+                "test_input_path":  "./parihaka/input3D_test.h5",
+                "test_target_path": "./parihaka/target3D_test.h5",
                 "batch_size": 16,
                 "test_batch_size": 16,
                 "preload": true,
@@ -147,7 +157,7 @@ To train the Unet-3D model on the seismic dataset, we will use the following con
 A few points to notice in the configuration:
 
  - As explained earlier, the slicer module is used to extract samples (3D blocks) from the 
-   large training and test input files
+   large training and test input datasets
  - We use the Adam first-order optimizer with a learning rate of 0.0001
  - We use the negative log-likelihood loss function. When the network outputs a higher-dimensional 
    tensor (e.g., in segmentation problems), this function computes a per-pixel loss
@@ -207,14 +217,14 @@ The following configuration will be used:
             },
             "layers": "./unet3d_seismic.json",
             "data": {
-                "type": "numpy",
-                "test_input_path":  "./parihaka/input3D_test.npy",
-                "test_target_path": "./parihaka/target3D_test.npy",
-                "test_output_path": "./prediction/",
+                "type": "hdf5",
+                "test_input_path":  "./parihaka/input3D_test.h5",
+                "test_target_path": "./parihaka/target3D_test.h5",
+                "hdf5_outfile": "./prediction.h5",
                 "test_batch_size": 1,
                 "slicers": [
                     {
-                        "name":  "test_sample",
+                        "name":  "pred",
                         "sizes": [64, 576, 992],
                         "discard_remainders": true
                     }
@@ -227,8 +237,8 @@ The following configuration will be used:
         }
     }
 
-The setting ``test_output_path = ./prediction/`` instructs `rmldnn` to save the prediction
-as an ``HDF5`` file under ``./prediction/``.
+The setting ``hdf5_outfile`` instructs `rmldnn` to save the prediction
+to an ``HDF5`` named ``prediction.h5``.
 
 We will run inference on a single multi-core CPU node, which has enough memory to
 handle a 64 x 576 x 992 input sample. We run the following command:
@@ -248,11 +258,11 @@ confusion matrix, comparing our prediction to an equally-shaped chunk from the t
     import sklearn.metrics
     from matplotlib.pyplot import show
 
-    pred_file = './prediction/output_1.h5'
-    trgt_file = './parihaka/target3D_test.npy'
+    pred_file = './prediction.h5'
+    trgt_file = './parihaka/target3D_test.h5'
 
-    pred = h5.File(pred_file, 'r')['0:64,0:576,0:992'][()].argmax(0)
-    target = np.load(trgt_file)[:64, :576, :992]
+    pred   = h5.File(pred_file, 'r')['pred'][()].argmax(-1)
+    target = h5.File(trgt_file, 'r')['target'][()][:64, :576, :992]
     print(sklearn.metrics.classification_report(pred.flatten(), target.flatten()))
 
                   precision    recall  f1-score   support
@@ -267,7 +277,7 @@ confusion matrix, comparing our prediction to an equally-shaped chunk from the t
     weighted avg       0.93      0.93      0.93  36569088
 
     cm = sklearn.metrics.confusion_matrix(pred.flatten(), target.flatten(), normalize='pred')
-    disp = sklearn.metrics.ConfusionMatrixDisplay(cm) 
+    disp = sklearn.metrics.ConfusionMatrixDisplay(cm)
     disp.plot()
     show()
 
@@ -282,7 +292,7 @@ This is an improvement over the previous value of 87% obtained from smaller test
 Finally, we can visualize the results by plotting slices of prediction and target slabs
 along, say, the `y-z` plane:
 
-.. code:: bash
+.. code:: python
 
     import numpy as np
     import h5py as h5
@@ -300,9 +310,9 @@ along, say, the `y-z` plane:
         fig.colorbar(im1, ax = ax[1], shrink=0.2)
         fig.colorbar(im2, ax = ax[2], shrink=0.2)
         plt.show() 
-    
-    pred = h5.File('./prediction/output_1.h5', 'r')['0:64,0:576,0:992'][()].argmax(0)
-    target = np.load('./parihaka/target3D_test.npy')[:64, :576, :992]
+
+    pred   = h5.File('./prediction.h5', 'r')['pred'][()].argmax(-1)
+    target = h5.File('./parihaka/target3D_test.h5')['target'][()][:64, :576, :992]
     
     x = 32
     display_slices(pred[x, :, :].transpose(), target[x, :, :].transpose())
