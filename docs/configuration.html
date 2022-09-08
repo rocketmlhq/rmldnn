@@ -308,7 +308,9 @@ how many samples will be used for training and evaluation, etc.</p>
 <li><strong>images</strong>: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.</li>
 <li><strong>labels</strong>: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).</li>
 <li><strong>numpy</strong>: Loads data from NumPy arrays in either <code class="code docutils literal"><span class="pre">.npy</span></code> format (one sample per file) or <code class="code docutils literal"><span class="pre">.npz</span></code> format (multiple samples per file).
-Also supports the data slicing capability described below.</li>
+Supports the data slicing capability described below.</li>
+<li><strong>hdf5</strong> Loads data from HDF5 files (<code class="code docutils literal"><span class="pre">.h5</span></code> format) containing one or multiple datasets per file.
+Supports the data slicing capability described below.</li>
 <li><strong>pde</strong>: Generates initial conditions to be used with a DNN-based partial differential equation solver.</li>
 </ul>
 <p>The following parameters apply to all data loader types, and are critical to configuring the run:</p>
@@ -333,9 +335,9 @@ applies to image data only, but not to numpy arrays. More details on how to conf
 the applications section.</p>
 <div class="section" id="slicers-sub-section">
 <h3>Slicers sub-section<a class="headerlink" href="#slicers-sub-section" title="Permalink to this headline">¶</a></h3>
-<p>The <strong>numpy</strong> data loader supports extracting the input samples from a single large numpy array by chopping it off into smaller
+<p>The <strong>numpy</strong> and <strong>hdf5</strong> data loaders support extracting the input samples from a single large dataset by chopping it off into smaller
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input numpy array is a 3D block of shape <img class="math" src="_images/math/32c738275ea0864a0729ff5ae9d9f8a1c96ec3f6.png" alt="(H,W,D)"/>,
+network can handle their shapes. For example, if the input array is a 3D block of shape <img class="math" src="_images/math/32c738275ea0864a0729ff5ae9d9f8a1c96ec3f6.png" alt="(H,W,D)"/>,
 one could chop it into smaller blocks of shape <img class="math" src="_images/math/a70680e082d0253830854d660dcfc36f206fef05.png" alt="(h,w,d"/>), where <img class="math" src="_images/math/ba91f86e467a31f7bff59f60e84560ec216034d5.png" alt="h \le H"/>, <img class="math" src="_images/math/ffc0d2af687a563feba436a54118a8db24b377c1.png" alt="w \le W"/> and <img class="math" src="_images/math/87a92a98b4d03a624fe14157b41596719aa0f965.png" alt="d \le D"/>,
 or slice it into 2D tiles along the <img class="math" src="_images/math/fa6e138b022ee026f2511136dc7ae1aa592471be.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/74d6c08677b4a17dd8df8c1776409779d868e60d.png" alt="(h,w)"/>,
 or even extract 1D lines of length <img class="math" src="_images/math/5267cecca6d578d190e686ba72fe9c7c138e249f.png" alt="w &lt; W"/> along the <img class="math" src="_images/math/276f7e256cbddeb81eee42e1efc348f3cb4ab5f8.png" alt="y"/>-axis.
@@ -387,18 +389,24 @@ as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-stru
 In order to enable HDF5 slice assembly, set the following:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
-    <span class="s2">&quot;hdf5_outfile&quot;</span>: <span class="s2">&quot;prediction.h5&quot;</span>
+    <span class="s2">&quot;hdf5_outfile&quot;</span>: <span class="s2">&quot;prediction.h5&quot;</span>,
+    <span class="s2">&quot;hdf5_precision&quot;</span>: <span class="s2">&quot;half&quot;</span>
     ...
 <span class="o">}</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><strong>hdf5_outfile</strong>: Name of the output HDF5 file. If set, slice assembly is enabled.</li>
+<li><strong>hdf5_precision</strong>: Floating-point format used to write the HDF5 datasets. Valid options are
+“<cite>single</cite>” for 32-bit floats (default) or “<cite>half</cite>” for 16-bit floats.</li>
+</ul>
 <p>The process of writing data into the HDF5 file is performed in parallel (in case of multi-process execution)
 and asynchronously, i.e., it happens concurrently with inference in order to maximize throughput.
 The entire infrastructure for data slicing, inferencing and assembling is depicted in the figure below.</p>
 <a class="reference internal image-reference" href="_images/slicer_flow.png"><img alt="slicer_flow.png" src="_images/slicer_flow.png" style="width: 600px;" /></a>
 <p><strong>Restrictions:</strong></p>
 <ul class="simple">
-<li>The input must be one single array (coming from a single numpy file).</li>
+<li>The input must be one single array (e.g., a single numpy array or a single HDF5 dataset).</li>
 <li>The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
 <li>The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.</li>
 <li>The <code class="docutils literal"><span class="pre">transpose</span></code> option can only be used with 2D slices.</li>
@@ -406,14 +414,14 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 </div>
 <div class="section" id="transforms-sub-section">
 <h3>Transforms sub-section<a class="headerlink" href="#transforms-sub-section" title="Permalink to this headline">¶</a></h3>
-<p>The <strong>image</strong> and <strong>numpy</strong> data loaders support operations that can be applied to individual 2D samples during training.
+<p>The <strong>image</strong>, <strong>numpy</strong> and <strong>hdf5</strong> data loaders support operations that can be applied to individual 2D samples during training.
 Notice that:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Operations which are stochastic in nature (e.g., random rotation or random zoom) result in different samples being produced
 at different epochs, thus providing a mechanism for data augmentation that should enhance training convergence.</li>
 <li>Operations which require resizing (e.g., rotation, zooming, resize) apply a linear interpolation scheme by default.
-If the targets contain discrete data (e.g., masks with segmentation labels), one should set <code class="docutils literal"><span class="pre">target_is_mask</span></code> to <em>true</em>
+If the targets contain discrete data (e.g., masks with integer labels), one should set <code class="docutils literal"><span class="pre">target_is_mask</span></code> to <em>true</em>
 (see <strong>Data</strong> section), so that a nearest-neighbor interpolation scheme is used for them instead.</li>
 </ul>
 </div></blockquote>

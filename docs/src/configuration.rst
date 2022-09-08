@@ -280,7 +280,9 @@ The following data types are currently supported in RocketML:
 - **images**: Loads image files which can be used for classification (images and labels), segmentation (images and masks), autoencoders, etc.
 - **labels**: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).
 - **numpy**: Loads data from NumPy arrays in either :code:`.npy` format (one sample per file) or :code:`.npz` format (multiple samples per file).
-  Also supports the data slicing capability described below.
+  Supports the data slicing capability described below.
+- **hdf5** Loads data from HDF5 files (:code:`.h5` format) containing one or multiple datasets per file.
+  Supports the data slicing capability described below.
 - **pde**: Generates initial conditions to be used with a DNN-based partial differential equation solver.
 
 The following parameters apply to all data loader types, and are critical to configuring the run:
@@ -307,9 +309,9 @@ the applications section.
 Slicers sub-section
 ^^^^^^^^^^^^^^^^^^^
 
-The **numpy** data loader supports extracting the input samples from a single large numpy array by chopping it off into smaller 
+The **numpy** and **hdf5** data loaders support extracting the input samples from a single large dataset by chopping it off into smaller 
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input numpy array is a 3D block of shape :math:`(H,W,D)`,
+network can handle their shapes. For example, if the input array is a 3D block of shape :math:`(H,W,D)`,
 one could chop it into smaller blocks of shape :math:`(h,w,d`), where :math:`h \le H`, :math:`w \le W` and :math:`d \le D`,
 or slice it into 2D tiles along the :math:`xy`-plane with shape :math:`(h,w)`,
 or even extract 1D lines of length :math:`w < W` along the :math:`y`-axis.
@@ -371,9 +373,14 @@ In order to enable HDF5 slice assembly, set the following:
 
     "data": {
         ...
-        "hdf5_outfile": "prediction.h5"
+        "hdf5_outfile": "prediction.h5",
+        "hdf5_precision": "half"
         ...
     }
+
+- **hdf5_outfile**: Name of the output HDF5 file. If set, slice assembly is enabled.
+- **hdf5_precision**: Floating-point format used to write the HDF5 datasets. Valid options are
+  "`single`" for 32-bit floats (default) or "`half`" for 16-bit floats.
 
 The process of writing data into the HDF5 file is performed in parallel (in case of multi-process execution)
 and asynchronously, i.e., it happens concurrently with inference in order to maximize throughput.
@@ -385,7 +392,7 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 
 **Restrictions:**
 
-- The input must be one single array (coming from a single numpy file).
+- The input must be one single array (e.g., a single numpy array or a single HDF5 dataset).
 - The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).
 - The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.
 - The ``transpose`` option can only be used with 2D slices.
@@ -393,13 +400,13 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
 Transforms sub-section
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The **image** and **numpy** data loaders support operations that can be applied to individual 2D samples during training.
+The **image**, **numpy** and **hdf5** data loaders support operations that can be applied to individual 2D samples during training.
 Notice that:
 
  - Operations which are stochastic in nature (e.g., random rotation or random zoom) result in different samples being produced 
    at different epochs, thus providing a mechanism for data augmentation that should enhance training convergence.
  - Operations which require resizing (e.g., rotation, zooming, resize) apply a linear interpolation scheme by default. 
-   If the targets contain discrete data (e.g., masks with segmentation labels), one should set ``target_is_mask`` to *true*
+   If the targets contain discrete data (e.g., masks with integer labels), one should set ``target_is_mask`` to *true*
    (see **Data** section), so that a nearest-neighbor interpolation scheme is used for them instead.
 
 The following transformations are supported:
