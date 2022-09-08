@@ -281,7 +281,7 @@ The following data types are currently supported in RocketML:
 - **labels**: Automatically determines class labels based on the names of the directories where sample input files are located (for classification only).
 - **numpy**: Loads data from NumPy arrays in either :code:`.npy` format (one sample per file) or :code:`.npz` format (multiple samples per file).
   Supports the data slicing capability described below.
-- **hdf5** Loads data from HDF5 files (:code:`.h5` format) containing one or multiple datasets per file.
+- **hdf5**: Loads data from HDF5 files (:code:`.h5` format) containing one or multiple datasets per file.
   Supports the data slicing capability described below.
 - **pde**: Generates initial conditions to be used with a DNN-based partial differential equation solver.
 
