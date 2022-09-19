@@ -476,8 +476,9 @@ where <img class="math" src="_images/math/ae12a24f88803b5895632e4848d87d46483c49
 </li>
 </ul>
 <ul>
-<li><p class="first"><strong>normalize</strong>: Normalizes the resulting tensor using a given mean <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/> and
-standard deviation <img class="math" src="_images/math/011e5790a6c33043ceadca81d9657dde6c61d769.png" alt="\sigma"/>, that is, <img class="math" src="_images/math/c91202c50910f66fae08009c9a2a08a849c0b879.png" alt="x' = (x - \alpha) / \sigma"/>.</p>
+<li><p class="first"><strong>normalize</strong>: Normalizes the resulting tensor (whose elements are in the <img class="math" src="_images/math/62f34fae2b08036cedb90a3ebf47f74a61dcb1be.png" alt="[0,1]"/> range)
+using a given mean <img class="math" src="_images/math/877d234f4cec6974ce218fc2e975a486a7972dfd.png" alt="\alpha"/> and standard deviation <img class="math" src="_images/math/011e5790a6c33043ceadca81d9657dde6c61d769.png" alt="\sigma"/>,
+that is, <img class="math" src="_images/math/c91202c50910f66fae08009c9a2a08a849c0b879.png" alt="x' = (x - \alpha) / \sigma"/>.</p>
 <blockquote>
 <div><p>Usage: <code class="code docutils literal"><span class="pre">normalize:</span> <span class="pre">{&quot;mean&quot;:</span> <span class="pre">alpha,</span> <span class="pre">&quot;std&quot;:</span> <span class="pre">sigma}</span></code></p>
 </div></blockquote>
@@ -490,12 +491,12 @@ so that all samples going into the neural network have the same size.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;transforms&quot;</span>: <span class="o">[</span>
-        <span class="o">{</span> <span class="s2">&quot;normalize&quot;</span>: <span class="o">{</span> <span class="s2">&quot;mean&quot;</span>: <span class="m">0</span>.5, <span class="s2">&quot;std&quot;</span>: <span class="m">0</span>.5 <span class="o">}</span> <span class="o">}</span>,
         <span class="o">{</span> <span class="s2">&quot;convert_color&quot;</span>: <span class="s2">&quot;BGR2RGB&quot;</span> <span class="o">}</span>,
         <span class="o">{</span> <span class="s2">&quot;random_horizontal_flip&quot;</span>: <span class="m">0</span>.5 <span class="o">}</span>,
         <span class="o">{</span> <span class="s2">&quot;jitter_crop&quot;</span>: <span class="m">0</span>.1 <span class="o">}</span>,
         <span class="o">{</span> <span class="s2">&quot;random_rotate&quot;</span>: <span class="m">20</span> <span class="o">}</span>,
-        <span class="o">{</span> <span class="s2">&quot;resize&quot;</span>: <span class="o">[</span><span class="m">416</span>, <span class="m">416</span><span class="o">]</span> <span class="o">}</span>
+        <span class="o">{</span> <span class="s2">&quot;resize&quot;</span>: <span class="o">[</span><span class="m">416</span>, <span class="m">416</span><span class="o">]</span> <span class="o">}</span>,
+        <span class="o">{</span> <span class="s2">&quot;normalize&quot;</span>: <span class="o">{</span> <span class="s2">&quot;mean&quot;</span>: <span class="m">0</span>.5, <span class="s2">&quot;std&quot;</span>: <span class="m">0</span>.5 <span class="o">}</span> <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
 </pre></div>
