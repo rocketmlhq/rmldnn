@@ -451,8 +451,9 @@ The following transformations are supported:
  
 .. _color conversion code: https://vovkos.github.io/doxyrest-showcase/opencv/sphinx_rtd_theme/enum_cv_ColorConversionCodes.html
 
-- **normalize**: Normalizes the resulting tensor using a given mean :math:`\alpha` and 
-  standard deviation :math:`\sigma`, that is, :math:`x' = (x - \alpha) / \sigma`.
+- **normalize**: Normalizes the resulting tensor (whose elements are in the :math:`[0,1]` range) 
+  using a given mean :math:`\alpha` and standard deviation :math:`\sigma`,
+  that is, :math:`x' = (x - \alpha) / \sigma`.
 
     Usage: :code:`normalize: {"mean": alpha, "std": sigma}`
 
@@ -466,12 +467,12 @@ so that all samples going into the neural network have the same size.
     "data": {
         ...
         "transforms": [
-            { "normalize": { "mean": 0.5, "std": 0.5 } },
             { "convert_color": "BGR2RGB" },
             { "random_horizontal_flip": 0.5 },
             { "jitter_crop": 0.1 },
             { "random_rotate": 20 },
-            { "resize": [416, 416] }
+            { "resize": [416, 416] },
+            { "normalize": { "mean": 0.5, "std": 0.5 } }
         ]
     }
 
