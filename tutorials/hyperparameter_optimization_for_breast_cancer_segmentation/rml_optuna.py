@@ -38,7 +38,7 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
             "neural_network": {
                 "outfile": "out.txt",
                 "num_epochs": n_epochs,
-                "layers": "./{0}".format(layers_file),
+                "layers": "{0}".format(layers_file),
                 "checkpoints": {
                     "save": "temp_model/",
                     "interval": 1
@@ -70,7 +70,7 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
         }
 
         if transfer_learning!="":
-            config["neural_network"]["checkpoints"]["load"] = "./{0}".format(transfer_learning)
+            config["neural_network"]["checkpoints"]["load"] = "{0}".format(transfer_learning)
 
         if lr_scheduler:
             config["neural_network"]["optimizer"]["lr_scheduler"] = {"type": "{0}".format(lr_scheduler_type),"gamma": lr_scheduler_gamma,"verbose": True}
@@ -138,3 +138,4 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
 
     with open("list_acc.json", "w") as outfile:
         json.dump(list_dic, outfile, indent=4, separators=(',', ': '))
+
