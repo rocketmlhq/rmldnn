@@ -98,7 +98,8 @@ A few points about the configuration we will use in our experiment below:
 - We will use the latest *rmldnn* Docker image in the system, or ``--docker-image rocketml/rmldnn:latest``
 - We will run trials using 3 different optimizers (``--optimizers adam,rmsprop,sgd``) and 2 different loss functions (``--loss bce,dice``)
 - The neural network description file is specified with ``--layers ./layers_resunet.json``
-- The option ``--lr-scheduler`` engages the learning-rate scheduler (with default parameters)
+- The option ``--lr-scheduler`` engages an exponential learning-rate scheduler, and we set the 
+  LR damping factor *gamma* to 0.99 (``--lr-scheduler-gamma 0.99``)
 - We will use transfer-learning by loading a pre-trained RESUNET model: ``--transfer-learning ./model_resunet_imagenet.h5``
 
 We will run our hyperparameter optimization study on a system with a single NVIDIA A100X GPU, using the following command:
@@ -107,7 +108,7 @@ We will run our hyperparameter optimization study on a system with a single NVID
 
     python rml_optimization.py --num-trials 50 --num-epochs 50 --docker-image rocketml/rmldnn:latest \
                                --optimizers adam,rmsprop,sgd --loss bce,dice --layers ./layers_resunet.json \
-                               --lr-scheduler --transfer-learning ./model_resunet_imagenet.h5
+                               --lr-scheduler --lr-scheduler-gamma 0.99 --transfer-learning ./model_resunet_imagenet.h5
 
 The optimization cycle will take several hours (~10hrs) to run on a single GPU.
 Upon completion, it will display the best set of hyperparameters found, as well as the best accuracy obtained with those parameters:
@@ -115,7 +116,7 @@ Upon completion, it will display the best set of hyperparameters found, as well 
 .. image:: ./figures/final_SS.png
 
 The above figure shows that we managed to achieve an accuracy of 90.4% with the following
-hyperparameters: ``{ optimizer: adam, learning_rate: 0.0014266626758335284, loss: bce }``.
+hyperparameters: ``{ optimizer: adam, learning_rate: 0.0009968879419374203, loss: bce }``.
 
 The application will also:
 
