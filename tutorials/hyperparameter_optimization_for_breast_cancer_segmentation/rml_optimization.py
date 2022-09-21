@@ -7,21 +7,21 @@ app = typer.Typer(help="CLI based on RMLDNN for automating hyper parameter optim
 
 @app.command()
 def rml_typer(
-        num_epochs:int            = typer.Option(..., "--num-epochs", "-ne"),
-        num_trials:int            = typer.Option(..., "--num-trials", "-nt"),
-        docker_image:str          = typer.Option("rocketml/rmldnn:latest", "--docker-image", "-docker", help="Enter docker image path"),
-        singularity_image:str     = typer.Option("None", "--singularity-image", "-singularity", help="Enter singularity image path"),
-        gpu:bool                  = False,
-        multi_core:int           = typer.Option(1, "--multi-core", help="Enter number of process"),
-        optimizers:str            = typer.Option(..., "--optimizers", "-o", help="Enter optimizers comma seperated (allowed values : adam, SGD, RMSprop, Adagrad, Adam and AdamW, LARS, LAMB, Hessian)"),
-        loss:str                  = typer.Option(..., "--loss", "-l", help="Enter loss functions comma seperated(allowed values: dice, bce, nll, mse, Jaccard, Focal, Lovasz, Wasserstein, YOLOv3, Burgers_pde, Poisson2D_pde, Poisson3D_pde)"),
-        lr:float                  = typer.Option(0.001, "--learning-rate", "-lr", help="Enter Learning Rate"),
-        layers:str                = "layers.json",
-        lr_scheduler:bool         = False,
-        lr_range_start:float      = typer.Option(0.001, "--lr-range-start", "-lr-start", help="Enter Learning Rate scheduler start value"),
-        lr_range_end:float        = typer.Option(0.001, "--lr-range-end", "-lr-end", help="Enter Learning Rate scheduler end value"),
-        lr_scheduler_gamma:float  = typer.Option(0.95, "--lr-scheduler-gamma", "-lr-gamma", help="Enter Learning Rate scheduler gamma value"),
-        transfer_learning:str    = typer.Option("", "--transfer-learning", "-tl", help="Enter file name using which you want to implement transfer learning")):
+        num_epochs:int            = typer.Option(..., "--num-epochs", "-ne", help="Number of epochs per trial"),
+        num_trials:int            = typer.Option(..., "--num-trials", "-nt", help="Number of trials"),
+        docker_image:str          = typer.Option("rocketml/rmldnn:latest", "--docker-image", "-docker", help="Docker image path"),
+        singularity_image:str     = typer.Option("None", "--singularity-image", "-singularity", help="Singularity image path"),
+        gpu:bool                  = typer.Option(True, help="Whether to run on GPUs (instead of CPUs)"),
+        num_procs:int             = typer.Option(1, "--num_procs", help="Number of processes (or GPUs) for parallel runs"),
+        optimizers:str            = typer.Option(..., "--optimizers", "-o", help="Comma-separated list of optimizers (supported: SGD, RMSprop, Adagrad, Adam, AdamW, LARS, LAMB, Hessian)"),
+        loss:str                  = typer.Option(..., "--loss", "-l", help="Comma-separated list of loss functions (supported: Dice, BCE, NLL, MSE, Jaccard, Focal, Lovasz)"),
+        lr:float                  = typer.Option(0.001, "--learning-rate", "-lr", help="Initial learning rate"),
+        layers:str                = typer.Option("./layers.json", help="Network definition JSON file"),
+        lr_scheduler:bool         = typer.Option(False, help="Whether to use a learning-rate scheduler"),
+        lr_range_start:float      = typer.Option(0.001, "--lr-range-start", "-lr-start", help="LR start value (if using scheduler)"),
+        lr_range_end:float        = typer.Option(0.001, "--lr-range-end", "-lr-end", help="LR end value (if using scheduler)"),
+        lr_scheduler_gamma:float  = typer.Option(0.95, "--lr-scheduler-gamma", "-lr-gamma", help="LR change rate gamma (if using scheduler)"),
+        transfer_learning:str     = typer.Option("", "--transfer-learning", "-tl", help="Model to load for transfer-learning")):
 
     optimizers = optimizers.split(',')
     loss = loss.split(',')
@@ -33,13 +33,13 @@ def rml_typer(
         index = command.find('-u')
         if gpu:
             command = command[:index] + "--gpus=all " + command[index:]
-        if multi_core > 1:
-            command = command + " mpirun -np {0}".format(multi_core)
+        if num_procs > 1:
+            command = command + " mpirun -np {0}".format(num_procs)
             command = command[:index] + " --cap-add=SYS_PTRACE " + command[index:]
             if not gpu:
-                command = command + " --bind-to none -x OMP_NUM_THREADS={0}".format(int(multi_core) * 2)
+                command = command + " --bind-to none -x OMP_NUM_THREADS={0}".format(int(num_procs) * 2)
             else:
-                cuda_devices = ','.join([str(i) for i in range(multi_core)])
+                cuda_devices = ','.join([str(i) for i in range(num_procs)])
                 command = command + " -x CUDA_VISIBLE_DEVICES={0}".format(cuda_devices)
 
     else:
@@ -48,13 +48,13 @@ def rml_typer(
             index=command.find(singularity_image)
             command = command[:index] + "--nv " + command[index:]
 
-        if multi_core > 1:
-            command += " mpirun -np {0}".format(multi_core)
+        if num_procs > 1:
+            command += " mpirun -np {0}".format(num_procs)
             if not gpu:
-                command = command + " --bind-to none -x OMP_NUM_THREADS={0} ".format(int(multi_core) * 2)
+                command = command + " --bind-to none -x OMP_NUM_THREADS={0} ".format(int(num_procs) * 2)
             else:
-                cuda_devices = ','.join([str(i) for i in range(multi_core)])
-                command = command + " -x CUDA_VISIBLE_DEVICES={1} ".format(multi_core, cuda_devices)
+                cuda_devices = ','.join([str(i) for i in range(num_procs)])
+                command = command + " -x CUDA_VISIBLE_DEVICES={1} ".format(num_procs, cuda_devices)
 
     command += " rmldnn --config=config.json"
 
