@@ -2,16 +2,23 @@
     "neural_network": {
         "layers": "./layers_resunet.json",
         "checkpoints": {
-            "load": "./best_model/model_checkpoint_50.pt"
+            "load": "./best_model/best_model_file.pt"
         },
         "data": {
             "type": "images",
-            "test_input_path":  "./data/test/inputs",
+            "test_input_path":  "./data/test/inputs/",
+            "test_target_path": "./data/test/targets/",
             "test_output_path": "./predictions/",
             "test_batch_size": 16,
+            "target_grayscale": true,
+            "target_is_mask": true,
             "transforms": [
                 { "resize": [256, 256] }
             ]
+        },
+        "loss": {
+            "function": "BCE",
+            "source": "sigmoid"
         }
     }
 }
