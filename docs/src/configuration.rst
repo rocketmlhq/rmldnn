@@ -452,8 +452,8 @@ The following transformations are supported:
 .. _color conversion code: https://vovkos.github.io/doxyrest-showcase/opencv/sphinx_rtd_theme/enum_cv_ColorConversionCodes.html
 
 - **normalize**: Normalizes the resulting tensor (whose elements are in the :math:`[0,1]` range) 
-  using a given mean :math:`\alpha` and standard deviation :math:`\sigma`,
-  that is, :math:`x' = (x - \alpha) / \sigma`.
+  using a given mean :math:`\alpha` and standard deviation :math:`\sigma`.
+  That is, for each tensor element :math:`x \in [0,1]`, it applies: :math:`x' = (x - \alpha) / \sigma`.
 
     Usage: :code:`normalize: {"mean": alpha, "std": sigma}`
 
