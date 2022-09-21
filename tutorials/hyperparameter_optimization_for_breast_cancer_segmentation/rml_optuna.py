@@ -1,5 +1,5 @@
 
-def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_scheduler,transfer_learning="",lr_range_start=0.001,lr_range_end=0.001,lr_scheduler_type='Exponential',lr_scheduler_gamma=0.95):
+def main_optuna(command, n_epochs, n_trials, optimizers, losses, layers_file, lr_scheduler, transfer_learning, lr_range_min, lr_range_max, lr_scheduler_type, lr_scheduler_gamma):
 
     import os
     import json
@@ -15,25 +15,20 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
         optimizer_selected = trial.suggest_categorical("optimizer", optimizer_options)
         return optimizer_selected
 
-
     def create_learning_rate(trial):
-        lr_selected = trial.suggest_float("learning_rate", lr_range_start, lr_range_end, log=True)
+        lr_selected = trial.suggest_float("learning_rate", lr_range_min, lr_range_max, log=True)
         return lr_selected
-
 
     def create_loss(trial):
         loss_options = losses
         loss_selected = trial.suggest_categorical("loss", loss_options)
         return loss_selected
 
-
     def objective(trial):
         optimizer = create_optimizer(trial)
-        if lr_scheduler:
-            lr = create_learning_rate(trial)
-        else:
-            lr = lr_range_start
+        lr = create_learning_rate(trial)
         loss = create_loss(trial)
+
         config = {
             "neural_network": {
                 "outfile": "out.txt",
@@ -82,7 +77,6 @@ def main_optuna(command,n_epochs,n_trials,optimizers,losses,layers_file,lr_sched
 
         with open('out_test.txt') as f:
             lines = f.readlines()
-
 
         max_acc = 0
         epoch_max_acc = n_epochs

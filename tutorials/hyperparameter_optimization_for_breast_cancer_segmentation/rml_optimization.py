@@ -15,18 +15,17 @@ def rml_typer(
         num_procs:int             = typer.Option(1, "--num_procs", help="Number of processes (or GPUs) for parallel runs"),
         optimizers:str            = typer.Option(..., "--optimizers", "-o", help="Comma-separated list of optimizers (supported: SGD, RMSprop, Adagrad, Adam, AdamW, LARS, LAMB, Hessian)"),
         loss:str                  = typer.Option(..., "--loss", "-l", help="Comma-separated list of loss functions (supported: Dice, BCE, NLL, MSE, Jaccard, Focal, Lovasz)"),
-        lr:float                  = typer.Option(0.001, "--learning-rate", "-lr", help="Initial learning rate"),
         layers:str                = typer.Option("./layers.json", help="Network definition JSON file"),
-        lr_scheduler:bool         = typer.Option(False, help="Whether to use a learning-rate scheduler"),
-        lr_range_start:float      = typer.Option(0.001, "--lr-range-start", "-lr-start", help="LR start value (if using scheduler)"),
-        lr_range_end:float        = typer.Option(0.001, "--lr-range-end", "-lr-end", help="LR end value (if using scheduler)"),
+        lr_range_min:float        = typer.Option(0.001, "--lr-range-min", "-lr-min", help="Lowest learning-rate value to try"),
+        lr_range_max:float        = typer.Option(0.01, "--lr-range-max", "-lr-max", help="Highest learning-rate value to try"),
+        lr_scheduler:bool         = typer.Option(False, help="Whether to use an exponential learning-rate scheduler"),
         lr_scheduler_gamma:float  = typer.Option(0.95, "--lr-scheduler-gamma", "-lr-gamma", help="LR change rate gamma (if using scheduler)"),
         transfer_learning:str     = typer.Option("", "--transfer-learning", "-tl", help="Model to load for transfer-learning")):
 
     optimizers = optimizers.split(',')
     loss = loss.split(',')
 
-    lr_scheduler_type="Exponential"
+    lr_scheduler_type="Exponential" # Only type supported for now
 
     if singularity_image == "None":
         command = "docker run -u $(id -u):$(id -g) -v ${{PWD}}:/home/ubuntu -w /home/ubuntu --rm {0}".format(docker_image)
@@ -66,28 +65,20 @@ def rml_typer(
     dic_values["layers"] = layers
     dic_values["optimizers"] = optimizers
     dic_values["loss"] = loss
-
-
-    if lr_range_start == lr_range_end:
-        lr_scheduler = False
+    dic_values["lr_range_min"] = lr_range_min
+    dic_values["lr_range_max"] = lr_range_max
+    dic_values["lr_scheduler"] = lr_scheduler
 
     if lr_scheduler:
-
-        dic_values["lr_range_start"] = lr_range_start
-        dic_values["lr_range_end"] = lr_range_end
         dic_values["lr_scheduler_type"] = lr_scheduler_type
         dic_values["lr_scheduler_gamma"] = lr_scheduler_gamma
-
-    else:
-        dic_values["learning_rate"] = lr
-
 
     if transfer_learning != "":
         dic_values["transfer_learning"] = transfer_learning
 
     headers = ["Parameter", "value"]
     print(tabulate([(k,v) for k, v in dic_values.items()], headers=headers, tablefmt='grid'))
-    rml_optuna.main_optuna(command,num_epochs,num_trials,optimizers,loss,layers,lr_scheduler,transfer_learning,lr_range_start,lr_range_end,lr_scheduler_type,lr_scheduler_gamma)
+    rml_optuna.main_optuna(command, num_epochs, num_trials, optimizers, loss, layers, lr_scheduler, transfer_learning, lr_range_min, lr_range_max, lr_scheduler_type, lr_scheduler_gamma)
 
 if __name__ == "__main__":
 
