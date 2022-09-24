@@ -85,7 +85,7 @@ Details about all rmldnn options and capabilities can be found in the [documenta
 # Install
 
 **rmldnn** is available as [Docker](https://www.docker.com/) and [Singularity](https://sylabs.io/singularity) containers, which substantially simplifies the installation process and increases portability. These containers have been tested 
-on Linux Ubuntu 18.04, and should work on all popular Linux distros. In addition, **rmldnn** can be run natively on [AWS](https://aws.amazon.com/) or [Azure](https://azure.microsoft.com/en-us/) cloud by spinning up a VM using one of our images.
+on Linux Ubuntu 18.04, and should work on all popular Linux distros. In addition, **rmldnn** can be run natively on [AWS](https://aws.amazon.com/) or [MS Azure](https://azure.microsoft.com/en-us/) cloud by spinning up a VM using one of our images.
                                                
 - **Docker**
 
@@ -105,7 +105,7 @@ on Linux Ubuntu 18.04, and should work on all popular Linux distros. In addition
    export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
   ```
 
-- **MS Azure**
+- **Azure**
 
   - Deploy the *rmldnn* AMI on the Azure cloud:
 
@@ -194,6 +194,31 @@ First, clone the current repo:
        Add the `--nv` option and set the variable `CUDA_VISIBLE_DEVICES` accordingly:
        ```
         singularity exec --nv ${RMLDNN_IMAGE} mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
+           rmldnn --config=./config_rmldnn_test.json
+       ```
+
+  **Azure or AWS cloud**
+  ----------------------
+
+  - The Azure and AWS AMIs contain a native build of *rmldnn* on Ubuntu 18.04 Linux, which can be executed directly from the shell
+  - **Single-process**:
+    - CPU or GPU system:
+      ```
+       rmldnn --config=./config_rmldnn_test.json
+      ```
+  - **Multi-process**:
+    - CPU system:
+      
+      The -np option of mpirun indicates how many processes to launch and the variable OMP_NUM_THREADS controls how many threads per process:
+       ```
+       mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
+           rmldnn --config=./config_rmldnn_test.json
+       ```
+    - GPU system:
+
+      The variable CUDA_VISIBLE_DEVICES indicates which devices to use:
+       ```
+       mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
            rmldnn --config=./config_rmldnn_test.json
        ```
 
