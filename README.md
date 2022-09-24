@@ -84,13 +84,9 @@ Details about all rmldnn options and capabilities can be found in the [documenta
 
 # Install
 
-**rmldnn** is available as [Docker](https://www.docker.com/) and [Singularity](https://sylabs.io/singularity) images.
-This substantially simplifies the installation process and increases portability. These images have been tested 
-on Linux Ubuntu 18.04, and should work on all popular Linux distros.
+**rmldnn** is available as [Docker](https://www.docker.com/) and [Singularity](https://sylabs.io/singularity) containers, which substantially simplifies the installation process and increases portability. These containers have been tested 
+on Linux Ubuntu 18.04, and should work on all popular Linux distros. In addition, **rmldnn** can be run natively on [AWS](https://aws.amazon.com/) or [Azure](https://azure.microsoft.com/en-us/) cloud by spinning up a VM using one of our images.
                                                
-If starting from scratch (i.e., no previous installation exists) and the user has no preference, we recommend
-going with Singularity, as it is simpler to setup and makes it easier to execute.
-
 - **Docker**
 
   - If not already available, follow instructions [here](https://docs.docker.com/engine/install/) to install Docker on your system.
@@ -109,9 +105,22 @@ going with Singularity, as it is simpler to setup and makes it easier to execute
    export RMLDNN_IMAGE=`realpath ./rmldnn.sif`
   ```
 
+- **MS Azure**
+
+  - Deploy the *rmldnn* AMI on the Azure cloud:
+
+    [<img src="./figures/deploy_to_Azure.png" width="175">](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/rocketml.rmldnn?tab=Overview)
+ 
+- **AWS**
+
+  - Deploy the *rmldnn* AMI on the AWS cloud:
+
+    [<img src="./figures/deploy_to_AWS.png" width="175">](https://aws.amazon.com/marketplace/pp/prodview-kfict5f43ntbu)
+
+
 # Usage
 
-The examples below demonstrate how to run rmldnn on a Linux shell using both Docker and Singularity containers.
+The examples below demonstrate how to run rmldnn on a Linux shell using either a container (Docker, Singularity) or a native build on the cloud.
 We will use the smoke tests in this repo and show how to run them on one or multiple processes.
 
 First, clone the current repo:
