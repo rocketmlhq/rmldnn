@@ -128,7 +128,10 @@ A few points to notice in the configuration:
    recover the original values. The last two bullets guarantee that target pixel values remain unchanged.
 
 We will run training for 30 epochs on 4 NVIDIA V100 GPUs using a Singularity image with `rmldnn` 
-(see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
+(see `instructions <https://github.com/rocketmlhq/rmldnn#install>`__ for how to get the image).
+Alternatively, one could use a Docker image or a native build on the cloud --
+see `usage <https://github.com/rocketmlhq/rmldnn#usage>`__ section for details.
+
 From the command line, one should do:
 
 .. code:: bash

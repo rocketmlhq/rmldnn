@@ -135,12 +135,15 @@ A few points to notice in the configuration:
    to load a pre-trained ResUnet model.
 
 We will run training for 20 epochs on 4 NVIDIA V100 GPUs using a Docker image with `rmldnn` 
-(see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
+(see `instructions <https://github.com/rocketmlhq/rmldnn#install>`__ for how to get the image).
+Alternatively, one could use a Singularity image or a native build on the cloud --
+see `usage <https://github.com/rocketmlhq/rmldnn#usage>`__ section for details.
+
 From the command line, one should do:
 
 .. code:: bash
 
-   sudo docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+   docker run --cap-add=SYS_PTRACE --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 4 -x CUDA_VISIBLE_DEVICES=0,1,2,3 \
     rmldnn --config=config_train.json
 
@@ -197,7 +200,7 @@ We can run inference on the test images by doing:
 
 .. code:: bash
 
-    sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest rmldnn --config=config_test.json 
 
 Finally, we can visualize the predictions by loading each dataset in the `HDF5` file

@@ -95,7 +95,10 @@ Most parameters in the config file are self-explanatory. The most important here
  - We will train for 20 epochs using a batch-size of 128, and write out a model checkpoint file at the end of the 20th epoch.
 
 We will now run training on two GPUs using a Singularity image with `rmldnn`
-(see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
+(see `instructions <https://github.com/rocketmlhq/rmldnn#install>`__ for how to get the image).
+Alternatively, one could use a Docker image or a native build on the cloud --
+see `usage <https://github.com/rocketmlhq/rmldnn#usage>`__ section for details.
+
 From the command line, one should do:
 
 .. code:: bash

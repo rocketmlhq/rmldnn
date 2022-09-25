@@ -165,12 +165,15 @@ Most parameters in the config file are self-explanatory. The most important here
  - We will use a batch-size of 64 for training and 128 for testing, and write out a model checkpoint file after every 2 epochs.
 
 We will run training on a multi-core CPU node using a Docker image with `rmldnn`
-(see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image).
+(see `instructions <https://github.com/rocketmlhq/rmldnn#install>`__ for how to get the image).
+Alternatively, one could use a Singularity image or a native build on the cloud --
+see `usage <https://github.com/rocketmlhq/rmldnn#usage>`__ section for details.
+
 The following command will run training in parallel by spawning 4 processes, each using 8 threads:
 
 .. code:: bash
 
-   $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+   $ docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
      rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
      rmldnn --config=config_train.json
 
@@ -246,7 +249,7 @@ We will run inference in parallel using 4 processes (with 8 threads each) on a m
 
 .. code:: bash
 
-    $ sudo docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    $ docker run --cap-add=SYS_PTRACE -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
       rocketml/rmldnn:latest mpirun -np 4 --bind-to none -x OMP_NUM_THREADS=8 \
       rmldnn --config=config_test.json
 

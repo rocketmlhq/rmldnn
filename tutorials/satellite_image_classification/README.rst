@@ -125,12 +125,16 @@ A few points to notice about the configuration:
     - The loss function used will be NLL (Negative Log-Likelihood)
     - We will use a batch size of 64 for training and 128 for testing
     
-We will run training using a Docker image with `rmldnn` (see `instructions <https://github.com/rocketmlhq/rmldnn/blob/main/README.md#install>`__ for how to get the image). 
+We will run training using a Docker image with `rmldnn`
+(see `instructions <https://github.com/rocketmlhq/rmldnn#install>`__ for how to get the image).
+Alternatively, one could use a Singularity image or a native build on the cloud --
+see `usage <https://github.com/rocketmlhq/rmldnn#usage>`__ section for details.
+
 The following command can be used to run training on a single-GPU system:
 
 .. code:: bash
 
-    sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 rmldnn --config=config_train.json
 
 .. image:: ./figures/training_log.png
@@ -178,7 +182,7 @@ We can use the following command to run inference on a 1-GPU system:
 
 .. code:: bash
 
-    sudo docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
+    docker run --gpus=all -u $(id -u):$(id -g) -v ${PWD}:/home/ubuntu -w /home/ubuntu --rm \
     rocketml/rmldnn:latest mpirun -np 1 rmldnn --config=config_test.json
 
 The output of the classification is an HDF5 file named ``predictions/output_1.h5`` containing one dataset for each input sample. Since the model predicts a probability for each sample to be of one out of 10 possible classes, those datasets will be of shape ``(10,)``. To obtain the actual predicted classes and calculate the accuracy, one needs to take the *argmax* of each array and count the number of correct predictions. This is done in the below script (available as `compute_accuracy.py <./compute_accuracy.py>`__):

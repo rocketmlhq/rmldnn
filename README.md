@@ -115,7 +115,7 @@ on Linux Ubuntu 18.04, and should work on all popular Linux distros. In addition
 
   - Deploy the *rmldnn* AMI on the AWS cloud:
 
-    [<img src="./figures/deploy_to_AWS.png" width="175">](https://aws.amazon.com/marketplace/pp/prodview-kfict5f43ntbu)
+    [<img src="./figures/deploy_to_AWS.png" width="178">](https://aws.amazon.com/marketplace/pp/prodview-kfict5f43ntbu)
 
 
 # Usage
