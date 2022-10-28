@@ -311,13 +311,19 @@ Slicers sub-section
 
 The **numpy** and **hdf5** data loaders support extracting the input samples from a single large dataset by chopping it off into smaller 
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input array is a 3D block of shape :math:`(H,W,D)`,
-one could chop it into smaller blocks of shape :math:`(h,w,d`), where :math:`h \le H`, :math:`w \le W` and :math:`d \le D`,
-or slice it into 2D tiles along the :math:`xy`-plane with shape :math:`(h,w)`,
-or even extract 1D lines of length :math:`w < W` along the :math:`y`-axis.
+network can handle their shapes. For example, if the input array is a 3D block of shape :math:`(C,H,W,D)`,
+where :math:`C` is the number of channels, one could chop it into smaller blocks of shape
+:math:`(C,H',W',D')`, where :math:`H' \le H`, :math:`W' \le W` and :math:`D' \le D`,
+or slice it into 2D tiles along the :math:`xy`-plane with shape :math:`(C,H',W')`,
+or even extract 1D lines of shape :math:`(C,W')` along the :math:`y`-axis.
+Notice that the number of channels always remains unchanged, since the slicing operations apply to geometric coordinates only and
+preserve the channel dimension. In any case, the input data is required to have a channel dimension, even if it has only one channel, and
+that channel dimension must be the first, as per Pytorch convention.
+
 Multiple slice sets can be defined, each with its own slice size and orientation (the dimensionality of slices across all sets
 must be the same, though, since the neural network is common to all). The configuration below shows an example of how to extract
-2D samples from a 3D input array using 2 slice sets:
+2D samples from a 3D input array of shape :math:`(1,540, 131, 1001)` using 2 slice sets.
+Notice also how only geometric coordinates appear in the configuration (the channel dimension is ommited):
 
 .. code-block:: bash
 
@@ -365,9 +371,12 @@ depicted in the figure below:
 
 **HDF5 slice assembly**
 
-The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
-as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
-In order to enable HDF5 slice assembly, set the following:
+The predictions obtained by running inferences on the slices can be assembled back into a multi-dimensional
+array of the same shape as the input, and saved to disk as an HDF5 file. Naturally, this requires that the neural network be
+geometry-preserving, i.e., the shape of each sample is transfromed as :math:`(C_1,H,W,D) \rightarrow (C_2,H,W,D)`,
+where :math:`C_1` can be different from :math:`C_2`.
+Each slice set will result in one dataset in the HDF5 data-structure.
+To configure HDF5 writing, set the following:
 
 .. code-block:: bash
 
@@ -390,11 +399,12 @@ The entire infrastructure for data slicing, inferencing and assembling is depict
   :width: 600
   :alt: slicer_flow.png
 
-**Restrictions:**
+**Slicer restrictions:**
 
 - The input must be one single array (e.g., a single numpy array or a single HDF5 dataset).
-- The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).
-- The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.
+- The input array must have a channel dimension and its order must be channel-first.
+- The shape of the output tensor produced by the network can differ from the input shape only in the number of channels,
+  i.e., the neural network must be geometry-preserving.
 - The ``transpose`` option can only be used with 2D slices.
 
 Transforms sub-section
