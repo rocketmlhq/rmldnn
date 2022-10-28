@@ -337,13 +337,18 @@ the applications section.</p>
 <h3>Slicers sub-section<a class="headerlink" href="#slicers-sub-section" title="Permalink to this headline">¶</a></h3>
 <p>The <strong>numpy</strong> and <strong>hdf5</strong> data loaders support extracting the input samples from a single large dataset by chopping it off into smaller
 blocks of configurable sizes. The samples obtained can have equal or lower dimensionality as the original data, as long as the neural
-network can handle their shapes. For example, if the input array is a 3D block of shape <img class="math" src="_images/math/32c738275ea0864a0729ff5ae9d9f8a1c96ec3f6.png" alt="(H,W,D)"/>,
-one could chop it into smaller blocks of shape <img class="math" src="_images/math/a70680e082d0253830854d660dcfc36f206fef05.png" alt="(h,w,d"/>), where <img class="math" src="_images/math/ba91f86e467a31f7bff59f60e84560ec216034d5.png" alt="h \le H"/>, <img class="math" src="_images/math/ffc0d2af687a563feba436a54118a8db24b377c1.png" alt="w \le W"/> and <img class="math" src="_images/math/87a92a98b4d03a624fe14157b41596719aa0f965.png" alt="d \le D"/>,
-or slice it into 2D tiles along the <img class="math" src="_images/math/fa6e138b022ee026f2511136dc7ae1aa592471be.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/74d6c08677b4a17dd8df8c1776409779d868e60d.png" alt="(h,w)"/>,
-or even extract 1D lines of length <img class="math" src="_images/math/5267cecca6d578d190e686ba72fe9c7c138e249f.png" alt="w &lt; W"/> along the <img class="math" src="_images/math/276f7e256cbddeb81eee42e1efc348f3cb4ab5f8.png" alt="y"/>-axis.
-Multiple slice sets can be defined, each with its own slice size and orientation (the dimensionality of slices across all sets
+network can handle their shapes. For example, if the input array is a 3D block of shape <img class="math" src="_images/math/ef70595d1df197e5549bb8d4576d81ca46210671.png" alt="(C,H,W,D)"/>,
+where <img class="math" src="_images/math/afce44aa7c55836ca9345404c22fc7b599d2ed84.png" alt="C"/> is the number of channels, one could chop it into smaller blocks of shape
+<img class="math" src="_images/math/8e3eef5dc7dd89de44e53b5b6077ecafd82bd5ea.png" alt="(C,H',W',D')"/>, where <img class="math" src="_images/math/4e904d8891e7f259b007011e8ccf504784d80a8b.png" alt="H' \le H"/>, <img class="math" src="_images/math/de339042f096a894abfa47c66c88326bbc4ff8f6.png" alt="W' \le W"/> and <img class="math" src="_images/math/7d3f43d4d05ca0cdc38d68bf23b6f60359eefc47.png" alt="D' \le D"/>,
+or slice it into 2D tiles along the <img class="math" src="_images/math/fa6e138b022ee026f2511136dc7ae1aa592471be.png" alt="xy"/>-plane with shape <img class="math" src="_images/math/0f080ca615c690d853eab691176ac13d3399ce53.png" alt="(C,H',W')"/>,
+or even extract 1D lines of shape <img class="math" src="_images/math/c888c4bc9e56c4260a7658f425e2e6a43d76c6c6.png" alt="(C,W')"/> along the <img class="math" src="_images/math/276f7e256cbddeb81eee42e1efc348f3cb4ab5f8.png" alt="y"/>-axis.
+Notice that the number of channels always remains unchanged, since the slicing operations apply to geometric coordinates only and
+preserve the channel dimension. In any case, the input data is required to have a channel dimension, even if it has only one channel, and
+that channel dimension must be the first, as per Pytorch convention.</p>
+<p>Multiple slice sets can be defined, each with its own slice size and orientation (the dimensionality of slices across all sets
 must be the same, though, since the neural network is common to all). The configuration below shows an example of how to extract
-2D samples from a 3D input array using 2 slice sets:</p>
+2D samples from a 3D input array of shape <img class="math" src="_images/math/4eee22e3b1503082fb5a646d27679950840f4fee.png" alt="(1,540, 131, 1001)"/> using 2 slice sets.
+Notice also how only geometric coordinates appear in the configuration (the channel dimension is ommited):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;slicers&quot;</span>: <span class="o">[</span>
@@ -384,9 +389,12 @@ leftovers are padded up to <cite>sizes</cite> and added to the sample list).</li
 depicted in the figure below:</p>
 <a class="reference internal image-reference" href="_images/slicer_padding.png"><img alt="slicer_padding.png" src="_images/slicer_padding.png" style="width: 600px;" /></a>
 <p><strong>HDF5 slice assembly</strong></p>
-<p>The predictions obtained by running inferences on the slices can be assembled back into a multidimensional array and saved to disk
-as an HDF5 file. Each slice set will result in one dataset in the HDF5 data-structure.
-In order to enable HDF5 slice assembly, set the following:</p>
+<p>The predictions obtained by running inferences on the slices can be assembled back into a multi-dimensional
+array of the same shape as the input, and saved to disk as an HDF5 file. Naturally, this requires that the neural network be
+geometry-preserving, i.e., the shape of each sample is transfromed as <img class="math" src="_images/math/bb70e08014b8f39646329a7411778de148107009.png" alt="(C_1,H,W,D) \rightarrow (C_2,H,W,D)"/>,
+where <img class="math" src="_images/math/92f1ac1f62d4f5af721784de8310b6d7acece911.png" alt="C_1"/> can be different from <img class="math" src="_images/math/313b0968e556afab21cffca27c5eacfc99d122d1.png" alt="C_2"/>.
+Each slice set will result in one dataset in the HDF5 data-structure.
+To configure HDF5 writing, set the following:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;data&quot;</span>: <span class="o">{</span>
     ...
     <span class="s2">&quot;hdf5_outfile&quot;</span>: <span class="s2">&quot;prediction.h5&quot;</span>,
@@ -404,11 +412,12 @@ In order to enable HDF5 slice assembly, set the following:</p>
 and asynchronously, i.e., it happens concurrently with inference in order to maximize throughput.
 The entire infrastructure for data slicing, inferencing and assembling is depicted in the figure below.</p>
 <a class="reference internal image-reference" href="_images/slicer_flow.png"><img alt="slicer_flow.png" src="_images/slicer_flow.png" style="width: 600px;" /></a>
-<p><strong>Restrictions:</strong></p>
+<p><strong>Slicer restrictions:</strong></p>
 <ul class="simple">
 <li>The input must be one single array (e.g., a single numpy array or a single HDF5 dataset).</li>
-<li>The input array must have no channel dimension (i.e., the data must be single-channel with only spatial dimensions).</li>
-<li>The shape of the output tensor produced by the network must be equal to the input shape plus an extra channel dimension.</li>
+<li>The input array must have a channel dimension and its order must be channel-first.</li>
+<li>The shape of the output tensor produced by the network can differ from the input shape only in the number of channels,
+i.e., the neural network must be geometry-preserving.</li>
 <li>The <code class="docutils literal"><span class="pre">transpose</span></code> option can only be used with 2D slices.</li>
 </ul>
 </div>
