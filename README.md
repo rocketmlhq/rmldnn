@@ -1,7 +1,7 @@
-# rmldnn
+# RocketML Deep Neural Networks
 
-RocketML Deep Neural Networks
------------------------------
+![logo](figures/logo.png)
+
 
 **rmldnn** is a command-line tool that makes deep-learning models easy to build and fast to train. It does not require knowledge of any deep-learning framework (Pytorch, Tensorflow, Keras, etc) or any Python code. Using rmldnn, one can build deep-learning models on either a small single-GPU laptop or a large supercomputer with hundreds of GPUs or CPUs without any prior knowledge of distributed computing.
 
@@ -232,6 +232,7 @@ real-world deep-learning problems in the areas of:
 - 2D and 3D image segmentation
 - Self-supervised learning
 - Transfer learning
+- Hyper-parameter optimization
 - Neural PDE solvers
 - Object detection
 - Generative adversarial networks (GANs)
